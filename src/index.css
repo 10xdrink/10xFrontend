@@ -1,0 +1,883 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Quantico:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.main-navi {
+  height: 60px; /* Adjust the height according to your needs */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding: 0 20px; /* Adjust the padding for spacing */
+}
+
+.mega-menu {
+  background: linear-gradient(360deg, #000000 0%, #0821d2 100%);
+}
+
+.faq-hero {
+  background: linear-gradient(360deg, #000000 0%, #0821d2 100%);
+}
+
+.blog-card-bg {
+  background: linear-gradient(180deg, #ffffff 0%, #e6e6e6 100%);
+}
+
+.login-button {
+  background: linear-gradient(90deg, #000000 0%, #0821d2 100%);
+}
+
+.join-the-email-list {
+  background-color: #061053;
+}
+
+.horizontal {
+  height: 2px;
+}
+
+/* Roboto Fonts */
+.roboto-thin {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.roboto-light {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.roboto-medium {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.roboto-bold {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.roboto-black {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.roboto-thin-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.roboto-light-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.roboto-regular-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.roboto-medium-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.roboto-bold-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.roboto-black-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* PT Sans */
+
+.pt-sans-regular {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  /* font-size: 14px; */
+}
+
+.pt-sans-bold {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.pt-sans-regular-italic {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.pt-sans-bold-italic {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Quantico */
+
+.quantico-regular {
+  font-family: "Quantico", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.quantico-bold {
+  font-family: "Quantico", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.quantico-regular-italic {
+  font-family: "Quantico", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.quantico-bold-italic {
+  font-family: "Quantico", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Nimbus;
+  src: url(/NimbusSanL-Bol.otf);
+}
+
+.nimbusL-bol {
+  font-family: Nimbus;
+}
+
+.MangoHero {
+  height: 700px;
+  rotate: 20deg;
+}
+
+.LimeHero {
+  height: 700px;
+  margin: -80px;
+  rotate: -20deg;
+}
+
+.ArrowDown {
+  margin-bottom: -80px;
+}
+
+/* HeroBottleImages */
+
+@keyframes moveUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(20px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes moveDownUp {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-20px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.LimeHero {
+  animation: moveUpDown 6s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+}
+
+.MangoHero {
+  animation: moveDownUp 6s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+}
+
+/* Initial Navbar Style */
+.navbar {
+  position: relative;
+  background: linear-gradient(to right, black, #0821D2);
+  transition: all 0.3s ease-in-out;
+  transform: translateY(0);
+  opacity: 1;
+  margin-bottom: 0.0.5rem;
+}
+
+.navbar.sticky{
+  position: fixed;
+}
+
+
+/* Keyframes for slide-down and fade-in animation */
+@keyframes slideDown {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Reset animation when navbar returns to normal */
+.navbar:not(.sticky) {
+  animation: none;
+}
+
+
+
+.learn-more button {
+  border-radius: 0%;
+  padding: 12px 24px 12px 24px;
+  background: linear-gradient(90deg, #0821d2, #000000);
+  -webkit-background-clip: text;
+  color: transparent;
+  background-clip: text;
+}
+
+.learn-more button {
+  background-color: white;
+}
+
+.contact-us button {
+  padding: 12px 24px 12px 24px;
+}
+
+.faq-component {
+  background: linear-gradient(360deg, #e6e6e6 0%, #ffffff 100%);
+}
+
+.fade-enter {
+  opacity: 0;
+  transform: scale(0.95);
+}
+.fade-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 300ms, transform 300ms;
+}
+.fade-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+.fade-exit-active {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.logo-marquee-section {
+  overflow: hidden;
+  position: relative;
+  background-color: #f5f5f5; /* Optional background color */
+}
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.marquee-inner {
+  display: flex;
+  animation: marquee 10s linear infinite;
+}
+
+.logo {
+  width: 300px; /* Adjust size as needed */
+  margin: 0 24px;
+  object-fit: contain;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Fading effect on edges */
+.logo-marquee-section::before,
+.logo-marquee-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 300px; /* Adjust width for fade effect */
+  z-index: 2;
+  background: linear-gradient(to right, #f5f5f5, rgba(245, 245, 245, 0));
+}
+
+.logo-marquee-section::before {
+  left: 0;
+}
+
+.logo-marquee-section::after {
+  right: 0;
+  transform: rotate(180deg); /* Reverse gradient for right side */
+}
+
+/* Slider  */
+/* Hide scrollbar for all browsers */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.horizontal-carousel-hr {
+  height: 10px;
+}
+
+/* Shimmer Effect */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.loading-placeholder {
+  background: #f6f7f8;
+  background-image: linear-gradient(
+    to right,
+    #f6f7f8 0%,
+    #eaeaea 20%,
+    #f6f7f8 40%,
+    #f6f7f8 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 1000px 100%;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  animation: shimmer 2s infinite linear;
+}
+
+.loading-image,
+.loading-title,
+.loading-text {
+  width: 100%;
+  height: 20px;
+  margin-top: 8px;
+}
+
+.loading-image {
+  height: 150px;
+}
+
+.loading-title {
+  height: 20px;
+  margin: 16px 0;
+}
+
+.loading-text {
+  height: 14px;
+}
+
+/* Custom Radio Button Style */
+.custom-radio input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border: 3px solid #0821d2;
+  padding: 7px;
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+  margin-right: 8px;
+  display: inline-block;
+  vertical-align: middle;
+  transition: border-color 0.3s ease;
+}
+
+.custom-radio input[type="radio"]:checked {
+  background: linear-gradient(135deg, #0821d2, #000000);
+  border-color: #0821d2;
+}
+
+.custom-radio input[type="radio"]:checked::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: white; /* Inner dot color */
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the dot */
+  transition: background 0.3s ease;
+}
+
+/* Prevent image dragging */
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  /* Prevent image selection */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+
+/* Example CSS or use Tailwind classes for styling */
+
+
+/* Example CSS or use Tailwind classes for styling */
+/* CartModal.css */
+.cart-modal {
+  width: 30%;
+  max-width: 400px;
+  background: #fff;
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100%;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .cart-modal {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.free-shipping-bar {
+  margin: 15px 0;
+}
+
+.progress-bar {
+  background: #e0e0e0;
+  height: 5px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.progress {
+  background: #0000ff;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.cart-items {
+  margin-top: 20px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.cart-item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.cart-item-details {
+  flex-grow: 1;
+  padding: 0 15px;
+}
+
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-button {
+  border: none;
+  background: none;
+  font-size: 20px;
+}
+
+.remove-item-button {
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.checkout-button {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(to right, #0000ff, #000000);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+
+/* Cart Modal */
+
+/* CartModal.css */
+
+.cart-modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100%;
+  background-color: #fff;
+  z-index: 50;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.free-shipping-bar {
+  background-color: #f0f0f0;
+  padding: 0.5rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+}
+
+.progress-bar {
+  background-color: #ddd;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress {
+  background-color: #4caf50;
+  height: 100%;
+}
+
+.cart-items {
+  margin-bottom: 1rem;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.cart-item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+
+.cart-item-details {
+  flex: 1;
+}
+
+.cart-item-price {
+  font-weight: bold;
+}
+
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-button {
+  background-color: #eee;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.quantity-value {
+  margin: 0 0.5rem;
+}
+
+.remove-item-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
+}
+
+.cart-summary {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.checkout-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #0821D2;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  border-radius: 4px;
+}
+
+
+/* Global CSS */
+
+/* Slide-In and Slide-Out Animations for Cart */
+
+.translate-x-0 {
+  transform: translateX(0);
+}
+
+.translate-x-full {
+  transform: translateX(100%);
+}
+
+/* Ensure smooth transitions */
+.transition-transform {
+  transition-property: transform;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Optional: Adjust z-index if necessary */
+.z-50 {
+  z-index: 50;
+}
+
+/* Overlay Styles */
+.bg-opacity-50 {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Example: Define quantico-bold-italic and pt-sans-regular classes if not already defined */
+.quantico-bold-italic {
+  font-family: 'Quantico', sans-serif; /* Ensure the font is loaded */
+  font-weight: bold;
+  font-style: italic;
+}
+
+.pt-sans-regular {
+  font-family: 'PT Sans', sans-serif; /* Ensure the font is loaded */
+  font-weight: normal;
+}
+
+.pt-sans-bold {
+  font-family: 'PT Sans', sans-serif; /* Ensure the font is loaded */
+  font-weight: bold;
+}
+
+/* Add any other necessary global styles */
+
+
+.mega-support-btn{
+  border-radius: 10px;
+background: #f0f0f0;
+box-shadow:  5px 5px 5px #bebebe,
+             -5px -5px 5px #ffffff;
+}
+
+
+.checkbox-wrapper-15 .cbx {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-wrapper-15 .cbx span {
+  display: inline-block;
+  vertical-align: middle;
+  transform: translate3d(0, 0, 0);
+}
+
+.checkbox-wrapper-15 .cbx span:first-child {
+  position: relative;
+  width: 24px;
+  height: 24px;
+
+  transform: scale(1);
+  vertical-align: middle;
+  border: 1px solid #B9B8C3;
+  transition: all 0.2s ease;
+}
+
+.checkbox-wrapper-15 .cbx span:first-child svg {
+  position: absolute;
+  z-index: 1;
+  top: 8px;
+  left: 6px;
+  fill: none;
+  stroke: white;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 16px;
+  stroke-dashoffset: 16px;
+  transition: all 0.3s ease;
+  transition-delay: 0.1s;
+}
+
+.checkbox-wrapper-15 .cbx span:first-child:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #0821D2;
+  display: block;
+  transform: scale(0);
+  opacity: 1;
+  border-radius: 50%;
+  transition-delay: 0.2s;
+}
+
+.checkbox-wrapper-15 .cbx span:last-child {
+  margin-left: 8px;
+}
+
+.checkbox-wrapper-15 .cbx span:last-child:after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background: #B9B8C3;
+  transform-origin: 0 0;
+  transform: scaleX(0);
+}
+
+.checkbox-wrapper-15 .cbx:hover span:first-child {
+  border-color: #0821D2;
+}
+
+.checkbox-wrapper-15 .inp-cbx:checked + .cbx span:first-child {
+  border-color: #0821D2;
+  background: #0821D2;
+  animation: check-15 0.6s ease;
+}
+
+.checkbox-wrapper-15 .inp-cbx:checked + .cbx span:first-child svg {
+  stroke-dashoffset: 0;
+}
+
+.checkbox-wrapper-15 .inp-cbx:checked + .cbx span:first-child:before {
+  transform: scale(2.2);
+  opacity: 0;
+  transition: all 0.6s ease;
+}
+
+.checkbox-wrapper-15 .inp-cbx:checked + .cbx span:last-child {
+  color: #B9B8C3;
+  transition: all 0.3s ease;
+}
+
+.checkbox-wrapper-15 .inp-cbx:checked + .cbx span:last-child:after {
+  transform: scaleX(1);
+  transition: all 0.3s ease;
+}
+
+@keyframes check-15 {
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+
+
+/* Add this CSS to your global or component-specific CSS */
+@keyframes shuttleLight {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Move up by 10px */
+  }
+  100% {
+    transform: translateY(0); /* Move back to original position */
+  }
+}
+
+.shuttle-light {
+  animation: shuttleLight 2s ease-in-out infinite; /* Apply the animation */
+}
+
+

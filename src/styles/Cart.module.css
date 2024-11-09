@@ -1,0 +1,43 @@
+/* src/styles/Cart.module.css */
+
+@keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+  
+  .shimmer {
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(
+      to right,
+      #e0e0e0 0%,
+      #f8f8f8 50%,
+      #e0e0e0 100%
+    );
+    background-size: 2000px 100%;
+    position: relative;
+    border-radius: 4px;
+  }
+  
+  /* Custom Scrollbar Styling */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px; /* Width of the entire scrollbar */
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent; /* Color of the tracking area */
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #0821D2; /* Scrollbar thumb color */
+    border-radius: 3px; /* Roundness of the scrollbar thumb */
+  }
+  
+  .custom-scrollbar {
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #0821D2 transparent; /* Scrollbar thumb and track color */
+  }
+  
