@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import relume from "../assets/relume.png";
+import relumeLogo from '../assets/relume.png';
 import logo from "../assets/10X Logo.webp";
 import TaglineWhite from '../assets/Tagline White.png';
 
@@ -132,7 +132,7 @@ const Footer = () => {
                   type="submit"
                   className="w-1/2 flex items-center text-xl justify-center pt-4 pb-4 pl-4 pr-4 bg-transparent quantico-bold-italic border border-white text-white font-bold rounded-sm focus:outline-none  hover:shadow-lg shadow-[0px_2px_8px_rgba(255,255,255,0.8)] transition-shadow duration-300 ease-in-out"
                 >
-                  SUBMIT <img className="ml-3 w-6" src={relume} alt="" />
+                  SUBMIT <img className="ml-3 w-6" src={relumeLogo} alt="" />
                 </button>
               </div>
             </form>
