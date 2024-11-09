@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import relumeLogo from '../assets/relume.png';
+import relumeLogo from '../assets/Relume.png';
 import logo from "../assets/10X Logo.webp";
 import TaglineWhite from '../assets/Tagline White.png';
 
