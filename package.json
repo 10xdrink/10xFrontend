@@ -5,7 +5,6 @@
   "description": "Frontend for the 10X Website built with React and Vite",
   "type": "module",
   "scripts": {
-    "preinstall": "rm -rf node_modules",  // Clears previous modules for a fresh install
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
