@@ -5,7 +5,7 @@ import { getToken, setToken, removeToken } from './auth';
 
 // Create an Axios instance with the base URL
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_URL || 'https://one0x-website-backend.onrender.com/api',
 });
 
 // Request interceptor to add the Authorization header
