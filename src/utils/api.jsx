@@ -6,8 +6,12 @@ import axiosRetry from 'axios-retry';
 
 // Create Axios instance
 const api = axios.create({
+<<<<<<< HEAD
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
   timeout: 10000,
+=======
+  baseURL: import.meta.env.VITE_API_URL || 'https://one0x-website-backend.onrender.com/api',
+>>>>>>> 0d122d20bef7b6ba7b3221cf5033ddbcbc8181d6
 });
 
 // Retry logic
