@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faEdit, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faEdit, faUpload, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import FocusTrap from 'focus-trap-react';
-import Toast from './Toast'; // Import the custom Toast component
+import Toast from './Toast'; // Import the enhanced Toast component
 
 const DEFAULT_PROFILE_PICTURE = "https://steelpersonaltraining.com/wp-content/uploads/2024/11/Profile-Pic-Placeholder.png";
 
@@ -279,10 +279,17 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
             animate="visible"
             exit="exit"
           >
+            {/* Loader Overlay */}
+            {isSaving && (
+              <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50">
+                <FontAwesomeIcon icon={faSpinner} spin size="3x" className="text-gray-800" />
+              </div>
+            )}
+
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 text-white bg-gradient-to-r from-black to-[#0821D2] hover:text-white px-8 py-3 dark:text-gray-300 dark:hover:text-white focus:outline-none rounded-full"
+              className="absolute top-6 right-6 text-white bg-gradient-to-r from-black to-[#0821D2] hover:text-white px-6 py-2 dark:text-gray-300 dark:hover:text-white focus:outline-none rounded-sm"
               aria-label="Close Profile Modal"
             >
               <FontAwesomeIcon icon={faTimes} size="lg" />
@@ -303,18 +310,24 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
                     className="w-24 h-24 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
                   />
                   {isEditing && (
-                    <label htmlFor="profilePicture" className="absolute bottom-0 right-0 bg-gradient-to-r from-black to-[#0821D2] text-white rounded-full p-2 cursor-pointer">
-                      <FontAwesomeIcon icon={faUpload} />
-                    </label>
+                    <>
+                      <label htmlFor="profilePicture" className="absolute bottom-0 right-0 bg-gradient-to-r from-black to-[#0821D2] text-white  rounded-full p-2 cursor-pointer">
+                        <FontAwesomeIcon icon={faUpload} />
+                      </label>
+                      <input
+                        type="file"
+                        id="profilePicture"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
+                    </>
                   )}
-                  {isEditing && (
-                    <input
-                      type="file"
-                      id="profilePicture"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
+                  {/* Loader Overlay for Profile Picture */}
+                  {isSaving && selectedFile && (
+                    <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center rounded-full">
+                      <FontAwesomeIcon icon={faSpinner} spin size="2x" className="text-gray-800" />
+                    </div>
                   )}
                 </div>
                 {isEditing && selectedFile && (
@@ -353,7 +366,7 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
 
               {/* Email Field */}
               <div>
-                <label htmlFor="email" className="block text-gray-600 dark:text-gray-300 font-medium mb-4 roboto-black">
+                <label htmlFor="email" className="block text-black dark:text-gray-300 font-medium mb-4 roboto-black">
                   Email
                 </label>
                 {isEditing ? (

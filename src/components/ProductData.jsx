@@ -5,11 +5,16 @@ import { useParams, Link } from "react-router-dom";
 import api from "../utils/api"; // Import the API utility
 import ProductPageBG from "../assets/ProductPageBG.png"; // Default background for not found
 import { CartContext } from "../context/CartContext";
+import { AuthContext } from "../context/AuthContext"; // Import AuthContext
+import Toast from "./Toast"; // Import the Toast component
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight, faChevronUp, faChevronDown, faQuestion, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const ProductData = () => {
   const { slug } = useParams(); // Get slug from URL
   const [product, setProduct] = useState(null);
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, error: cartError } = useContext(CartContext); // Extract cartError
+  const { user } = useContext(AuthContext); // Access the user from AuthContext
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedPackaging, setSelectedPackaging] = useState("Bottle");
@@ -19,6 +24,11 @@ const ProductData = () => {
   const [zoomStyle, setZoomStyle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Toast states
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success"); // 'success', 'error', 'info'
 
   // Fetch product details on component mount or when slug changes
   useEffect(() => {
@@ -34,11 +44,11 @@ const ProductData = () => {
             setSelectedVariant(response.data.data.variants[0]);
           }
         } else {
-          setError('Product not found.');
+          setError("Product not found.");
         }
       } catch (err) {
-        console.error('Error fetching product details:', err);
-        setError('An error occurred while fetching product details.');
+        console.error("Error fetching product details:", err);
+        setError("An error occurred while fetching product details.");
       } finally {
         setLoading(false);
       }
@@ -46,6 +56,15 @@ const ProductData = () => {
 
     fetchProductDetails();
   }, [slug]);
+
+  // Handle Cart Context Errors
+  useEffect(() => {
+    if (cartError) {
+      setToastMessage(cartError);
+      setToastType("error");
+      setToastVisible(true);
+    }
+  }, [cartError]);
 
   if (loading) {
     return (
@@ -103,20 +122,38 @@ const ProductData = () => {
 
   const handleAddToCart = () => {
     if (!selectedVariant) {
-      alert("Please select a variant.");
+      setToastMessage("Please select a variant.");
+      setToastType("error");
+      setToastVisible(true);
       return;
     }
 
-    addToCart({
-      id: product._id, // Use backend's unique ID
-      title: product.title,
-      price: selectedVariant.price,
-      thumbnail: product.thumbnail,
-      quantity,
-      variant: selectedVariant.size,
-      packaging: selectedPackaging,
-    });
-    // Optional: Show confirmation or redirect
+    if (user) {
+      try {
+        addToCart({
+          id: product._id, // Use backend's unique ID
+          title: product.title,
+          price: selectedVariant.price,
+          thumbnail: product.thumbnail,
+          quantity,
+          variant: selectedVariant.size,
+          packaging: selectedPackaging,
+        });
+
+        setToastMessage(`${product.title} has been added to your cart.`);
+        setToastType("success");
+        setToastVisible(true);
+      } catch (err) {
+        console.error("Add to cart failed:", err);
+        setToastMessage("Failed to add product to cart. Please try again.");
+        setToastType("error");
+        setToastVisible(true);
+      }
+    } else {
+      setToastMessage("Make sure you are logged in to add the products to the cart.");
+      setToastType("error");
+      setToastVisible(true);
+    }
   };
 
   const toggleAccordion = (section) => {
@@ -204,6 +241,7 @@ const ProductData = () => {
                 ></span>
               ))}
             </div>
+
             <div className="flex space-x-4">
               <button
                 onClick={prevImage}
@@ -279,7 +317,7 @@ const ProductData = () => {
               >
                 {selectedPackaging}
                 <span className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                  <i className="fa-solid fa-chevron-down"></i>
+                  <i className={`fa-solid fa-chevron-${isPackagingOpen ? "up" : "down"}`}></i>
                 </span>
               </button>
               {isPackagingOpen && (
@@ -391,6 +429,15 @@ const ProductData = () => {
           </div>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      <Toast
+        message={toastMessage}
+        isVisible={toastVisible}
+        onClose={() => setToastVisible(false)}
+        type={toastType}
+        duration={3000} // Toast disappears after 3 seconds
+      />
     </div>
   );
 };

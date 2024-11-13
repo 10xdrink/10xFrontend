@@ -5,10 +5,18 @@ import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext"; // Import AuthContext
 import Toast from "./Toast"; // Import the Toast component
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowsRotate,
+  faArrowLeft,
+  faArrowRight,
+  faMinus,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import api from "../utils/api"; // Import the API utility
 
 const ProductList = () => {
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, error: cartError } = useContext(CartContext); // Extract cartError
   const { user } = useContext(AuthContext); // Access the user from AuthContext
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,13 +26,32 @@ const ProductList = () => {
     packaging: "All",
   });
   const [loading, setLoading] = useState(true);
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const productsPerPage = 6;
   const [error, setError] = useState(null);
 
-  // State for Toast
+  // States for Toast
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success"); // 'success', 'error', 'info'
+
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsFilterVisible(true);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   // Fetch products whenever currentPage or selectedFilters change
   useEffect(() => {
@@ -96,181 +123,184 @@ const ProductList = () => {
 
   const handleAddToCart = async (product) => {
     if (user) {
-      await addToCart({
-        id: product._id, // Use backend's unique ID
-        title: product.title,
-        price: product.variants[0].price,
-        thumbnail: product.thumbnail,
-        quantity: 1,
-        variant: product.variants[0].size,
-        packaging: "Bottle", // Set default packaging or make dynamic
-      });
+      try {
+        await addToCart({
+          id: product._id, // Use backend's unique ID
+          title: product.title,
+          price: product.variants[0].price,
+          thumbnail: product.thumbnail,
+          quantity: 1,
+          variant: product.variants[0].size,
+          packaging: "Bottle", // Set default packaging or make dynamic
+        });
+
+        setToastMessage(`${product.title} has been added to your cart.`);
+        setToastType("success");
+        setToastVisible(true);
+      } catch (err) {
+        console.error("Add to cart failed:", err);
+        setToastMessage("Failed to add product to cart. Please try again.");
+        setToastType("error");
+        setToastVisible(true);
+      }
     } else {
       setToastMessage("Make sure you are logged in to add products to the cart.");
+      setToastType("error");
       setToastVisible(true);
     }
   };
 
+  // Handle Cart Context Errors
+  useEffect(() => {
+    if (cartError) {
+      setToastMessage(cartError);
+      setToastType("error");
+      setToastVisible(true);
+    }
+  }, [cartError]);
+
+
   return (
     <div className="main-div bg-gray-100">
-      <div className="py-12 px-20">
-        <h1 className="text-7xl font-bold uppercase tracking-wider text-black quantico-bold-italic">
+      <div className="py-8 px-4 md:py-12 md:px-20">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-wider text-black quantico-bold-italic">
           Collection
         </h1>
-        <p className="text-lg pt-sans-regular mb-16">
+        <p className="text-md md:text-lg pt-sans-regular mb-8 md:mb-16">
           Browse our product collection today!
         </p>
-        <div className="all-things-here flex w-full mx-auto">
+        <div className="all-things-here flex flex-col md:flex-row w-full mx-auto">
+          {/* Toggle Filter Button for Mobile */}
+          <div className="md:hidden mb-4 learn-more">
+            <button
+              className=" uppercase shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-lg w-full px-4 py-2 flex items-center justify-center"
+              type="button"
+              onClick={() => setIsFilterVisible(!isFilterVisible)}
+            >
+              Filters
+              <i className="fa-solid fa-arrow-up-wide-short ml-2"></i>
+
+            </button>
+          </div>
+
           {/* Filters Sidebar */}
-          <aside className="w-1/4 bg-white mr-12 p-10 rounded-lg shadow-2xl">
-            <h2 className="text-2xl font-bold mb-4 nimbus-bold">FILTERS</h2>
-            {/* Category Filter */}
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2 pt-sans-bold">
-                Category
-              </h3>
-              {["Beverages"].map((category) => (
-                <div
-                  key={category}
-                  className="flex items-center mb-2 custom-radio"
-                >
+          {(isFilterVisible || window.innerWidth >= 768) && (
+            <aside className="w-full md:w-1/4 bg-white mb-8 md:mb-0 md:mr-12 p-6 md:p-10 rounded-lg shadow-2xl">
+              <h2 className="text-xl md:text-2xl font-bold mb-4 nimbus-bold">FILTERS</h2>
+              {/* Category Filter */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-2 pt-sans-bold">Category</h3>
+                {["Beverages"].map((category) => (
+                  <div key={category} className="flex items-center mb-2 custom-radio">
+                    <input
+                      type="radio"
+                      name="category"
+                      id={`category-${category}`}
+                      onChange={() => handleFilterChange("category", category)}
+                      checked={selectedFilters.category === category}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label htmlFor={`category-${category}`} className="pt-sans-regular cursor-pointer ml-2">
+                      {category}
+                    </label>
+                  </div>
+                ))}
+                <div className="flex items-center mb-2 custom-radio">
                   <input
                     type="radio"
                     name="category"
-                    id={`category-${category}`}
-                    onChange={() => handleFilterChange("category", category)}
-                    checked={selectedFilters.category === category}
+                    id="category-All"
+                    onChange={() => handleFilterChange("category", "All")}
+                    checked={selectedFilters.category === "All"}
                     className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                   />
-                  <label
-                    htmlFor={`category-${category}`}
-                    className="pt-sans-regular cursor-pointer ml-2"
-                  >
-                    {category}
+                  <label htmlFor="category-All" className="pt-sans-regular cursor-pointer ml-2">
+                    All
                   </label>
                 </div>
-              ))}
-              <div className="flex items-center mb-2 custom-radio">
-                <input
-                  type="radio"
-                  name="category"
-                  id="category-All"
-                  onChange={() => handleFilterChange("category", "All")}
-                  checked={selectedFilters.category === "All"}
-                  className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                />
-                <label
-                  htmlFor="category-All"
-                  className="pt-sans-regular cursor-pointer ml-2"
-                >
-                  All
-                </label>
               </div>
-            </div>
 
-            {/* Variants Filter */}
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2 pt-sans-bold">
-                Variants
-              </h3>
-              {[
-                "60ml",
-                "120ml",
-                "250ml",
-                "Pack of 5",
-                "Pack of 10",
-                "5 Liters",
-                "10 Liters",
-              ].map((variant) => (
-                <div
-                  key={variant}
-                  className="checkbox-wrapper-15 mb-2 flex items-center"
-                >
-                  <input
-                    className="inp-cbx"
-                    id={`cbx-${variant}`}
-                    type="checkbox"
-                    style={{ display: "none" }}
-                    onChange={() => handleFilterChange("variants", variant)}
-                    checked={selectedFilters.variants.includes(variant)}
-                  />
-                  <label className="cbx" htmlFor={`cbx-${variant}`}>
-                    <span>
-                      <svg width="12px" height="9px" viewBox="0 0 12 9">
-                        <polyline points="1 5 4 8 11 1"></polyline>
-                      </svg>
-                    </span>
-                    <span>{variant}</span>
-                  </label>
-                </div>
-              ))}
-            </div>
+              {/* Variants Filter */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-2 pt-sans-bold">Variants</h3>
+                {["60ml", "120ml", "250ml", "Pack of 5", "Pack of 10", "5 Liters", "10 Liters"].map((variant) => (
+                  <div key={variant} className="checkbox-wrapper-15 mb-2 flex items-center">
+                    <input
+                      className="inp-cbx"
+                      id={`cbx-${variant}`}
+                      type="checkbox"
+                      style={{ display: "none" }}
+                      onChange={() => handleFilterChange("variants", variant)}
+                      checked={selectedFilters.variants.includes(variant)}
+                    />
+                    <label className="cbx" htmlFor={`cbx-${variant}`}>
+                      <span>
+                        <svg width="12px" height="9px" viewBox="0 0 12 9">
+                          <polyline points="1 5 4 8 11 1"></polyline>
+                        </svg>
+                      </span>
+                      <span>{variant}</span>
+                    </label>
+                  </div>
+                ))}
+              </div>
 
-            {/* Packaging Filter */}
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2 pt-sans-bold">
-                Packaging
-              </h3>
-              {["Bottle"].map((pack) => (
-                <div key={pack} className="flex items-center mb-2 custom-radio">
+              {/* Packaging Filter */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-2 pt-sans-bold">Packaging</h3>
+                {["Bottle"].map((pack) => (
+                  <div key={pack} className="flex items-center mb-2 custom-radio">
+                    <input
+                      type="radio"
+                      name="packaging"
+                      id={`packaging-${pack}`}
+                      onChange={() => handleFilterChange("packaging", pack)}
+                      checked={selectedFilters.packaging === pack}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label htmlFor={`packaging-${pack}`} className="cursor-pointer ml-2">
+                      {pack}
+                    </label>
+                  </div>
+                ))}
+                <div className="flex items-center mb-2 custom-radio">
                   <input
                     type="radio"
                     name="packaging"
-                    id={`packaging-${pack}`}
-                    onChange={() => handleFilterChange("packaging", pack)}
-                    checked={selectedFilters.packaging === pack}
+                    id="packaging-All"
+                    onChange={() => handleFilterChange("packaging", "All")}
+                    checked={selectedFilters.packaging === "All"}
                     className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                   />
-                  <label
-                    htmlFor={`packaging-${pack}`}
-                    className="cursor-pointer ml-2"
-                  >
-                    {pack}
+                  <label htmlFor="packaging-All" className="pt-sans-regular cursor-pointer ml-2">
+                    All
                   </label>
                 </div>
-              ))}
-              <div className="flex items-center mb-2 custom-radio">
-                <input
-                  type="radio"
-                  name="packaging"
-                  id="packaging-All"
-                  onChange={() => handleFilterChange("packaging", "All")}
-                  checked={selectedFilters.packaging === "All"}
-                  className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                />
-                <label
-                  htmlFor="packaging-All"
-                  className="pt-sans-regular cursor-pointer ml-2"
-                >
-                  All
-                </label>
               </div>
-            </div>
 
-            {/* Reset Filters Button */}
-            <div className="learn-more mt-8">
-              <button
-                className="uppercase shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-xl px-4 py-2"
-                type="button"
-                onClick={resetFilters}
-              >
-                Reset Filters <i className="ml-2 fa-solid fa-arrows-rotate"></i>
-              </button>
-            </div>
-          </aside>
+              {/* Reset Filters Button */}
+              <div className="learn-more mt-8">
+                <button
+                  className="uppercase shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-lg md:text-xl px-4 py-2 flex items-center justify-center"
+                  type="button"
+                  onClick={resetFilters}
+                >
+                  Reset Filters
+                  <i className="fa-solid fa-arrow-up-wide-short ml-2"></i>
+                </button>
+              </div>
+            </aside>
+          )}
 
           {/* Products Section */}
-          <section className="w-3/4">
+          <section className="w-full md:w-3/4">
             {/* Display error message if any */}
             {error && <div className="text-red-500 mb-4">{error}</div>}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {loading
                 ? Array.from({ length: productsPerPage }).map((_, index) => (
-                    <div
-                      key={index}
-                      className="border border-gray-200 p-4 shadow-lg rounded-lg text-center"
-                    >
+                    <div key={index} className="border border-gray-200 p-4 shadow-lg rounded-lg text-center">
                       <div className="loading-image loading-placeholder bg-gray-300 h-40 mb-4"></div>
                       <div className="loading-title loading-placeholder bg-gray-300 h-6 mb-2"></div>
                       <div className="loading-text loading-placeholder bg-gray-300 h-4 mb-2"></div>
@@ -280,7 +310,7 @@ const ProductList = () => {
                   ))
                 : products.map((product) => (
                     <div
-                      key={product._id} // Use unique identifier from backend
+                      key={product._id}
                       className="bg-white border border-gray-200 p-4 shadow-lg rounded-lg text-center animate-fadeInUp transition-transform duration-300 ease-in-out hover:scale-105 relative overflow-hidden"
                     >
                       <Link to={`/products/${product.slug}`} className="block">
@@ -303,13 +333,13 @@ const ProductList = () => {
                             />
                           )}
                         </div>
-                        <h2 className="text-2xl font-bold mb-2 quantico-bold-italic text-black">
+                        <h2 className="text-xl md:text-2xl font-bold mb-2 quantico-bold-italic text-black">
                           {product.title}
                         </h2>
-                        <p className="text-md mb-2">
+                        <p className="text-sm md:text-md mb-2">
                           {product.variants.map((v) => v.size).join(", ")}
                         </p>
-                        <p className="text-[20px] pt-sans-bold mb-4">
+                        <p className="text-lg md:text-[20px] pt-sans-bold mb-4">
                           ${product.variants[0].price.toFixed(2)}
                         </p>
                       </Link>
@@ -317,11 +347,12 @@ const ProductList = () => {
                       {/* Add to Cart Button */}
                       <div className="learn-more">
                         <button
-                          className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] bg-transparent border border-[#0821D2] quantico-bold-italic text-xl w-full uppercase mt-2 py-2 transition-colors duration-300 ease-in-out "
+                          className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] bg-transparent border border-[#0821D2] quantico-bold-italic text-lg md:text-xl w-full uppercase mt-2 py-2 transition-colors duration-300 ease-in-out flex items-center justify-center"
                           type="button"
                           onClick={() => handleAddToCart(product)}
                         >
                           Add to Cart
+                          <FontAwesomeIcon icon={faPlus} className="ml-2" />
                         </button>
                       </div>
                     </div>
@@ -330,9 +361,9 @@ const ProductList = () => {
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="flex justify-between mt-16 space-x-4 w-full quantico-bold-italic">
+              <div className="flex flex-col md:flex-row justify-between mt-8 md:mt-16 space-y-4 md:space-y-0 space-x-0 md:space-x-4 w-full quantico-bold-italic">
                 {/* Page Numbers */}
-                <div className="flex items-center space-x-2 w-1/2">
+                <div className="flex items-center space-x-2 w-full md:w-1/2 justify-center md:justify-start">
                   {[...Array(totalPages)].map((_, index) => (
                     <button
                       key={index + 1}
@@ -349,7 +380,7 @@ const ProductList = () => {
                 </div>
 
                 {/* Next and Previous Buttons */}
-                <div className="flex items-center justify-end space-x-2 w-1/2">
+                <div className="flex items-center justify-center md:justify-end space-x-4 w-full md:w-1/2">
                   <button
                     className={`w-12 h-10 flex items-center justify-center border ${
                       currentPage === 1
@@ -358,8 +389,9 @@ const ProductList = () => {
                     }`}
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
+                    aria-label="Previous Page"
                   >
-                    <i className="fa-solid fa-arrow-left"></i>
+                    <FontAwesomeIcon icon={faArrowLeft} />
                   </button>
                   <button
                     className={`w-12 h-10 flex items-center justify-center border ${
@@ -369,8 +401,9 @@ const ProductList = () => {
                     }`}
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
+                    aria-label="Next Page"
                   >
-                    <i className="fa-solid fa-arrow-right"></i>
+                    <FontAwesomeIcon icon={faArrowRight} />
                   </button>
                 </div>
               </div>
@@ -379,11 +412,16 @@ const ProductList = () => {
         </div>
       </div>
 
+      {/* Handle Cart Errors */}
+      {cartError && <div className="mt-4 text-center text-red-500">{cartError}</div>}
+
       {/* Toast Notification */}
       <Toast
         message={toastMessage}
         isVisible={toastVisible}
         onClose={() => setToastVisible(false)}
+        type={toastType}
+        duration={3000} // Toast disappears after 3 seconds
       />
     </div>
   );

@@ -46,7 +46,7 @@ const Navbar = () => {
             setFilteredProducts(response.data.products);
           }
         } catch (error) {
-          console.error("Error fetching latest products:", error);
+          console.error("Error fetching latest products:", error);c
           setFilteredProducts([]);
         }
       } else {

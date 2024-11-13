@@ -4,6 +4,10 @@ import React, { useRef, useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import api from "../utils/api"; // Import the API utility
 import { CartContext } from "../context/CartContext"; // Import CartContext
+import { AuthContext } from "../context/AuthContext"; // Import AuthContext
+import Toast from "./Toast"; // Import the Toast component
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const Carousel = () => {
   const carouselRef = useRef(null);
@@ -17,6 +21,14 @@ const Carousel = () => {
 
   // Access addToCart and cartError from CartContext
   const { addToCart, error: cartError } = useContext(CartContext);
+
+  // Access user from AuthContext
+  const { user } = useContext(AuthContext);
+
+  // Toast states
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success"); // 'success', 'error', 'info'
 
   // Fetch products from the backend API
   useEffect(() => {
@@ -99,6 +111,30 @@ const Carousel = () => {
     const x = e.pageX - carouselRef.current.offsetLeft;
     const walk = (x - startX) * 2; // Adjust the scroll speed
     carouselRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  // Handle Add to Cart with login check
+  const handleAddToCart = (product) => {
+    if (!user) {
+      setToastMessage("Make sure you are logged in to add the products to the cart.");
+      setToastType("error");
+      setToastVisible(true);
+      return;
+    }
+
+    addToCart({
+      id: product._id,
+      title: product.title,
+      price: product.variants[0].price,
+      thumbnail: product.thumbnail,
+      quantity: 1,
+      variant: product.variants[0].size,
+      packaging: "Bottle", // Adjust as needed
+    });
+
+    setToastMessage(`${product.title} has been added to your cart.`);
+    setToastType("success");
+    setToastVisible(true);
   };
 
   if (loading) {
@@ -185,19 +221,9 @@ const Carousel = () => {
               </Link>
               <div className="learn-more">
                 <button
-                  className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] bg-transparent border border-[#0821D2] quantico-bold-italic text-xl w-full uppercase mt-5"
+                  className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] bg-transparent border border-[#0821D2] quantico-bold-italic text-xl w-full uppercase mt-5 py-2 transition-colors duration-300 ease-in-out"
                   type="button"
-                  onClick={() =>
-                    addToCart({
-                      id: product._id,
-                      title: product.title,
-                      price: product.variants[0].price,
-                      thumbnail: product.thumbnail,
-                      quantity: 1,
-                      variant: product.variants[0].size,
-                      packaging: "Bottle", // Adjust as needed
-                    })
-                  }
+                  onClick={() => handleAddToCart(product)}
                 >
                   Add to Cart
                 </button>
@@ -230,25 +256,34 @@ const Carousel = () => {
               className="bg-transparent py-2 px-4 border text-[#9857F3] border-[#9857F3] hover:bg-[#9857F3] hover:text-white transition duration-300"
               aria-label="Previous Slide"
             >
-              <i className="fa-solid fa-arrow-left"></i>
+              <FontAwesomeIcon icon={faArrowLeft} />
             </button>
             <button
               onClick={nextSlide}
               className="bg-transparent py-2 px-4 border text-[#9857F3] border-[#9857F3] hover:bg-[#9857F3] hover:text-white transition duration-300"
               aria-label="Next Slide"
             >
-              <i className="fa-solid fa-arrow-right"></i>
+              <FontAwesomeIcon icon={faArrowRight} />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Optional: Display error message from CartContext */}
+      {/* Optional: Display error message from CartContext (if any) */}
       {cartError && (
         <div className="mt-4 text-center text-red-500">
           {cartError}
         </div>
       )}
+
+      {/* Toast Notification */}
+      <Toast
+        message={toastMessage}
+        isVisible={toastVisible}
+        onClose={() => setToastVisible(false)}
+        type={toastType}
+        duration={3000} // Toast disappears after 3 seconds
+      />
     </div>
   );
 };

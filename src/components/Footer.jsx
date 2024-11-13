@@ -45,7 +45,7 @@ const Footer = () => {
             <h3 className="text-2xl font-bold mb-4 nimbusL-bol">SHOP</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/collection" className="text-lg pt-sans-regular hover:underline">
+                <Link to="/products" className="text-lg pt-sans-regular hover:underline">
                   Collection
                 </Link>
               </li>

@@ -1,58 +1,90 @@
 // src/components/Toast.jsx
 
 import React, { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCheckCircle,
+  faExclamationTriangle,
+  faInfoCircle,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
 
-const Toast = ({ message, isVisible, onClose, type }) => {
+const toastVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.8 },
+  visible: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: 50, scale: 0.8 },
+};
+
+const Toast = ({ message, isVisible, onClose, type, duration }) => {
+  // Determine icon and color based on toast type
+  let icon;
+  let iconColor;
+
+  switch (type) {
+    case 'success':
+      icon = faCheckCircle;
+      iconColor = 'text-green-500';
+      break;
+    case 'error':
+      icon = faExclamationTriangle;
+      iconColor = 'text-red-500';
+      break;
+    case 'info':
+      icon = faInfoCircle;
+      iconColor = 'text-blue-500';
+      break;
+    default:
+      icon = faInfoCircle;
+      iconColor = 'text-blue-500';
+  }
+
   useEffect(() => {
     if (isVisible) {
       const timer = setTimeout(() => {
         onClose();
-      }, 3000); // Toast disappears after 3 seconds
+      }, duration);
+
+      // Cleanup the timer if the component unmounts or if isVisible changes
       return () => clearTimeout(timer);
     }
-  }, [isVisible, onClose]);
-
-  if (!isVisible) return null;
-
-  // Define styles based on toast type
-  const toastStyles = {
-    success: 'bg-green-500 text-white',
-    error: 'bg-red-500 text-white',
-  };
+  }, [isVisible, onClose, duration]);
 
   return (
-    <div
-      className={`z-100 fixed bottom-5 left-1/2 transform -translate-x-1/2 px-6 py-4 rounded-lg shadow-lg flex items-center space-x-4 animate-fadeIn ${toastStyles[type] || 'bg-gray-800 text-white'}`}
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-    >
-      {/* Icon based on toast type */}
-      {type === 'success' && (
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          className="fixed bottom-5 right-5 max-w-lg w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 z-50"
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={toastVariants}
+          transition={{ duration: 0.3, type: 'spring', stiffness: 300, damping: 20 }}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-        </svg>
+          <div className="flex items-center p-4">
+            <div className={`flex-shrink-0 ${iconColor}`}>
+              <FontAwesomeIcon icon={icon} className="w-6 h-6" />
+            </div>
+            <div className="ml-3 w-full flex-1">
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{message}</p>
+            </div>
+            <div className="ml-4 flex-shrink-0 flex">
+              <button
+                onClick={onClose}
+                className="bg-transparent rounded-md inline-flex text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100 focus:outline-none"
+              >
+                <span className="sr-only">Close</span>
+                <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </motion.div>
       )}
-      {type === 'error' && (
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      )}
-      <span className="text-sm">{message}</span>
-    </div>
+    </AnimatePresence>
   );
 };
 
@@ -60,11 +92,13 @@ Toast.propTypes = {
   message: PropTypes.string.isRequired,
   isVisible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  type: PropTypes.oneOf(['success', 'error']),
+  type: PropTypes.oneOf(['success', 'error', 'info']),
+  duration: PropTypes.number, // Duration in milliseconds
 };
 
 Toast.defaultProps = {
   type: 'success',
+  duration: 5000, // Default duration is 3 seconds
 };
 
 export default Toast;

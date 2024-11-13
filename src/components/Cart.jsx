@@ -69,7 +69,7 @@ const Cart = () => {
       onClick={handleClose}
     >
       <div
-        className={`bg-white w-full max-w-md flex flex-col h-full p-6 transition-transform duration-300 ease-in-out ${
+        className={`bg-white w-[500px] flex flex-col h-full p-6 transition-transform duration-300 ease-in-out ${
           isVisible ? "translate-x-0" : "translate-x-full"
         }`}
         onClick={(e) => e.stopPropagation()}
