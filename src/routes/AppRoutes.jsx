@@ -22,6 +22,11 @@ import UserDashboard from "../pages/UserDashboard";
 import ProtectedRoute from "../components/ProtectedRoute";
 import UserOrdersPage from "../pages/UserOrdersPage";
 import EditAddress from "../pages/EditAddress";
+import UserReview from "../components/UserReview";
+import DeleteAccountPage from "../pages/DeleteAccountPage";
+import DeleteAccountSuccessPage from "../pages/DeleteAccountSuccessPage";
+import ConfirmDeleteAccountPage from "../pages/ConfirmDeleteAccountPage";
+
 
 
 const AppRoutes = () => {
@@ -34,6 +39,8 @@ const AppRoutes = () => {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/about-us" element={<AboutUs />} />
       <Route path="/faq" element={<FAQPage />} />
+      <Route path="/delete-account" element={<DeleteAccountPage />} />
+      <Route path="/delete-account-success" element={<DeleteAccountSuccessPage />} />
       <Route
         path="/reset-password/:resetToken"
         element={<ResetPasswordPage />}
@@ -52,6 +59,16 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute requireAuth={false}>
             <LoginPage />
+          </ProtectedRoute>
+        }
+      />
+                <Route path="/confirm-delete/:token" element={<ConfirmDeleteAccountPage />} />
+
+      <Route
+        path="/user-review"
+        element={
+          <ProtectedRoute requireAuth={true}>
+            <UserReview />
           </ProtectedRoute>
         }
       />

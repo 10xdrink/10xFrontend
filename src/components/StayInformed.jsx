@@ -1,7 +1,82 @@
-import React from "react";
+// src/components/StayInformed.js
+
+import React, { useState } from "react";
 import StayInformedImage from "../assets/StayInformed.png";
+import relumeLogo from "../assets/Relume.png";
 
 const StayInformed = () => {
+  // State to manage email input and submission status
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState({
+    loading: false,
+    success: null,
+    message: "",
+  });
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Basic frontend validation
+    if (!email) {
+      setStatus({
+        loading: false,
+        success: false,
+        message: "Please enter your email address.",
+      });
+      return;
+    }
+
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    if (!emailRegex.test(email)) {
+      setStatus({
+        loading: false,
+        success: false,
+        message: "Please enter a valid email address.",
+      });
+      return;
+    }
+
+    setStatus({ loading: true, success: null, message: "" });
+
+    // Assign a default name since the name field is omitted
+    const defaultName = "Subscriber";
+
+    try {
+      const response = await fetch("http://localhost:5000/api/email-list", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: defaultName, email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus({
+          loading: false,
+          success: true,
+          message: data.message || "Subscription successful!",
+        });
+        setEmail(""); // Reset the form
+      } else {
+        setStatus({
+          loading: false,
+          success: false,
+          message: data.message || "Subscription failed. Please try again.",
+        });
+      }
+    } catch (error) {
+      setStatus({
+        loading: false,
+        success: false,
+        message: "An error occurred. Please try again later.",
+      });
+      console.error("Error subscribing to email list:", error);
+    }
+  };
+
   return (
     <div>
       <div className="main-div flex mt-24 bg-gradient-to-r from-[#FFFFFF] to-[#E6E6E6]">
@@ -21,24 +96,59 @@ const StayInformed = () => {
               </p>
             </div>
 
-            <div className="input-box flex">
-              <div className="input-email">
+            {/* Updated Form */}
+            <form onSubmit={handleSubmit} className="input-box flex">
+              <div className="input-email flex items-center space-x-4 w-full">
+                {/* Email Input */}
                 <input
                   type="email"
-                  name="email-address"
+                  name="email"
                   aria-label="Email address"
-                  className="w-[359px] px-4 py-[10px] border-2 rounded-none outline-none pt-sans-regular border-black"
+                  className="flex-1 px-4 py-4 border-2  outline-none pt-sans-regular border-black"
                   placeholder="Enter email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
 
+                {/* Submit Button */}
                 <button
-                  className="uppercase ml-4 quantico-bold-italic text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-[10px] px-8 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out"
+                  type="submit"
+                  className={`flex items-center uppercase quantico-bold-italic text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-4 px-6 font-bold  focus:outline-none hover:shadow-lg transition duration-300 ease-in-out ${
+                    status.loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                   aria-label="Join now"
+                  disabled={status.loading}
                 >
-                  join now
+                  {status.loading ? (
+                    "Submitting..."
+                  ) : (
+                    <>
+                      JOIN NOW
+                      <img
+                        className="ml-3 w-6"
+                        src={relumeLogo}
+                        alt="Submit Icon"
+                      />
+                    </>
+                  )}
                 </button>
               </div>
-            </div>
+            </form>
+
+            {/* Status Message */}
+            {status.message && (
+              <div className="mt-4">
+                <p
+                  className={`text-sm ${
+                    status.success ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {status.message}
+                </p>
+              </div>
+            )}
+
             <div className="paragraph">
               <p className="text-base pt-sans-regular mt-2">
                 By joining, you agree to our{" "}

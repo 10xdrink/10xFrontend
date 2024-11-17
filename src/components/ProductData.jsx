@@ -8,7 +8,15 @@ import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext"; // Import AuthContext
 import Toast from "./Toast"; // Import the Toast component
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight, faChevronUp, faChevronDown, faQuestion, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faArrowRight,
+  faChevronUp,
+  faChevronDown,
+  faQuestion,
+  faMinus,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ProductData = () => {
   const { slug } = useParams(); // Get slug from URL
@@ -40,7 +48,10 @@ const ProductData = () => {
         if (response.data.success) {
           setProduct(response.data.data);
           // Initialize selected variant
-          if (response.data.data.variants && response.data.data.variants.length > 0) {
+          if (
+            response.data.data.variants &&
+            response.data.data.variants.length > 0
+          ) {
             setSelectedVariant(response.data.data.variants[0]);
           }
         } else {
@@ -69,7 +80,10 @@ const ProductData = () => {
   if (loading) {
     return (
       <div className="loading-spinner flex justify-center items-center h-screen">
-        <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
+        <div
+          className="spinner-border animate-spin inline-block w-8 h-8 border-4 "
+          role="status"
+        >
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
@@ -79,23 +93,23 @@ const ProductData = () => {
   if (error || !product) {
     return (
       <div
+        className="min-h-screen bg-cover bg-center flex items-center justify-center"
         style={{
           backgroundImage: `url(${ProductPageBG})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
         }}
       >
-        <div className="main-not-found py-48 text-black quantico-bold-italic items-center justify-center flex">
-          <h1 className="text-5xl text-center">
-            {error || "Product Not Found"} <i className="fa-solid fa-question"></i>
-            <div className="button flex justify-center mt-8">
-              <Link to={"/products"}>
-                <button className="flex justify-center items-center quantico-bold-italic text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-8 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out">
-                  GO TO SHOP
-                </button>
-              </Link>
-            </div>
+        <div className="main-not-found py-16 px-4 text-black quantico-bold-italic flex flex-col items-center justify-center">
+          <h1 className="text-3xl md:text-5xl text-center">
+            {error || "Product Not Found"}{" "}
+            <FontAwesomeIcon icon={faQuestion} className="ml-2" />
           </h1>
+          <div className="button flex justify-center mt-8">
+            <Link to={"/products"}>
+              <button className="flex justify-center items-center quantico-bold-italic text-lg md:text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-6 md:px-8 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out">
+                GO TO SHOP
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -118,7 +132,8 @@ const ProductData = () => {
   } = product;
 
   // Combine thumbnail with other images
-  const imagesList = images && images.length > 0 ? [thumbnail, ...images] : [thumbnail];
+  const imagesList =
+    images && images.length > 0 ? [thumbnail, ...images] : [thumbnail];
 
   const handleAddToCart = () => {
     if (!selectedVariant) {
@@ -150,7 +165,9 @@ const ProductData = () => {
         setToastVisible(true);
       }
     } else {
-      setToastMessage("Make sure you are logged in to add the products to the cart.");
+      setToastMessage(
+        "Make sure you are logged in to add the products to the cart."
+      );
       setToastType("error");
       setToastVisible(true);
     }
@@ -166,7 +183,9 @@ const ProductData = () => {
   const nextImage = () =>
     setCurrentImageIndex((prev) => (prev + 1) % imagesList.length);
   const prevImage = () =>
-    setCurrentImageIndex((prev) => (prev - 1 + imagesList.length) % imagesList.length);
+    setCurrentImageIndex(
+      (prev) => (prev - 1 + imagesList.length) % imagesList.length
+    );
 
   const handlePackagingChange = (value) => {
     setSelectedPackaging(value);
@@ -189,18 +208,18 @@ const ProductData = () => {
 
   return (
     <div
-      className="mx-auto px-36 py-24"
+      className="mx-auto px-4 sm:px-6 lg:px-36 py-12 sm:py-16 lg:py-24"
       style={{
         backgroundImage: `url(${productBG})`, // Use productBG from backend
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="flex flex-wrap">
+      <div className="flex flex-col md:flex-row">
         {/* Product Images Section */}
         <div className="w-full md:w-1/2 flex flex-col items-center">
           <div
-            className="w-[85%] h-auto mb-4 overflow-hidden relative cursor-zoom-in"
+            className="w-full sm:w-[85%] h-auto mb-4 overflow-hidden relative cursor-zoom-in"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             style={{
@@ -217,115 +236,117 @@ const ProductData = () => {
               }}
             />
           </div>
-          <div className="flex justify-start space-x-6 mb-4 w-full px-16">
+          <div className="flex justify-start space-x-4 sm:space-x-6 mb-4 w-full px-4 sm:px-16">
             {imagesList.map((img, index) => (
               <img
                 key={index}
                 src={img}
                 alt={`Thumbnail ${index + 1}`}
-                className={`w-24 h-auto object-cover cursor-pointer ${
+                className={`w-16 sm:w-24 h-auto object-cover cursor-pointer ${
                   index === currentImageIndex ? "border-2 border-[#0821D2]" : ""
                 }`}
                 onClick={() => setCurrentImageIndex(index)}
               />
             ))}
           </div>
-          <div className="flex justify-between items-center w-full mt-4 px-16">
+          <div className="flex justify-between items-center w-full mt-4 px-4 sm:px-16">
             <div className="flex space-x-2">
-              {[...Array(imagesList.length)].map((_, index) => (
+              {imagesList.map((_, index) => (
                 <span
                   key={index}
-                  className={`h-3 w-3 rounded-full ${
+                  className={`h-2 w-2 sm:h-3 sm:w-3  ${
                     index === currentImageIndex ? "bg-gray-200" : "bg-white"
                   }`}
                 ></span>
               ))}
             </div>
 
-            <div className="flex space-x-4">
+            <div className="flex space-x-2 sm:space-x-4">
               <button
                 onClick={prevImage}
-                className="px-4 py-2 border border-white text-white"
+                className="px-3 sm:px-4 py-1 sm:py-2 border border-white text-white "
                 aria-label="Previous Image"
               >
-                <i className="fa-solid fa-arrow-left"></i>
+                <FontAwesomeIcon icon={faArrowLeft} />
               </button>
               <button
                 onClick={nextImage}
-                className="px-4 py-2 border border-white text-white"
+                className="px-3 sm:px-4 py-1 sm:py-2 border border-white text-white "
                 aria-label="Next Image"
               >
-                <i className="fa-solid fa-arrow-right"></i>
+                <FontAwesomeIcon icon={faArrowRight} />
               </button>
             </div>
           </div>
         </div>
 
         {/* Product Details Section */}
-        <div className="w-full md:w-1/2 p-10 bg-white bg-opacity-90">
-          <h1 className="text-[54px] quantico-bold-italic mb-4">
+        <div className="w-full md:w-1/2 p-4 sm:p-6 lg:p-10 bg-white bg-opacity-90 mt-8 md:mt-0">
+          <h1 className="text-3xl sm:text-4xl quantico-bold-italic mb-2 sm:mb-4">
             {title}
           </h1>
-          <p className="text-xl pt-sans-bold text-black mb-2">
+          <p className="text-lg sm:text-2xl pt-sans-bold text-black mb-2">
             ${selectedVariant ? selectedVariant.price.toFixed(2) : "0.00"}
-          </p>
+          </p>{" "}
           <div className="flex items-center mb-4 text-yellow-500 space-x-1">
+            {" "}
             {[...Array(5)].map((_, i) => (
               <span
                 key={i}
                 className={
-                  i < Math.round(rating)
-                    ? "text-[#0821D2]"
-                    : "text-gray-300"
+                  i < Math.round(rating) ? "text-[#0821D2]" : "text-gray-300"
                 }
               >
-                <i className="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>{" "}
               </span>
-            ))}
+            ))}{" "}
             <span className="text-black pt-sans-regular ml-2">
-              ({rating} stars)
-            </span>
+              ({rating} stars){" "}
+            </span>{" "}
           </div>
-          <p className="text-base text-black pt-sans-regular mb-6">
+          <p className="text-base sm:text-lg text-black pt-sans-regular mb-4 sm:mb-6">
             {description}
           </p>
-
           {/* Tags Section */}
           {tags && tags.length > 0 && (
-            <div className="tags mb-4">
-              <h3 className="text-lg font-semibold">Tags:</h3>
-              <ul className="flex space-x-2">
-                {tags.map(tag => (
-                  <li key={tag._id} className="bg-gray-200 px-2 py-1 rounded">
+            <div className="tags mb-4 sm:mb-6">
+              <h3 className="text-md sm:text-lg font-semibold">Tags:</h3>
+              <ul className="flex flex-wrap space-x-2 mt-2">
+                {tags.map((tag) => (
+                  <li
+                    key={tag._id}
+                    className="bg-gray-200 px-2 sm:px-3 py-1 sm:py-2  mb-2"
+                  >
                     {tag.name}
                   </li>
                 ))}
               </ul>
             </div>
           )}
-
           {/* Packaging Selection */}
-          <div className="mb-6">
+          <div className="mb-4 sm:mb-6">
             <label className="block pt-sans-bold text-black mb-2">
               Packaging
             </label>
             <div className="relative">
               <button
                 type="button"
-                className="w-full bg-white border border-black text-black pt-sans-regular py-3 px-4 pr-8 leading-tight text-left"
+                className="w-full bg-white border border-black text-black pt-sans-regular py-2 sm:py-3 px-4 pr-8 leading-tight text-left "
                 onClick={() => setIsPackagingOpen(!isPackagingOpen)}
               >
                 {selectedPackaging}
                 <span className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                  <i className={`fa-solid fa-chevron-${isPackagingOpen ? "up" : "down"}`}></i>
+                  <FontAwesomeIcon
+                    icon={isPackagingOpen ? faChevronUp : faChevronDown}
+                  />
                 </span>
               </button>
               {isPackagingOpen && (
-                <div className="absolute z-10 w-full bg-white shadow-lg rounded-b border border-t-0 border-black">
+                <div className="absolute z-10 w-full bg-white shadow-lg  border border-t-0 border-black">
                   {["Bottle", "Box", "Canister"].map((option) => (
                     <div
                       key={option}
-                      className="pt-sans-regular cursor-pointer p-3 hover:bg-gray-100 text-left"
+                      className="pt-sans-regular cursor-pointer p-2 sm:p-3 hover:bg-gray-100 text-left"
                       onClick={() => handlePackagingChange(option)}
                     >
                       {option}
@@ -335,20 +356,19 @@ const ProductData = () => {
               )}
             </div>
           </div>
-
           {/* Variant and Quantity Selection */}
-          <div className="flex justify-between items-center mb-12 mt-12">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 mt-8">
             {/* Variant Selection */}
-            <div>
+            <div className="w-full sm:w-auto mb-4 sm:mb-0">
               <label className="block pt-sans-bold text-black mb-2">
                 Variant
               </label>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2 sm:gap-3">
                 {variants.map((variant) => (
                   <button
                     key={variant._id}
                     onClick={() => setSelectedVariant(variant)}
-                    className={`py-2 px-8 border ${
+                    className={`py-1 sm:py-2 px-4 sm:px-6 border  ${
                       selectedVariant && selectedVariant._id === variant._id
                         ? "bg-gradient-to-r from-[#A467F7] to-[#4C03CB] text-white pt-sans-bold"
                         : "border-black text-black pt-sans-regular"
@@ -361,37 +381,36 @@ const ProductData = () => {
             </div>
 
             {/* Quantity Selection */}
-            <div>
+            <div className="w-full sm:w-auto">
               <label className="block pt-sans-bold text-black mb-2">
                 Quantity
               </label>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={decrementQuantity}
-                  className="px-4 py-2 border border-purple-500 text-purple-500"
+                  className="px-3 sm:px-4 py-1 sm:py-2 border border-purple-500 text-purple-500 "
                   aria-label="Decrease Quantity"
                 >
-                  <i className="fa-solid fa-minus"></i>
+                  <FontAwesomeIcon icon={faMinus} />
                 </button>
-                <span className="quantico-bold-italic px-8 py-2 border border-purple-500 text-center">
+                <span className="quantico-bold-italic px-4 sm:px-6 py-2 border border-purple-500 text-center ">
                   {quantity}
                 </span>
                 <button
                   onClick={incrementQuantity}
-                  className="px-4 py-2 border border-purple-500 text-purple-500"
+                  className="px-3 sm:px-4 py-1 sm:py-2 border border-purple-500 text-purple-500 "
                   aria-label="Increase Quantity"
                 >
-                  <i className="fa-solid fa-plus"></i>
+                  <FontAwesomeIcon icon={faPlus} />
                 </button>
               </div>
             </div>
           </div>
-
           {/* Add to Cart Button */}
           <div className="space-y-4">
             <button
               onClick={handleAddToCart}
-              className="uppercase w-full quantico-bold-italic text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-8 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out"
+              className="uppercase w-full quantico-bold-italic text-lg sm:text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-2 sm:py-3 px-4 sm:px-8 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out "
             >
               Add to Cart
             </button>
@@ -399,29 +418,29 @@ const ProductData = () => {
           <p className="text-sm text-center mt-2 pt-sans-regular">
             Free shipping over $50
           </p>
-
           {/* Accordion Sections */}
-          <div className="mt-8">
+          <div className="mt-6 sm:mt-8">
             {["Details", "Shipping", "Returns"].map((section, index) => (
               <div key={index} className="mb-4 border-t border-black">
                 <div
-                  className="flex justify-between items-center cursor-pointer py-4"
+                  className="flex justify-between items-center cursor-pointer py-3 sm:py-4"
                   onClick={() => toggleAccordion(section)}
                 >
-                  <h3 className="text-lg font-semibold pt-sans-bold">
+                  <h3 className="text-md sm:text-lg font-semibold pt-sans-bold">
                     {section}
                   </h3>
                   <span>
                     {accordionOpen === section ? (
-                      <i className="fa-solid fa-chevron-up"></i>
+                      <FontAwesomeIcon icon={faChevronUp} />
                     ) : (
-                      <i className="fa-solid fa-chevron-down"></i>
+                      <FontAwesomeIcon icon={faChevronDown} />
                     )}
                   </span>
                 </div>
                 {accordionOpen === section && (
-                  <p className="text-base pb-4 pt-sans-regular">
-                    {accordion[section.toLowerCase()]} {/* Assuming accordion has details, shipping, returns */}
+                  <p className="text-sm sm:text-base pb-3 pt-sans-regular">
+                    {accordion[section.toLowerCase()]}{" "}
+                    {/* Assuming accordion has details, shipping, returns */}
                   </p>
                 )}
               </div>

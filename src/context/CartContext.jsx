@@ -91,7 +91,7 @@ export const CartProvider = ({ children }) => {
         console.log('Unauthorized access. Clearing cart.');
       } else {
         console.error('Failed to fetch cart:', error);
-        setError('Failed to load cart.');
+        // setError('Your Cart is empty.');
       }
     } finally {
       setLoading(false);

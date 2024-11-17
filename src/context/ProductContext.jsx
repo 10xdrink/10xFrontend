@@ -1,4 +1,4 @@
-// src/context/ProductContext.js
+// src/context/ProductContext.jsx
 
 import React, { createContext, useState, useEffect } from 'react';
 import { getProducts, getProductById } from '../utils/api';
@@ -27,11 +27,18 @@ export const ProductProvider = ({ children }) => {
     setError(null);
     try {
       const data = await getProducts();
-      setProducts(data);
+      console.log('Fetched Products Data:', data); // Debugging log
+
+      if (data.success) {
+        setProducts(data.products); // Adjust based on your backend's response structure
+        console.log('Products Set in Context:', data.products); // Debugging log
+      } else {
+        throw new Error(data.message || 'Failed to fetch products.');
+      }
     } catch (err) {
-      console.error('Failed to fetch products:', err);
-      setError('Failed to load products. Please try again later.');
-      toast.error('Failed to load products.');
+      // console.error('Failed to fetch products:', err);
+      // setError('Failed to load products. Please try again later.');
+      // toast.error('Failed to load products.');
     } finally {
       setLoading(false);
     }
@@ -52,10 +59,17 @@ export const ProductProvider = ({ children }) => {
     setError(null);
     try {
       const data = await getProductById(id);
-      setProductDetails((prevDetails) => ({
-        ...prevDetails,
-        [id]: data,
-      }));
+      console.log(`Fetched Product ${id} Data:`, data); // Debugging log
+
+      if (data.success) {
+        setProductDetails((prevDetails) => ({
+          ...prevDetails,
+          [id]: data.product, // Adjust based on your backend's response structure
+        }));
+        console.log(`Product Details Updated for ID ${id}:`, data.product); // Debugging log
+      } else {
+        throw new Error(data.message || 'Failed to fetch product details.');
+      }
     } catch (err) {
       console.error(`Failed to fetch product with ID ${id}:`, err);
       setError('Failed to load product details. Please try again later.');
@@ -64,11 +78,6 @@ export const ProductProvider = ({ children }) => {
       setLoading(false);
     }
   };
-
-  /**
-   * Optionally, you can add more functions here for creating, updating,
-   * or deleting products if your backend supports these operations.
-   */
 
   // Fetch all products when the provider mounts
   useEffect(() => {

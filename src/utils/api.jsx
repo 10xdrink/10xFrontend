@@ -1,25 +1,24 @@
-// src/utils/api.js
+// src/utils/api.jsx
 
 import axios from 'axios';
 import { getToken, setToken, removeToken } from './auth';
 import axiosRetry from 'axios-retry';
+// import logger from '../utils/logger';
 
 // Create Axios instance
 const api = axios.create({
-<<<<<<< HEAD
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
   timeout: 10000,
-=======
-  baseURL: import.meta.env.VITE_API_URL || 'https://one0x-website-backend.onrender.com/api',
->>>>>>> 0d122d20bef7b6ba7b3221cf5033ddbcbc8181d6
 });
 
 // Retry logic
 axiosRetry(api, {
   retries: 3,
   retryCondition: (error) => {
-    return axiosRetry.isNetworkOrIdempotentRequestError(error) || 
-           (error.response && error.response.status >= 500 && error.response.status < 600);
+    return (
+      axiosRetry.isNetworkOrIdempotentRequestError(error) ||
+      (error.response && error.response.status >= 500 && error.response.status < 600)
+    );
   },
   retryDelay: (retryCount) => {
     console.warn(`Retrying request... Attempt #${retryCount}`);
@@ -45,7 +44,8 @@ api.interceptors.request.use(
 // Response interceptor for handling global responses
 api.interceptors.response.use(
   (response) => {
-    const newToken = response.headers['authorization'] || response.headers['Authorization'];
+    const newToken =
+      response.headers['authorization'] || response.headers['Authorization'];
     if (newToken && newToken.startsWith('Bearer ')) {
       setToken(newToken.split(' ')[1]);
       console.log('Token updated from response headers.');
@@ -55,13 +55,18 @@ api.interceptors.response.use(
   (error) => {
     if (error.response) {
       const { status, data, config } = error.response;
-      
-      console.error(`API Error: ${config.method.toUpperCase()} ${config.url} - Status ${status}`);
+
+      console.error(
+        `API Error: ${config.method.toUpperCase()} ${config.url} - Status ${status}`
+      );
       console.error('Error Data:', data);
 
       switch (status) {
         case 400:
-          console.error('Bad Request:', data.message || 'Invalid request parameters.');
+          console.error(
+            'Bad Request:',
+            data.message || 'Invalid request parameters.'
+          );
           break;
         case 401:
           console.warn('Unauthorized! Invalid or expired token.');
@@ -96,4 +101,29 @@ api.interceptors.response.use(
   }
 );
 
+// Function to fetch all products
+export const getProducts = async () => {
+  try {
+    const response = await api.get('/products');
+    console.log('API Response for getProducts:', response.data); // Debugging log
+    return response.data;
+  } catch (error) {
+    console.error('Error in getProducts:', error);
+    throw error;
+  }
+};
+
+// Function to fetch a single product by ID
+export const getProductById = async (id) => {
+  try {
+    const response = await api.get(`/products/${id}`);
+    console.log(`API Response for getProductById(${id}):`, response.data); // Debugging log
+    return response.data;
+  } catch (error) {
+    console.error(`Error in getProductById(${id}):`, error);
+    throw error;
+  }
+};
+
+// Export the Axios instance as default
 export default api;

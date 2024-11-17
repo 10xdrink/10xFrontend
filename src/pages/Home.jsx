@@ -9,10 +9,12 @@ import DiscoverCollection from "../components/DiscoverCollection";
 import BlogCard from "../components/BlogCard";
 import FollowUs from "../components/FollowUs";
 import Testimonials from "../components/Testimonials";
+import Chatbot from "../components/ChatBot";
 
 const Home = () => {
   return (
     <div>
+      <Chatbot/>
       <HeroSection />
 
       <AvailableAt />

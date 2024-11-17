@@ -1,4 +1,4 @@
-// src/context/AuthContext.jsx
+// Frontend/src/context/AuthContext.jsx
 
 import React, { createContext, useState, useEffect } from 'react';
 import api from '../utils/api';
@@ -93,6 +93,22 @@ export const AuthProvider = ({ children }) => {
   };
 
   /**
+   * Initiates the account deletion process by sending a confirmation email.
+   *
+   * @returns {object} { success: boolean, message?: string }
+   */
+  const deleteAccount = async () => {
+    try {
+      const response = await api.post('/auth/request-delete-account');
+      return { success: true, message: response.data.message };
+    } catch (error) {
+      console.error('Delete account error:', error);
+      let message = error.response?.data?.message || 'Account deletion failed.';
+      return { success: false, message };
+    }
+  };
+
+  /**
    * Handles user registration by sending user details to the backend.
    *
    * @param {string} name - User's name.
@@ -128,7 +144,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading, setUser }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading, setUser, deleteAccount }}>
       {children}
     </AuthContext.Provider>
   );

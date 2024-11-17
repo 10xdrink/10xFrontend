@@ -137,15 +137,19 @@ const UserDashboard = () => {
       onClick: () => setCommunicationsModalOpen(true),
     },
     {
-      title: "LOGIN & SECURITY",
-      description: "Manage your account password and security settings",
-      onClick: () =>
-        setToastMessage("Login & Security feature is under development."),
+      title: "YOUR FEEDBACK", // Updated Title
+      description: "Your feedback helps us improve our products", // Updated Description
+      onClick: () => navigate('/user-review'), // Navigate to /user-review
     },
     {
       title: "TRACK YOUR ORDER",
       description: "Real-time updates on your order status",
       onClick: () => navigate('/my-orders'),
+    },
+    {
+      title: "DELETE ACCOUNT", // New Card Title
+      description: "See how to permanently delete your account", // New Card Description
+      onClick: () => navigate('/delete-account'), // Navigate to /delete-account
     },
   ];
 
@@ -219,7 +223,8 @@ const UserDashboard = () => {
               card.onClick();
               if (
                 card.title === "ADDRESSES" ||
-                card.title === "LOGIN & SECURITY"
+                card.title === "YOUR FEEDBACK" || // Updated condition
+                card.title === "YOUR REVIEWS" // If necessary
               ) {
                 setToastType("info");
               }

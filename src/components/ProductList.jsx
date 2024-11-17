@@ -7,10 +7,8 @@ import { AuthContext } from "../context/AuthContext"; // Import AuthContext
 import Toast from "./Toast"; // Import the Toast component
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faArrowsRotate,
   faArrowLeft,
   faArrowRight,
-  faMinus,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import api from "../utils/api"; // Import the API utility
@@ -35,8 +33,6 @@ const ProductList = () => {
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success"); // 'success', 'error', 'info'
-
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -159,7 +155,6 @@ const ProductList = () => {
     }
   }, [cartError]);
 
-
   return (
     <div className="main-div bg-gray-100">
       <div className="py-8 px-4 md:py-12 md:px-20">
@@ -173,13 +168,12 @@ const ProductList = () => {
           {/* Toggle Filter Button for Mobile */}
           <div className="md:hidden mb-4 learn-more">
             <button
-              className=" uppercase shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-lg w-full px-4 py-2 flex items-center justify-center"
+              className="uppercase shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-lg w-full px-4 py-2 flex items-center justify-center"
               type="button"
               onClick={() => setIsFilterVisible(!isFilterVisible)}
             >
               Filters
               <i className="fa-solid fa-arrow-up-wide-short ml-2"></i>
-
             </button>
           </div>
 
@@ -297,10 +291,13 @@ const ProductList = () => {
             {/* Display error message if any */}
             {error && <div className="text-red-500 mb-4">{error}</div>}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {loading
                 ? Array.from({ length: productsPerPage }).map((_, index) => (
-                    <div key={index} className="border border-gray-200 p-4 shadow-lg rounded-lg text-center">
+                    <div
+                      key={index}
+                      className="border border-gray-200 p-4 shadow-lg rounded-lg text-center"
+                    >
                       <div className="loading-image loading-placeholder bg-gray-300 h-40 mb-4"></div>
                       <div className="loading-title loading-placeholder bg-gray-300 h-6 mb-2"></div>
                       <div className="loading-text loading-placeholder bg-gray-300 h-4 mb-2"></div>
@@ -347,12 +344,12 @@ const ProductList = () => {
                       {/* Add to Cart Button */}
                       <div className="learn-more">
                         <button
-                          className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] bg-transparent border border-[#0821D2] quantico-bold-italic text-lg md:text-xl w-full uppercase mt-2 py-2 transition-colors duration-300 ease-in-out flex items-center justify-center"
+                          className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] bg-transparent border  border-[#0821D2] quantico-bold-italic text-base md:text-xl w-full uppercase mt-2 py-2 transition-colors duration-300 ease-in-out flex items-center justify-center"
                           type="button"
                           onClick={() => handleAddToCart(product)}
                         >
                           Add to Cart
-                          <FontAwesomeIcon icon={faPlus} className="ml-2" />
+                          <i class="fa-solid fa-plus ml-2"></i>
                         </button>
                       </div>
                     </div>

@@ -46,7 +46,7 @@ const Navbar = () => {
             setFilteredProducts(response.data.products);
           }
         } catch (error) {
-          console.error("Error fetching latest products:", error);c
+          console.error("Error fetching latest products:", error);
           setFilteredProducts([]);
         }
       } else {
@@ -210,29 +210,37 @@ const Navbar = () => {
             {/* Search Button */}
             <button
               onClick={toggleSearchModal}
-              className="hidden sm:block focus:outline-none"
+              className="focus:outline-none"
               aria-label="Open Search"
             >
-              <img className="w-10 h-9 mt-1" src={SearchBarIcon} alt="Search" />
+              <img
+                className="w-10 h-9 lg:w-12 lg:h-11 mt-1"
+                src={SearchBarIcon}
+                alt="Search"
+              />
             </button>
 
             {/* User Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
-                className="hidden sm:block focus:outline-none"
+                className="focus:outline-none"
                 aria-haspopup="true"
                 aria-expanded={isDropdownOpen}
                 aria-label="User Menu"
               >
-                <img className="w-10 h-9 mt-1" src={UserIcon} alt="User" />
+                <img
+                  className="w-10 h-9 lg:w-12 lg:h-11  mt-2"
+                  src={UserIcon}
+                  alt="User"
+                />
               </button>
 
               {/* Dropdown Menu */}
               <AnimatePresence>
                 {isDropdownOpen && (
                   <motion.div
-                    className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-60" // **Increased z-index to z-60**
+                    className="absolute right-0  w-48 bg-white rounded-md shadow-lg z-60" // **Increased z-index to z-60**
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
@@ -248,7 +256,7 @@ const Navbar = () => {
                         // Logged Out: Show Login/Signup
                         <Link
                           to="/login"
-                          className="flex items-center  px-4 py-2 text-sm text-black hover:bg-gray-100 pt-sans-regular"
+                          className="flex items-center px-4 py-2 text-sm text-black hover:bg-gray-100 pt-sans-regular"
                           role="menuitem"
                           onClick={() => setIsDropdownOpen(false)}
                         >
@@ -262,7 +270,7 @@ const Navbar = () => {
                         <>
                           <Link
                             to="/user-dashboard"
-                            className="flex items-center  px-4 py-2 text-sm text-black hover:bg-gray-100 pt-sans-regular"
+                            className="flex items-center px-4 py-2 text-sm text-black hover:bg-gray-100 pt-sans-regular"
                             role="menuitem"
                             onClick={() => setIsDropdownOpen(false)}
                           >
@@ -273,7 +281,7 @@ const Navbar = () => {
                           </Link>
                           <Link
                             to="/my-orders"
-                            className="flex items-center  px-4 py-2 text-sm text-black hover:bg-gray-100 pt-sans-regular"
+                            className="flex items-center px-4 py-2 text-sm text-black hover:bg-gray-100 pt-sans-regular"
                             role="menuitem"
                             onClick={() => setIsDropdownOpen(false)}
                           >
@@ -284,7 +292,7 @@ const Navbar = () => {
                           </Link>
                           <button
                             onClick={handleLogout}
-                            className="flex items-center w-full text-left  px-4 py-2 text-sm text-black hover:bg-gray-100 pt-sans-regular"
+                            className="flex items-center w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 pt-sans-regular"
                             role="menuitem"
                           >
                             <span className="text-[#F4AE3F] text-xl">
@@ -303,12 +311,16 @@ const Navbar = () => {
             {/* Cart Button */}
             <button
               onClick={toggleCart}
-              className="hover:underline hidden sm:block relative focus:outline-none"
+              className="hover:underline relative focus:outline-none"
               aria-label="Open Cart"
             >
-              <img className="w-10 h-9 mt-1" src={CartIcon} alt="Cart" />
+              <img
+                className="w-10 h-9 lg:w-12 lg:h-11 mt-1"
+                src={CartIcon}
+                alt="Cart"
+              />
               {totalItems > 0 && (
-                <span className="absolute top-0 right-0 bg-gradient-to-r from-[#F4AE3F] to-[#F4AE3F] text-black rounded-full text-xs w-5 h-5 flex items-center justify-center mt-1 -mr-2">
+                <span className="absolute top-0 right-0 bg-gradient-to-r from-[#F4AE3F] to-[#F4AE3F] text-black rounded-full text-xs w-5 h-5 lg:w-6 lg:h-6 flex items-center justify-center mt-0.5 -mr-2">
                   {totalItems}
                 </span>
               )}
@@ -320,7 +332,11 @@ const Navbar = () => {
               className="hover:underline block focus:outline-none"
               aria-label="Open Mega Menu"
             >
-              <img className="w-14 h-12 mt-1" src={Hamburger} alt="Menu" />
+              <img
+                className="w-14 h-12 lg:w-16 lg:h-14 mt-1"
+                src={Hamburger}
+                alt="Menu"
+              />
             </button>
           </div>
         </div>

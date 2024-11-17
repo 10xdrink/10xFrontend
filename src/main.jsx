@@ -6,6 +6,8 @@ import App from "./App";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import { BrowserRouter as Router } from "react-router-dom";
+import { ProductProvider } from "./context/ProductContext"; // Import ProductProvider
+
 import ErrorBoundary from "./components/ErrorBoundary";
 import "./index.css";
 
@@ -14,7 +16,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <ErrorBoundary>
       <AuthProvider>
         <CartProvider>
-          <App />
+          <ProductProvider>
+            <App />
+          </ProductProvider>
         </CartProvider>
       </AuthProvider>
     </ErrorBoundary>
