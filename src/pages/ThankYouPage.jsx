@@ -5,6 +5,7 @@ import BluePlainBackground from "../assets/Blue Plain Background.png";
 import About10XTop from "../assets/About10X-Top.png";
 import About10XIcon1 from "../assets/About10XIcon1.png";
 import About10XIcon2 from "../assets/About10XIcon2.png";
+import { Link } from "react-router-dom";
 
 const ThankYouPage = () => {
   return (
@@ -21,16 +22,20 @@ const ThankYouPage = () => {
         </p>
         {/* Bottom Buttons */}
         <div className="flex space-x-4 justify-start mt-8">
-          <button className="uppercase quantico-bold-italic text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-8 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out">
-            continue
-          </button>
-          <div className="learn-more">
-            <button
-              className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-xl uppercase"
-              type="button"
-            >
-              back
+          <Link to={"/products"}>
+            <button className="uppercase quantico-bold-italic text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-8 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out">
+              continue
             </button>
+          </Link>
+          <div className="learn-more">
+            <Link to={"/"}>
+              <button
+                className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-xl uppercase"
+                type="button"
+              >
+                back
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -78,13 +83,16 @@ const ThankYouPage = () => {
               </div>
             </div>
             <div className="button-divs mt-12">
-              <button className="pt-4 pb-4 pl-8 text-xl pr-8 bg-transparent quantico-bold-italic border border-white text-white font-bold rounded-sm focus:outline-none  hover:shadow-lg shadow-[0px_2px_8px_rgba(255,255,255,0.8)] transition-shadow duration-300 ease-in-out">
-                SHOP NOW
-              </button>
-
-              <button className="uppercase ml-4 pt-4 pb-4 pl-8 text-xl pr-8 bg-transparent quantico-bold-italic bordder-0 text-white font-bold rounded-sm focus:outline-none  ">
-                see all <i class="ml-4 fa-solid fa-angle-right"></i>
-              </button>
+              <Link to={"/products"}>
+                <button className="pt-4 pb-4 pl-8 text-xl pr-8 bg-transparent quantico-bold-italic border border-white text-white font-bold rounded-sm focus:outline-none  hover:shadow-lg shadow-[0px_2px_8px_rgba(255,255,255,0.8)] transition-shadow duration-300 ease-in-out">
+                  SHOP NOW
+                </button>
+              </Link>
+              <Link to={"/products"}>
+                <button className="uppercase ml-4 pt-4 pb-4 pl-8 text-xl pr-8 bg-transparent quantico-bold-italic bordder-0 text-white font-bold rounded-sm focus:outline-none  ">
+                  see all <i class="ml-4 fa-solid fa-angle-right"></i>
+                </button>
+              </Link>
             </div>
           </div>
 

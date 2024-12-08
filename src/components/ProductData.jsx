@@ -308,7 +308,7 @@ const ProductData = () => {
             {description}
           </p>
           {/* Tags Section */}
-          {tags && tags.length > 0 && (
+          {/* {tags && tags.length > 0 && (
             <div className="tags mb-4 sm:mb-6">
               <h3 className="text-md sm:text-lg font-semibold">Tags:</h3>
               <ul className="flex flex-wrap space-x-2 mt-2">
@@ -322,7 +322,7 @@ const ProductData = () => {
                 ))}
               </ul>
             </div>
-          )}
+          )} */}
           {/* Packaging Selection */}
           <div className="mb-4 sm:mb-6">
             <label className="block pt-sans-bold text-black mb-2">
@@ -368,11 +368,14 @@ const ProductData = () => {
                   <button
                     key={variant._id}
                     onClick={() => setSelectedVariant(variant)}
-                    className={`py-1 sm:py-2 px-4 sm:px-6 border  ${
-                      selectedVariant && selectedVariant._id === variant._id
-                        ? "bg-gradient-to-r from-[#A467F7] to-[#4C03CB] text-white pt-sans-bold"
-                        : "border-black text-black pt-sans-regular"
-                    }`}
+                    className={`py-1 sm:py-2 px-4 sm:px-6 border transition transform duration-200 
+                      ${
+                        selectedVariant && selectedVariant._id === variant._id
+                          ? "bg-gradient-to-r from-[#A467F7] to-[#4C03CB] text-white pt-sans-bold"
+                          : "border-black text-black pt-sans-regular"
+                      }
+                      hover:scale-105 active:scale-95 hover:shadow-lg active:shadow-sm
+                    `}
                   >
                     {variant.size}
                   </button>

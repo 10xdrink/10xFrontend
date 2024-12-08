@@ -260,7 +260,7 @@ const Navbar = () => {
                           role="menuitem"
                           onClick={() => setIsDropdownOpen(false)}
                         >
-                          <span className="text-[#F4AE3F] text-xl">
+                          <span className="text-[#061AA6] text-xl">
                             <i className="fa-solid fa-user mr-2"></i>
                           </span>{" "}
                           Login / Signup
@@ -274,7 +274,7 @@ const Navbar = () => {
                             role="menuitem"
                             onClick={() => setIsDropdownOpen(false)}
                           >
-                            <span className="text-[#F4AE3F] text-xl">
+                            <span className="text-[#061AA6] text-xl">
                               <i className="fa-solid fa-user-circle mr-2"></i>
                             </span>
                             My Account
@@ -285,7 +285,7 @@ const Navbar = () => {
                             role="menuitem"
                             onClick={() => setIsDropdownOpen(false)}
                           >
-                            <span className="text-[#F4AE3F] text-xl">
+                            <span className="text-[#061AA6] text-xl">
                               <i className="fa-solid fa-box-open mr-2"></i>
                             </span>
                             Your Orders
@@ -295,7 +295,7 @@ const Navbar = () => {
                             className="flex items-center w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 pt-sans-regular"
                             role="menuitem"
                           >
-                            <span className="text-[#F4AE3F] text-xl">
+                            <span className="text-[#061AA6] text-xl">
                               <i className="fa-solid fa-sign-out-alt mr-2"></i>
                             </span>
                             Log Out
