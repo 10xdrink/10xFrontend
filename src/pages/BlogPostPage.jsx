@@ -16,7 +16,7 @@ const BlogPostPage = () => {
   const [category, setCategory] = useState("Health");
   const [readTime, setReadTime] = useState("5 min read");
   const [title, setTitle] = useState("Blog Title Goes Here");
-  const [author, setAuthor] = useState("John Doe");
+  const [author, setAuthor] = useState("10X");
   const [publishDate, setPublishDate] = useState("15 March 2022");
   const [imageUrl, setImageUrl] = useState("/api/placeholder/800/400");
 
@@ -40,7 +40,7 @@ const BlogPostPage = () => {
           // Update state variables with fetched data
           setCategory(postData.category || "Health");
           setTitle(postData.title || "Blog Title Goes Here");
-          setAuthor(postData.author?.name || "John Doe");
+          setAuthor(postData.author?.name || "10X");
           setPublishDate(
             new Date(postData.createdAt).toLocaleDateString(undefined, {
               year: "numeric",

@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const HeroSection = () => {
   return (
     <div
-      className="relative bg-cover bg-center py-44 px-20 text-white"
+      className="hidden md:block relative bg-cover bg-center py-44 px-20 text-white"
       style={{
         backgroundImage: `url(${HeroBG})`, // Replace with your actual image URL
       }}
@@ -27,20 +27,20 @@ const HeroSection = () => {
             </p>
             <Link to={"/products"}>
               <div className="">
-                <button className="mt-8 pt-4 pb-4 pl-12 text-xl pr-8 bg-transparent quantico-bold-italic border border-white text-white font-bold rounded-sm focus:outline-none  hover:shadow-lg shadow-[0px_2px_8px_rgba(255,255,255,0.8)] transition-shadow duration-300 ease-in-out">
+                <button className="mt-8 pt-4 pb-4 pl-12 text-xl pr-8 bg-transparent quantico-bold-italic border border-white text-white font-bold rounded-sm focus:outline-none hover:shadow-lg shadow-[0px_2px_8px_rgba(255,255,255,0.8)] transition-shadow duration-300 ease-in-out">
                   SHOP NOW
                 </button>
                 <img
                   className="w-28 h-18 -mt-24 -ml-12 "
                   src={LimeImageButton}
-                  alt=""
+                  alt="Lime Button"
                 />
               </div>
             </Link>
           </div>
           {/* Arrow Image */}
           <div className="flex justify-end">
-            <img className="w-28 h-18 ArrowDown" src={ArrowDown} alt="" />
+            <img className="w-28 h-18 ArrowDown" src={ArrowDown} alt="Arrow Down" />
           </div>
         </div>
 
@@ -50,13 +50,13 @@ const HeroSection = () => {
           <img
             src={LimeHero}
             alt="Lime Hero"
-            className="w-auto h-auto LimeHero transform rotate-[-20deg] translate-x-[-10px]  z-10"
+            className="w-auto h-auto LimeHero transform rotate-[-20deg] translate-x-[-10px] z-10"
           />
           {/* Mango Fusion Image */}
           <img
             src={MangoHero}
             alt="Mango Hero"
-            className="w-auto  MangoHero transform rotate-[20deg] translate-x-[-10px]  z-10 -ml-24 -mb-14"
+            className="w-auto MangoHero transform rotate-[20deg] translate-x-[-10px] z-10 -ml-24 -mb-14"
           />
         </div>
       </div>

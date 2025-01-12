@@ -1,14 +1,20 @@
 // src/components/ProfileModal.jsx
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faEdit, faUpload, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { motion, AnimatePresence } from 'framer-motion';
-import FocusTrap from 'focus-trap-react';
-import Toast from './Toast'; // Import the enhanced Toast component
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTimes,
+  faEdit,
+  faUpload,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence } from "framer-motion";
+import FocusTrap from "focus-trap-react";
+import Toast from "./Toast"; // Import the enhanced Toast component
 
-const DEFAULT_PROFILE_PICTURE = "https://steelpersonaltraining.com/wp-content/uploads/2024/11/Profile-Pic-Placeholder.png";
+const DEFAULT_PROFILE_PICTURE =
+  "https://steelpersonaltraining.com/wp-content/uploads/2024/11/Profile-Pic-Placeholder.png";
 
 // Define standard file size and image dimensions (in bytes and pixels)
 const STANDARD_FILE_SIZE = 1 * 1024 * 1024; // 1 MB
@@ -16,16 +22,18 @@ const STANDARD_WIDTH = 300;
 const STANDARD_HEIGHT = 300;
 
 // Allowed file types
-const VALID_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
+const VALID_TYPES = ["image/jpeg", "image/png", "image/gif"];
 
 const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
   // State to manage edit mode and form values
   const [isEditing, setIsEditing] = useState(false);
-  const [editedName, setEditedName] = useState(user?.name || '');
-  const [editedEmail, setEditedEmail] = useState(user?.email || '');
+  const [editedName, setEditedName] = useState(user?.name || "");
+  const [editedEmail, setEditedEmail] = useState(user?.email || "");
 
   // State for profile picture
-  const [profilePic, setProfilePic] = useState(user?.profilePicture || DEFAULT_PROFILE_PICTURE);
+  const [profilePic, setProfilePic] = useState(
+    user?.profilePicture || DEFAULT_PROFILE_PICTURE
+  );
   const [selectedFile, setSelectedFile] = useState(null); // File object of new profile picture
   const [previewURL, setPreviewURL] = useState(null); // Preview URL for the selected image
 
@@ -38,14 +46,14 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
 
   // State for Toast
   const [toastVisible, setToastVisible] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastType, setToastType] = useState('success'); // 'success' or 'error'
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success"); // 'success' or 'error'
 
   // Sync profilePic with user prop changes
   useEffect(() => {
     setProfilePic(user?.profilePicture || DEFAULT_PROFILE_PICTURE);
-    setEditedName(user?.name || '');
-    setEditedEmail(user?.email || '');
+    setEditedName(user?.name || "");
+    setEditedEmail(user?.email || "");
     setSelectedFile(null);
     setPreviewURL(null);
     setIsEditing(false);
@@ -66,14 +74,14 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
       // If a new profile picture is selected, append it to the data
       if (selectedFile) {
         const formData = new FormData();
-        formData.append('name', editedName);
-        formData.append('email', editedEmail);
-        formData.append('profilePicture', selectedFile);
+        formData.append("name", editedName);
+        formData.append("email", editedEmail);
+        formData.append("profilePicture", selectedFile);
 
         const response = await onSave(formData, true);
         if (response?.success) {
-          setToastMessage('Profile updated successfully');
-          setToastType('success');
+          setToastMessage("Profile updated successfully");
+          setToastType("success");
           setToastVisible(true);
           setIsEditing(false);
           setSelectedFile(null);
@@ -81,25 +89,25 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
           setProfilePic(response.data.profilePicture || profilePic);
           setIsSaved(true);
         } else {
-          throw new Error(response?.message || 'Unknown error');
+          throw new Error(response?.message || "Unknown error");
         }
       } else {
         const response = await onSave(updatedData, false);
         if (response?.success) {
-          setToastMessage('Profile updated successfully');
-          setToastType('success');
+          setToastMessage("Profile updated successfully");
+          setToastType("success");
           setToastVisible(true);
           setIsEditing(false);
           setIsSaved(true);
         } else {
-          throw new Error(response?.message || 'Unknown error');
+          throw new Error(response?.message || "Unknown error");
         }
       }
     } catch (error) {
-      setToastMessage('Failed to update profile. Please try again.');
-      setToastType('error');
+      setToastMessage("Failed to update profile. Please try again.");
+      setToastType("error");
       setToastVisible(true);
-      console.error('Profile update error:', error);
+      console.error("Profile update error:", error);
     } finally {
       setIsSaving(false);
     }
@@ -107,8 +115,8 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
 
   // Handle Cancel Edit
   const handleCancel = () => {
-    setEditedName(user?.name || '');
-    setEditedEmail(user?.email || '');
+    setEditedName(user?.name || "");
+    setEditedEmail(user?.email || "");
     setSelectedFile(null);
     setPreviewURL(null);
     setIsEditing(false);
@@ -128,16 +136,16 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
     if (file) {
       // Validate file type
       if (!VALID_TYPES.includes(file.type)) {
-        setToastMessage('Please select a valid image file (JPEG, PNG, GIF)');
-        setToastType('error');
+        setToastMessage("Please select a valid image file (JPEG, PNG, GIF)");
+        setToastType("error");
         setToastVisible(true);
         return;
       }
 
       // Validate file size
       if (file.size > STANDARD_FILE_SIZE) {
-        setToastMessage('Image is too large. Maximum size is 1 MB.');
-        setToastType('error');
+        setToastMessage("Image is too large. Maximum size is 1 MB.");
+        setToastType("error");
         setToastVisible(true);
         return;
       }
@@ -155,21 +163,25 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
         // Only resize if dimensions are not as expected
         if (width !== STANDARD_WIDTH || height !== STANDARD_HEIGHT) {
           try {
-            const resizedFile = await resizeAndCropImage(file, STANDARD_WIDTH, STANDARD_HEIGHT);
+            const resizedFile = await resizeAndCropImage(
+              file,
+              STANDARD_WIDTH,
+              STANDARD_HEIGHT
+            );
             if (resizedFile.size > STANDARD_FILE_SIZE) {
-              setToastMessage('Resized image exceeds maximum size of 1 MB.');
-              setToastType('error');
+              setToastMessage("Resized image exceeds maximum size of 1 MB.");
+              setToastType("error");
               setToastVisible(true);
               return;
             }
             setSelectedFile(resizedFile);
             setPreviewURL(URL.createObjectURL(resizedFile));
-            setToastMessage('Image resized to standard 300x300 pixels.');
-            setToastType('success');
+            setToastMessage("Image resized to standard 300x300 pixels.");
+            setToastType("success");
             setToastVisible(true);
           } catch (error) {
-            setToastMessage('Failed to process the image.');
-            setToastType('error');
+            setToastMessage("Failed to process the image.");
+            setToastType("error");
             setToastVisible(true);
           }
         } else {
@@ -177,8 +189,8 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
         }
       };
       img.onerror = () => {
-        setToastMessage('Failed to load the image. Please try another file.');
-        setToastType('error');
+        setToastMessage("Failed to load the image. Please try another file.");
+        setToastType("error");
         setToastVisible(true);
       };
     }
@@ -220,10 +232,10 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
           offsetY = -(canvasHeight - targetHeight) / 2;
         }
 
-        const canvas = document.createElement('canvas');
+        const canvas = document.createElement("canvas");
         canvas.width = targetWidth;
         canvas.height = targetHeight;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
 
         ctx.drawImage(img, offsetX, offsetY, canvasWidth, canvasHeight);
 
@@ -233,7 +245,7 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
             if (blob) {
               resolve(new File([blob], file.name, { type: blob.type }));
             } else {
-              reject(new Error('Canvas is empty'));
+              reject(new Error("Canvas is empty"));
             }
           },
           file.type,
@@ -242,7 +254,7 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
       };
       img.onerror = () => {
         URL.revokeObjectURL(url); // Clean up the object URL
-        reject(new Error('Failed to load image'));
+        reject(new Error("Failed to load image"));
       };
     });
   };
@@ -256,13 +268,17 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
   const modalVariants = {
     hidden: { y: "-100vh", opacity: 0 },
     visible: { y: "0", opacity: 1, transition: { delay: 0.2, duration: 0.5 } },
-    exit: { y: "100vh", opacity: 0, transition: { ease: 'easeInOut', duration: 0.5 } },
+    exit: {
+      y: "100vh",
+      opacity: 0,
+      transition: { ease: "easeInOut", duration: 0.5 },
+    },
   };
 
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-auto"
+        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-auto px-4 sm:px-6 lg:px-8"
         aria-modal="true"
         role="dialog"
         aria-labelledby="profile-modal-title"
@@ -273,7 +289,7 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
       >
         <FocusTrap>
           <motion.div
-            className="bg-white dark:bg-gray-800 rounded-lg p-16 w-11/12 max-w-5xl shadow-lg relative max-h-screen overflow-y-auto"
+            className="bg-white dark:bg-gray-800 rounded-lg p-6 sm:p-8 md:p-10 w-full max-w-3xl lg:max-w-5xl shadow-lg relative max-h-screen overflow-y-auto"
             variants={modalVariants}
             initial="hidden"
             animate="visible"
@@ -281,37 +297,48 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
           >
             {/* Loader Overlay */}
             {isSaving && (
-              <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50">
-                <FontAwesomeIcon icon={faSpinner} spin size="3x" className="text-gray-800" />
+              <div className="absolute inset-0 bg-white dark:bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+                <FontAwesomeIcon
+                  icon={faSpinner}
+                  spin
+                  size="3x"
+                  className="text-gray-800 dark:text-gray-200"
+                />
               </div>
             )}
 
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 text-white bg-gradient-to-r from-black to-[#0821D2] hover:text-white px-6 py-2 dark:text-gray-300 dark:hover:text-white focus:outline-none rounded-sm"
+              className="absolute top-4 right-4 text-gray-700 dark:text-gray-300 bg-transparent hover:text-gray-900 dark:hover:text-white focus:outline-none"
               aria-label="Close Profile Modal"
             >
               <FontAwesomeIcon icon={faTimes} size="lg" />
             </button>
 
-            <h2 id="profile-modal-title" className="text-4xl font-semibold text-black quantico-bold-italic dark:text-gray-100 mb-10">
+            <h2
+              id="profile-modal-title"
+              className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-black dark:text-gray-100 mb-6 sm:mb-8 text-center quantico-bold-italic"
+            >
               Profile Information
             </h2>
 
             {/* User Information */}
-            <div className="space-y-10">
+            <div className="space-y-8 sm:space-y-10">
               {/* Profile Picture Section */}
-              <div className="flex items-center space-x-6">
+              <div className="flex flex-col sm:flex-row items-center sm:space-x-6">
                 <div className="relative">
                   <img
                     src={previewURL || profilePic || DEFAULT_PROFILE_PICTURE}
                     alt="Profile"
-                    className="w-24 h-24 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
+                    className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
                   />
                   {isEditing && (
                     <>
-                      <label htmlFor="profilePicture" className="absolute bottom-0 right-0 bg-gradient-to-r from-black to-[#0821D2] text-white  rounded-full p-2 cursor-pointer">
+                      <label
+                        htmlFor="profilePicture"
+                        className="absolute bottom-0 right-0 bg-gradient-to-r from-black to-[#0821D2] text-white rounded-full p-2 cursor-pointer"
+                      >
                         <FontAwesomeIcon icon={faUpload} />
                       </label>
                       <input
@@ -325,8 +352,13 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
                   )}
                   {/* Loader Overlay for Profile Picture */}
                   {isSaving && selectedFile && (
-                    <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center rounded-full">
-                      <FontAwesomeIcon icon={faSpinner} spin size="2x" className="text-gray-800" />
+                    <div className="absolute inset-0 bg-white dark:bg-gray-800 bg-opacity-75 flex items-center justify-center rounded-full">
+                      <FontAwesomeIcon
+                        icon={faSpinner}
+                        spin
+                        size="2x"
+                        className="text-gray-800 dark:text-gray-200"
+                      />
                     </div>
                   )}
                 </div>
@@ -336,9 +368,9 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
                       setSelectedFile(null);
                       setPreviewURL(null);
                       // Optionally, you can also clear the file input value here
-                      document.getElementById('profilePicture').value = '';
+                      document.getElementById("profilePicture").value = "";
                     }}
-                    className="text-red-500 hover:underline focus:outline-none"
+                    className="mt-4 sm:mt-0 text-red-500 hover:underline focus:outline-none"
                   >
                     Remove
                   </button>
@@ -347,7 +379,10 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
 
               {/* Name Field */}
               <div>
-                <label htmlFor="name" className="block text-black dark:text-gray-300 font-medium mb-4 roboto-black">
+                <label
+                  htmlFor="name"
+                  className="block text-gray-700 dark:text-gray-300 font-medium mb-2 sm:mb-4 roboto-black"
+                >
                   Name
                 </label>
                 {isEditing ? (
@@ -357,16 +392,21 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
                     ref={firstInputRef}
                     value={editedName}
                     onChange={(e) => setEditedName(e.target.value)}
-                    className="pt-sans-regular w-full px-6 py-4 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#061AA5] dark:bg-gray-700 dark:text-gray-100 text-lg"
+                    className="pt-sans-regular w-full px-4 sm:px-6 py-3 sm:py-4 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#061AA5] dark:bg-gray-700 dark:text-gray-100 text-base sm:text-lg"
                   />
                 ) : (
-                  <p className="text-black pt-sans-regular dark:text-gray-200 text-lg">{editedName}</p>
+                  <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg pt-sans-regular">
+                    {editedName}
+                  </p>
                 )}
               </div>
 
               {/* Email Field */}
               <div>
-                <label htmlFor="email" className="block text-black dark:text-gray-300 font-medium mb-4 roboto-black">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-700 dark:text-gray-300 font-medium mb-2 sm:mb-4 roboto-black"
+                >
                   Email
                 </label>
                 {isEditing ? (
@@ -375,32 +415,36 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
                     id="email"
                     value={editedEmail}
                     onChange={(e) => setEditedEmail(e.target.value)}
-                    className="pt-sans-regular w-full px-6 py-4 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#061AA5] dark:bg-gray-700 dark:text-gray-100 text-lg"
+                    className="pt-sans-regular w-full px-4 sm:px-6 py-3 sm:py-4 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#061AA5] dark:bg-gray-700 dark:text-gray-100 text-base sm:text-lg"
                   />
                 ) : (
-                  <p className="text-black pt-sans-regular dark:text-gray-200 text-lg">{editedEmail}</p>
+                  <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg pt-sans-regular">
+                    {editedEmail}
+                  </p>
                 )}
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="mt-16 flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-8 sm:space-y-0 sm:space-x-12">
+            <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-6 sm:space-y-0 sm:space-x-12">
               {/* Edit / Save and Cancel Buttons */}
-              <div className="flex space-x-6">
+              <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0">
                 {isEditing ? (
                   <>
                     <button
                       onClick={handleSave}
-                      className={`quantico-bold-italic text-lg bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-10 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out rounded ${
-                        (isSaving || isSaved) ? 'cursor-not-allowed opacity-50' : ''
+                      className={`quantico-bold-italic text-base sm:text-lg bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-6 sm:px-10 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out rounded ${
+                        isSaving || isSaved
+                          ? "cursor-not-allowed opacity-50"
+                          : ""
                       }`}
                       disabled={isSaving || isSaved}
                     >
-                      {isSaving ? 'Saving...' : isSaved ? 'Saved' : 'Save'}
+                      {isSaving ? "Saving..." : isSaved ? "Saved" : "Save"}
                     </button>
                     <button
                       onClick={handleCancel}
-                      className="quantico-bold-italic text-lg shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] py-3 px-10 focus:outline-none hover:bg-gray-100 transition duration-300 ease-in-out rounded"
+                      className="quantico-bold-italic text-base sm:text-lg shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] py-3 px-6 sm:px-10 focus:outline-none hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 ease-in-out rounded"
                       disabled={isSaving}
                     >
                       Cancel
@@ -412,7 +456,7 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
                       setIsEditing(true);
                       setIsSaved(false); // Reset save status when editing starts
                     }}
-                    className="quantico-bold-italic text-lg bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-10 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out rounded flex items-center"
+                    className="quantico-bold-italic text-base sm:text-lg bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-6 sm:px-10 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out rounded flex items-center justify-center"
                   >
                     <FontAwesomeIcon icon={faEdit} className="mr-2" /> Edit
                   </button>
@@ -420,19 +464,21 @@ const ProfileModal = ({ user, onClose, onLogout, onSave }) => {
               </div>
 
               {/* Reset Password and Logout Links */}
-              <div className="flex space-x-6">
+              <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0">
                 <Link
                   to="/forgot-password"
-                  className="quantico-bold-italic text-lg bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-10 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out rounded text-center"
+                  className="quantico-bold-italic text-base sm:text-lg bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-6 sm:px-10 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out rounded text-center"
                 >
                   Reset Password
                 </Link>
-                <button
-                  onClick={onLogout}
-                  className="quantico-bold-italic text-lg shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] py-3 px-10 focus:outline-none hover:bg-gray-100 transition duration-300 ease-in-out rounded"
-                >
-                  Logout
-                </button>
+                <div className="learn-more">
+                  <button
+                    onClick={onLogout}
+                    className="quantico-bold-italic text-base sm:text-lg shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] py-3 px-6 sm:px-10 focus:outline-none hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 ease-in-out rounded"
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
             </div>
 

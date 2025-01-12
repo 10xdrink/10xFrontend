@@ -170,7 +170,10 @@ const EditAddress = () => {
         });
         showToast("Address updated successfully.", "success");
       } else {
-        showToast(response.data.message || "Failed to update address.", "error");
+        showToast(
+          response.data.message || "Failed to update address.",
+          "error"
+        );
       }
     } catch (error) {
       console.error("Error updating address:", error);
@@ -185,7 +188,8 @@ const EditAddress = () => {
   };
 
   const handleDeleteAddress = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this address?")) return;
+    if (!window.confirm("Are you sure you want to delete this address?"))
+      return;
 
     if (!id) {
       showToast("Invalid address ID.", "error");
@@ -196,10 +200,15 @@ const EditAddress = () => {
       const response = await api.delete(`/users/addresses/${id}`);
       console.log("Delete Address Response:", response.data); // Debug
       if (response.data.success) {
-        setAddresses(addresses.filter((addr) => addr._id !== id && addr.id !== id));
+        setAddresses(
+          addresses.filter((addr) => addr._id !== id && addr.id !== id)
+        );
         showToast("Address deleted successfully.", "success");
       } else {
-        showToast(response.data.message || "Failed to delete address.", "error");
+        showToast(
+          response.data.message || "Failed to delete address.",
+          "error"
+        );
       }
     } catch (error) {
       console.error("Error deleting address:", error);
@@ -212,7 +221,7 @@ const EditAddress = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row px-20 py-20 bg-gray-100 min-h-screen">
+    <div className="flex flex-col md:flex-row px-6 sm:px-8 lg:px-20 py-6 sm:py-8 lg:py-20 bg-gray-100 min-h-screen">
       {/* Toast Notification */}
       <Toast
         message={toast.message}
@@ -223,29 +232,32 @@ const EditAddress = () => {
       />
 
       {/* Left Column: Add/Edit Address Form & List of Saved Addresses */}
-      <div className="md:w-1/2 pr-8">
+      <div className="md:w-1/2 pr-0 md:pr-8">
         {/* Add/Edit Address Form */}
-        <h2 className="text-5xl font-bold mb-6 quantico-bold-italic uppercase text-black">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-6 quantico-bold-italic uppercase text-black">
           {isEditing ? "Edit Address" : "Add New Address"}
         </h2>
 
         <form
-          className="space-y-4"
+          className="space-y-6"
           onSubmit={isEditing ? handleUpdateAddress : handleAddAddress}
           noValidate
         >
           {/* Street Address */}
           <div>
-            <label className="block pt-sans-regular mb-1" htmlFor="street">
+            <label
+              className="block pt-sans-regular mb-2 text-sm sm:text-base"
+              htmlFor="street"
+            >
               Street Address
             </label>
             <input
               type="text"
               id="street"
               name="street"
-              className={`w-full p-3 border outline-none pt-sans-regular ${
+              className={`w-full p-3 border outline-none pt-sans-regular rounded ${
                 errors.street ? "border-red-500" : "border-black"
-              }`}
+              } focus:ring-2 focus:ring-[#0821D2] transition`}
               value={formData.street}
               onChange={handleChange}
               placeholder="Enter street address"
@@ -257,16 +269,19 @@ const EditAddress = () => {
 
           {/* City */}
           <div>
-            <label className="block pt-sans-regular mb-1" htmlFor="city">
+            <label
+              className="block pt-sans-regular mb-2 text-sm sm:text-base"
+              htmlFor="city"
+            >
               City
             </label>
             <input
               type="text"
               id="city"
               name="city"
-              className={`w-full p-3 border outline-none pt-sans-regular ${
+              className={`w-full p-3 border outline-none pt-sans-regular rounded ${
                 errors.city ? "border-red-500" : "border-black"
-              }`}
+              } focus:ring-2 focus:ring-[#0821D2] transition`}
               value={formData.city}
               onChange={handleChange}
               placeholder="Enter city"
@@ -278,16 +293,19 @@ const EditAddress = () => {
 
           {/* State */}
           <div>
-            <label className="block pt-sans-regular mb-1" htmlFor="state">
+            <label
+              className="block pt-sans-regular mb-2 text-sm sm:text-base"
+              htmlFor="state"
+            >
               State
             </label>
             <input
               type="text"
               id="state"
               name="state"
-              className={`w-full p-3 border outline-none pt-sans-regular ${
+              className={`w-full p-3 border outline-none pt-sans-regular rounded ${
                 errors.state ? "border-red-500" : "border-black"
-              }`}
+              } focus:ring-2 focus:ring-[#0821D2] transition`}
               value={formData.state}
               onChange={handleChange}
               placeholder="Enter state"
@@ -299,7 +317,10 @@ const EditAddress = () => {
 
           {/* ZIP Code */}
           <div>
-            <label className="block pt-sans-regular mb-1" htmlFor="zip">
+            <label
+              className="block pt-sans-regular mb-2 text-sm sm:text-base"
+              htmlFor="zip"
+            >
               ZIP Code
             </label>
             <input
@@ -307,9 +328,9 @@ const EditAddress = () => {
               id="zip"
               name="zip"
               maxLength="10"
-              className={`w-full p-3 border outline-none pt-sans-regular ${
+              className={`w-full p-3 border outline-none pt-sans-regular rounded ${
                 errors.zip ? "border-red-500" : "border-black"
-              }`}
+              } focus:ring-2 focus:ring-[#0821D2] transition`}
               value={formData.zip}
               onChange={handleChange}
               placeholder="Enter ZIP code"
@@ -321,16 +342,19 @@ const EditAddress = () => {
 
           {/* Country */}
           <div>
-            <label className="block pt-sans-regular mb-1" htmlFor="country">
+            <label
+              className="block pt-sans-regular mb-2 text-sm sm:text-base"
+              htmlFor="country"
+            >
               Country
             </label>
             <input
               type="text"
               id="country"
               name="country"
-              className={`w-full p-3 border outline-none pt-sans-regular ${
+              className={`w-full p-3 border outline-none pt-sans-regular rounded ${
                 errors.country ? "border-red-500" : "border-black"
-              }`}
+              } focus:ring-2 focus:ring-[#0821D2] transition`}
               value={formData.country}
               onChange={handleChange}
               placeholder="Enter country"
@@ -341,12 +365,14 @@ const EditAddress = () => {
           </div>
 
           {/* Submit Button */}
-          <div className="flex justify-end mt-6 learn-more">
+          <div className="flex flex-col sm:flex-row sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4">
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-xl transition duration-300 ease-in-out ${
-                isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+              className={`shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-xl transition duration-300 ease-in-out px-6 py-3 rounded ${
+                isSubmitting
+                  ? "opacity-50 cursor-not-allowed"
+                  : "bg-gradient-to-r from-black to-[#0821D2] text-white hover:shadow-lg"
               }`}
             >
               {isSubmitting
@@ -358,10 +384,9 @@ const EditAddress = () => {
                 : "Add Address"}
             </button>
             {isEditing && (
-              
               <button
                 type="button"
-                className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] border ml-6 border-[#0821D2] quantico-bold-italic text-xl transition duration-300 ease-in-out"
+                className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-xl transition duration-300 ease-in-out px-6 py-3 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
                 onClick={() => {
                   setIsEditing(false);
                   setCurrentAddressId(null);
@@ -386,7 +411,7 @@ const EditAddress = () => {
 
         {/* List of Saved Addresses */}
         <div>
-          <h3 className="text-3xl font-bold mb-4 quantico-bold-italic uppercase text-black">
+          <h3 className="text-2xl sm:text-3xl font-bold mb-4 quantico-bold-italic uppercase text-black">
             Your Saved Addresses
           </h3>
           {fetchError && <p className="text-red-500 mb-4">{fetchError}</p>}
@@ -395,23 +420,24 @@ const EditAddress = () => {
               You have no saved addresses.
               <div className="flex justify-center items-center mt-4">
                 <Link to="/products">
-                  <button className="quantico-bold-italic text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-8 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out">
+                  <button className="quantico-bold-italic text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-6 sm:px-8 lg:px-10 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out rounded">
                     Shop Now
                   </button>
                 </Link>
               </div>
             </div>
           ) : (
-            <ul>
+            <ul className="space-y-6">
               {addresses.map((addressItem, index) => {
                 // Ensure _id or id exists; fallback to index if necessary
-                const key = addressItem._id || addressItem.id || `address-${index}`;
+                const key =
+                  addressItem._id || addressItem.id || `address-${index}`;
                 return (
                   <li
                     key={key}
-                    className="flex justify-between items-center border p-4 mb-4 rounded bg-white shadow"
+                    className="flex flex-col sm:flex-row justify-between items-start sm:items-center border p-4 rounded bg-white shadow-md"
                   >
-                    <div>
+                    <div className="space-y-2">
                       <p className="pt-sans-regular">
                         <span className="font-semibold">Street:</span>{" "}
                         {addressItem.street}
@@ -425,29 +451,33 @@ const EditAddress = () => {
                         {addressItem.state}
                       </p>
                       <p className="pt-sans-regular">
-                        <span className="font-semibold">ZIP:</span> {addressItem.zip}
+                        <span className="font-semibold">ZIP:</span>{" "}
+                        {addressItem.zip}
                       </p>
                       <p className="pt-sans-regular">
                         <span className="font-semibold">Country:</span>{" "}
                         {addressItem.country}
                       </p>
                     </div>
-                    <div className="flex space-x-4">
+                    <div className="flex flex-row space-x-4 mt-4 sm:mt-0">
                       <button
                         onClick={() => handleEditClick(addressItem)}
-                        className="quantico-bold-italic text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-2 px-8  hover:shadow-lg transition duration-300 ease-in-out"
+                        className="quantico-bold-italic text-lg bg-gradient-to-r from-black to-[#0821D2] text-white py-2 px-4 sm:px-6 px-6 rounded hover:shadow-lg transition duration-300 ease-in-out"
                       >
                         Edit
                       </button>
                       <div className="learn-more">
-
-                      <button
-                        onClick={() => handleDeleteAddress(addressItem._id || addressItem.id)}
-                        className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-xl transition duration-300 ease-in-out"
-                        disabled={!addressItem._id && !addressItem.id}
-                      >
-                        Delete
-                      </button>
+                        <button
+                          onClick={() =>
+                            handleDeleteAddress(
+                              addressItem._id || addressItem.id
+                            )
+                          }
+                          className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-lg transition duration-300 ease-in-out py-2 px-4 sm:px-6 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                          disabled={!addressItem._id && !addressItem.id}
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
                   </li>
@@ -459,11 +489,11 @@ const EditAddress = () => {
       </div>
 
       {/* Right Column: Image Placeholder */}
-      <div className="md:w-1/2 pl-8 flex items-center justify-center">
+      <div className="md:w-1/2 mt-8 md:mt-0 flex items-center justify-center">
         <img
           src={address}
-          alt="Placeholder"
-          className="w-[600px] h-auto object-cover rounded "
+          alt="Address Illustration"
+          className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-auto object-contain rounded shadow-lg"
         />
       </div>
     </div>

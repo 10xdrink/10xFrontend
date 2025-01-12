@@ -365,7 +365,7 @@ const Navbar = () => {
 
             {/* Search Modal Content */}
             <motion.div
-              className="relative bg-white w-11/12 max-w-md p-6 rounded-lg shadow-lg z-60"
+              className="relative bg-white w-full h-full sm:w-11/12 sm:max-w-md sm:h-auto p-6 rounded-none sm:rounded-lg shadow-lg z-60"
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -374,7 +374,7 @@ const Navbar = () => {
               {/* Close Button */}
               <button
                 onClick={toggleSearchModal}
-                className="absolute top-2 right-2 text-[#9551F2] hover:text-[#9551F2] focus:outline-none"
+                className="absolute top-4 right-4 text-[#9551F2] hover:text-[#9551F2] focus:outline-none"
                 aria-label="Close Search"
               >
                 <i className="fa-solid fa-circle-xmark text-2xl"></i>
