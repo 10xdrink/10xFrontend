@@ -48,7 +48,7 @@ const Footer = () => {
     setStatus({ loading: true, success: null, message: '' });
 
     try {
-      const response = await axios.post('http://localhost:5000/api/email-list', formData);
+      const response = await axios.post('https://backend.10xdrink.com/api/email-list', formData);
       if (response.data.success) {
         setStatus({ loading: false, success: true, message: 'Subscription successful!' });
         setFormData({ name: '', email: '' }); // Reset form
