@@ -68,7 +68,7 @@ const Contact = () => {
       // Use environment variable for backend URL
       const backendURL =
         process.env.NODE_ENV === "production"
-          ? "/api/contact"
+          ? "https://backend.10xdrink.com/api/contact"
           : "https://backend.10xdrink.com/api/contact"; // Replace with your backend URL
 
       const response = await axios.post(`${backendURL}/`, {
