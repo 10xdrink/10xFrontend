@@ -69,7 +69,7 @@ const Contact = () => {
       const backendURL =
         process.env.NODE_ENV === "production"
           ? "/api/contact"
-          : "http://13.233.76.244:5000/api/contact"; // Replace with your backend URL
+          : "https://backend.10xdrink.com/api/contact"; // Replace with your backend URL
 
       const response = await axios.post(`${backendURL}/`, {
         name: formData.name,
