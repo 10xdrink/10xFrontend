@@ -71,7 +71,8 @@ const Contact = () => {
           ? "https://backend.10xdrink.com/api/contact"
           : "https://backend.10xdrink.com/api/contact"; // Replace with your backend URL
 
-      const response = await axios.post(`${backendURL}/`, {
+      // Removed trailing slash from the URL
+      const response = await axios.post(backendURL, {
         name: formData.name,
         email: formData.email,
         message: formData.message,
@@ -146,7 +147,11 @@ const Contact = () => {
 
           {/* Address */}
           <div className="flex items-center space-x-3 animate-slideInLeft delay-800">
-            <img src={Location} alt="Location" className="w-6 h-6 sm:w-8 sm:h-8" />
+            <img
+              src={Location}
+              alt="Location"
+              className="w-6 h-6 sm:w-8 sm:h-8"
+            />
             <span className="pt-sans-regular text-sm sm:text-base">
               123 Main St, Anytown, USA
             </span>
