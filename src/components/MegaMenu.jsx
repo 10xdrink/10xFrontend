@@ -25,7 +25,11 @@ const MegaMenu = () => {
             </li>
             <li className="pt-sans-regular text-base mt-2">
               {/* Link to Power Up Products */}
-              <Link to="/products/lime-mango-1">Power Up</Link>
+              <Link to="/products/power-up-pack-3">Power Up</Link>
+            </li>
+            <li className="pt-sans-regular text-base mt-2">
+              {/* Link to Power Down Products */}
+              <Link to="/products/power-down-purple-5">Power Down</Link>
             </li>
           </ul>
         </div>
@@ -164,6 +168,13 @@ const MegaMenu = () => {
                   className="w-6 h-6 hover:opacity-80 transition-opacity duration-300"
                   src={CartIcon}
                   alt="Cart"
+                />
+              </Link>
+              <Link to="/user" aria-label="User Account">
+                <img
+                  className="w-6 h-6 hover:opacity-80 transition-opacity duration-300"
+                  src={UserIcon}
+                  alt="User"
                 />
               </Link>
             </div>
