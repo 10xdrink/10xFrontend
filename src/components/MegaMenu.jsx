@@ -25,11 +25,7 @@ const MegaMenu = () => {
             </li>
             <li className="pt-sans-regular text-base mt-2">
               {/* Link to Power Up Products */}
-              <Link to="/products/power-up-pack-3">Power Up</Link>
-            </li>
-            <li className="pt-sans-regular text-base mt-2">
-              {/* Link to Power Down Products */}
-              <Link to="/products/power-down-purple-5">Power Down</Link>
+              <Link to="/products/lime-mango-1">Power Up</Link>
             </li>
           </ul>
         </div>
