@@ -24,6 +24,7 @@ import DiscoverCollPurple from "../assets/DiscoverCollPurple.png";
 import About10XIcon2 from "../assets/About10XIcon2.png";
 import About10XIcon1 from "../assets/About10XIcon1.png";
 import About10XIcon3 from "../assets/About10XIcon3.png";
+import DiscoverCollection from "../components/DiscoverCollection";
 
 const AboutUs = () => {
   return (
@@ -518,55 +519,7 @@ const AboutUs = () => {
       </div>
 
       {/* Discover Collection */}
-      <div>
-        <div className="main-div flex w-full">
-          <div
-            className="left-column w-1/2 pt-28 pl-20 pr-20 pb-28 flex flex-col justify-center"
-            style={{
-              backgroundImage: `url(${AvailableAtBG})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            {/* <hr className="horizontal-carousel-hr border-0 bg-white my-2 w-full" /> */}
-            <h1 className="text-8xl font-bold  uppercase tracking-wider text-black quantico-bold-italic">
-              Discover Our <br />
-              Collection of <br />
-              Products
-            </h1>
-            {/* <hr className="horizontal-carousel-hr border-0 bg-white my-2 w-full" /> */}
-            <p className="text-xl pt-sans-regular text-black mt-10">
-              Experience the 10X difference with our expansive range.
-            </p>
-
-            {/* Bottom Buttons */}
-            <div className="flex space-x-4 justify-start mt-10">
-              <div className="learn-more">
-                <button
-                  className="uppercase shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-xl "
-                  type="button"
-                >
-                  shop now
-                </button>
-                <button
-                  className="uppercase quantico-bold-italic text-xl ml-4"
-                  type="button"
-                >
-                  see all <i class="ml-2 fa-solid fa-angle-right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="right-column w-1/2">
-            <img className="w-full" src={DiscoverCollPurple} alt="" srcset="" />
-            {/* <img className="-mt-56 -ml-36" src={About10XBottom} alt="" /> */}
-          </div>
-        </div>
-      </div>
-
-      <BlogCard />
-    </div>
+       <DiscoverCollection />
   );
 };
 
