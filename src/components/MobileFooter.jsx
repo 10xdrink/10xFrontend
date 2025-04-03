@@ -117,13 +117,8 @@ const MobileFooter = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/power-up" className="text-base pt-sans-regular hover:underline">
+                  <Link to="/products/lime-mango-1" className="text-base pt-sans-regular hover:underline">
                     Power Up
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/power-down" className="text-base pt-sans-regular hover:underline">
-                    Power Down
                   </Link>
                 </li>
               </ul>
