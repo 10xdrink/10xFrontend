@@ -242,7 +242,7 @@ const ProductList = () => {
               {/* Packaging Filter */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-2 pt-sans-bold">Packaging</h3>
-                {["Bottle"].map((pack) => (
+                {["Bottle", "Box", "Canister"].map((pack) => (
                   <div key={pack} className="flex items-center mb-2 custom-radio">
                     <input
                       type="radio"
@@ -349,7 +349,7 @@ const ProductList = () => {
                           onClick={() => handleAddToCart(product)}
                         >
                           Add to Cart
-                          <i class="fa-solid fa-plus ml-2"></i>
+                          <i className="fa-solid fa-plus ml-2"></i>
                         </button>
                       </div>
                     </div>
