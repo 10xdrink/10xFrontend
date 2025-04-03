@@ -72,14 +72,6 @@ const MegaMenu = () => {
               className="w-full h-auto object-cover shadow-lg hover:opacity-90 transition-opacity duration-300"
             />
           </Link>
-          {/* Mango Fusion Product */}
-          <Link className="w-1/2" to="/products/mango-fusion-2">
-            <img
-              src={MangoFusion} // Ensure this image corresponds to "Mango Fusion"
-              alt="Mango Fusion"
-              className="w-full h-auto object-cover shadow-lg hover:opacity-90 transition-opacity duration-300"
-            />
-          </Link>
         </div>
 
         {/* Support Column */}
