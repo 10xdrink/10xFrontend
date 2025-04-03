@@ -66,6 +66,9 @@ const MegaMenu = () => {
         <div className="third-col w-[40%] flex py-12 pr-9 gap-4">
           {/* Lime Mango Product */}
           <Link className="w-1/2" to="/products/lime-mango-1">
+
+          </Link>
+                    <Link className="w-1/2" to="/products/lime-mango-1">
             <img
               src={LimeCharge} // Ensure this image corresponds to "Lime Mango"
               alt="Lime Mango"
