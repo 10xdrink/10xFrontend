@@ -10,12 +10,7 @@ const DiscoverCollection = () => {
       <div className="hidden md:block">
         <div className="main-div flex w-full">
           <div
-            className="left-column w-1/2 pt-28 pl-20 pr-20 pb-28 flex flex-col justify-center"
-            style={{
-              backgroundImage: `url(${BluePlainBackground})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
+            className="left-column w-1/2 pt-28 pl-20 pr-20 pb-28 flex flex-col justify-center bg-[#F2F3F2]"
           >
             {/* <hr className="horizontal-carousel-hr border-0 bg-white my-2 w-full" /> */}
             <h1 className="text-8xl font-bold uppercase tracking-wider text-white quantico-bold-italic">
