@@ -13,7 +13,7 @@ import CyanBattery from "../assets/CyanBattery.png";
 import FirstCol from "../assets/FirstCol.png";
 import SecondCol from "../assets/SecondCol.png";
 import WithoutX from "../assets/WithoutX.png";
-import ThirdCol from "../assets/ThirdCol.png";
+import ThirdCol from "../assets/MobileAboutResult.png";
 import BlackArrow from "../assets/BlackArrow.png";
 import FaqDown from "../assets/FaqDown.png";
 import FaqUp from "../assets/FaqUp.png";
