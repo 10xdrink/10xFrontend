@@ -64,8 +64,8 @@ const MobileHero = () => {
               {/* Mango Hero Image Wrapper */}
               <div className="transform rotate-[20deg] translate-x-[-20px]">
                 <img
-                  src={MangoHero}
-                  alt="Mango Hero"
+                  src={LimeHero}
+                  alt="Lime Hero"
                   className="w-[180px] sm:w-[200px] float-animation z-10"
                 />
               </div>
