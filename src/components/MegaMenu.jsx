@@ -7,7 +7,8 @@ import UserIcon from "../assets/User.png";
 import MailIcon from "../assets/MailIcon.png";
 import ChatSupport from "../assets/ChatSupport.png";
 import LimeCharge from "../assets/Product Images/Lime Charge.png";
-import MangoFusion from "../assets/Product Images/mango fusion.png";
+import LimeCharge2 from "../assets/Product Images/Lime Charge2.png";
+
 
 // Importing product data can be beneficial for dynamic linking
 // However, for simplicity, we'll hardcode the slugs based on provided MongoDB data
@@ -62,12 +63,16 @@ const MegaMenu = () => {
         <div className="third-col w-[40%] flex py-12 pr-9 gap-4">
           {/* Lime Mango Product */}
           <Link className="w-1/2" to="/products/lime-mango-1">
-
+            <img
+              src={LimeCharge2} // Ensure this image corresponds to "Lime Mango"
+              alt="Lime Charge2"
+              className="w-full h-auto object-cover shadow-lg hover:opacity-90 transition-opacity duration-300"
+            />
           </Link>
                     <Link className="w-1/2" to="/products/lime-mango-1">
             <img
               src={LimeCharge} // Ensure this image corresponds to "Lime Mango"
-              alt="Lime Mango"
+              alt="Lime Charge"
               className="w-full h-auto object-cover shadow-lg hover:opacity-90 transition-opacity duration-300"
             />
           </Link>
