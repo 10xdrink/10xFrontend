@@ -7,6 +7,7 @@ import UserIcon from "../assets/User.svg"; // Renamed for clarity
 import CartIcon from "../assets/CartIcon.png";
 import SearchBarIcon from "../assets/SearchBar.svg";
 import Hamburger from "../assets/Hamburger.png";
+import PowerUpPackImg from "../assets/power up pack.png"; // Import the Power Up Pack image
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext"; // Import AuthContext
 import api from "../utils/api"; // Import the API utility
@@ -346,7 +347,7 @@ const Navbar = () => {
       <AnimatePresence>
         {isSearchOpen && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center"
+            className="fixed inset-0 z-50 flex items-start justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -354,86 +355,164 @@ const Navbar = () => {
           >
             {/* Backdrop */}
             <motion.div
-              className="fixed inset-0 bg-black opacity-30"
+              className="fixed inset-0 bg-black opacity-70"
               onClick={toggleSearchModal}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.3 }}
+              animate={{ opacity: 0.7 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
               aria-hidden="true"
             ></motion.div>
 
-            {/* Search Modal Content */}
+            {/* Search Modal Content - Full Page */}
             <motion.div
-              className="relative bg-white w-full h-full sm:w-11/12 sm:max-w-md sm:h-auto p-6 rounded-none sm:rounded-lg shadow-lg z-60"
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              className="relative bg-white w-full h-full overflow-y-auto search-scrollbar pt-20 pb-12 px-6 sm:px-12 md:px-20 z-60"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              style={{
+                backgroundImage: `linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('https://res.cloudinary.com/dvbbsgj1u/image/upload/v1742831705/p9jxgk5thmdfdbfuetfr.jpg')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+              }}
             >
               {/* Close Button */}
-              <button
+              <motion.button
                 onClick={toggleSearchModal}
-                className="absolute top-4 right-4 text-[#9551F2] hover:text-[#9551F2] focus:outline-none"
+                className="absolute top-6 right-6 text-[#9551F2] hover:text-[#7E32EACC] focus:outline-none transition-all duration-300 transform hover:scale-110 focus:scale-110 z-70 bg-white/80 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl"
                 aria-label="Close Search"
+                initial={{ opacity: 0, rotate: -90 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                transition={{ delay: 0.2, duration: 0.3 }}
               >
-                <i className="fa-solid fa-circle-xmark text-2xl"></i>
-              </button>
+                <i className="fa-solid fa-xmark text-2xl"></i>
+              </motion.button>
+
+              {/* Search Header */}
+              <motion.div 
+                className="text-center mb-12"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.5 }}
+              >
+                <h2 className="text-4xl md:text-5xl font-bold mb-3">
+                  <span className="bg-gradient-to-r from-[#0821D2] to-[#9551F2] bg-clip-text text-transparent quantico-bold">
+                  Power Your Day
+                  </span>
+                </h2>
+                <p className="nimbusL-bol text-gray-600 text-lg roboto-regular max-w-2xl mx-auto">
+                Pick the 10X product that fits your energy goals
+
+
+                </p>
+              </motion.div>
 
               {/* Search Input */}
-              <div className="mt-10">
-                <div className="relative flex items-center border-2 border-[#9551F2] overflow-hidden w-full shadow-xl mb-8">
-                  <input
-                    type="search"
-                    placeholder="Search Product"
-                    className="w-full p-3 pr-10 text-black outline-none shadow-lg"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    aria-label="Search"
-                    onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit()}
-                  />
+              <motion.div 
+                className="max-w-3xl mx-auto mb-12"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                <div className="search-input-container relative flex items-center overflow-hidden w-full rounded-2xl shadow-lg transition-all duration-300 group hover:shadow-xl bg-white/80 backdrop-blur-sm">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#9551F2]/5 to-[#7E32EACC]/5"></div>
+                  <span className="absolute left-6 text-[#9551F2] z-10 text-xl">
+                    <i className="fa-solid fa-bolt-lightning"></i>
+                  </span>
+                  <div className="flex-1 flex items-center">
+                    <input
+                      type="search"
+                      placeholder="Turbocharge Your Routine!"
+                      className="w-full py-6 pl-16 pr-20 text-black outline-none border-0 focus:ring-0 roboto-medium text-lg bg-transparent placeholder-gray-500"
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                      aria-label="Search"
+                      onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit()}
+                      autoFocus
+                    />
+                  </div> 
                   <button
                     onClick={handleSearchSubmit}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center justify-center"
+                    className="absolute right-4 w-14 h-14 bg-gradient-to-r from-[#9551F2] to-[#7E32EACC] rounded-xl flex items-center justify-center transform transition-all duration-300 hover:scale-105 focus:scale-105 focus:outline-none z-10 shadow-lg group"
                     aria-label="Submit Search"
                   >
-                    <i className="fa-solid fa-magnifying-glass text-[#7E32EACC] text-xl"></i>
+                    <div className="absolute inset-0 rounded-xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                    <i className="fa-solid fa-magnifying-glass text-white text-xl"></i>
                   </button>
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Search Results */}
-              <div className="mt-4 grid grid-cols-2 gap-4">
-                {filteredProducts.length > 0 ? (
-                  filteredProducts.slice(0, 4).map((product) => (
-                    <Link
-                      to={`/products/${product.slug}`}
-                      key={product._id}
-                      className="block"
-                      onClick={toggleSearchModal}
-                    >
-                      <div className="border p-2 flex flex-col items-center">
-                        <img
-                          src={product.thumbnail}
-                          alt={product.title}
-                          className="w-full h-auto object-cover mb-2"
-                          loading="lazy"
-                        />
-                        <div className="text-center">
-                          <p className="font-bold text-base">{product.title}</p>
-                          <p className="mt-2 text-sm px-4 py-2 rounded-full bg-[#9551F2] text-white font-bold">
-                            ${product.variants[0].price.toFixed(2)}
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  ))
-                ) : (
-                  <div className="col-span-2 flex flex-col items-center justify-center mt-10">
-                    <i className="fa-solid fa-face-frown text-4xl text-[#9551F2] mb-4"></i>
-                    <p className="text-black text-lg">No Results Found</p>
-                  </div>
+              {/* Search Results Section */}
+              <div className="max-w-6xl mx-auto">
+                {searchQuery && (
+                  <motion.h3 
+                    className="text-2xl font-bold mb-8 text-gray-800 flex items-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    Results for "<span className="text-[#9551F2]">{searchQuery}</span>"
+                  </motion.h3>
                 )}
+                
+                {/* Results Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
+                  {filteredProducts.length > 0 ? (
+                    filteredProducts.map((product, index) => (
+                      <motion.div
+                        key={product._id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 + index * 0.1, duration: 0.5 }}
+                      >
+                        <Link
+                          to={`/products/${product.slug}`}
+                          className="block transform product-card-hover outline-none search-result-item h-full"
+                          onClick={toggleSearchModal}
+                        >
+                          <div className="bg-white border border-[#9551F2]/10 rounded-2xl p-4 flex flex-col items-center shadow-lg hover:shadow-xl transition-all duration-300 h-full group">
+                            <div className="w-full mb-4 rounded-xl overflow-hidden">
+                              <img
+                                src={product.thumbnail}
+                                alt={product.title}
+                                className="w-full  object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                loading="lazy"
+                              />
+                            </div>
+                            <div className="text-center flex-grow flex flex-col justify-between w-full">
+                              <div>
+                                <h4 className="font-bold text-lg mb-2 text-gray-800">{product.title}</h4>
+                                <p className="text-gray-600 mb-4 line-clamp-2">
+                                  {product.description ? product.description.substring(0, 60) + '...' : 'Experience the power of 10X energy'}
+                                </p>
+                              </div>
+                              <div className="mt-auto pt-4 border-t border-[#9551F2]/10">
+                                <p className="text-xl font-bold bg-gradient-to-r from-[#0821D2] to-[#9551F2] bg-clip-text text-transparent">
+                                  ${product.variants[0].price.toFixed(2)}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </motion.div>
+                    ))
+                  ) : searchQuery && (
+                    <motion.div 
+                      className="col-span-full flex flex-col items-center justify-center py-16 bg-gradient-to-br from-[#9551F2]/5 to-[#7E32EACC]/5 rounded-2xl border border-[#9551F2]/10"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3, duration: 0.5 }}
+                    >
+                      <i className="fa-solid fa-face-frown text-7xl text-[#9551F2] mb-6 animate-bounce"></i>
+                      <h4 className="text-2xl font-bold text-gray-800 mb-3">No Results Found</h4>
+                      <p className="text-gray-600 text-center max-w-md text-lg">
+                        Try adjusting your search terms or browse our categories.
+                      </p>
+                    </motion.div>
+                  )}
+                </div>
               </div>
             </motion.div>
           </motion.div>
