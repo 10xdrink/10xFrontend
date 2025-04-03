@@ -33,10 +33,12 @@ const DiscoverCollection = () => {
                   SHOP NOW
                 </button>
               </div>
-
-              <button className="uppercase pt-4 pb-4 pl-8 text-xl pr-8 bg-transparent quantico-bold-italic border-0 text{#0821D2] font-bold rounded-sm focus:outline-none">
+<div class="w-1/2">
+              <button className="uppercase pt-4 pb-4 pl-8 text-xl pr-8 bg-transparent quantico-bold-italic border-0 text-[#0821D2] font-bold rounded-sm focus:outline-none">
                 see all <i className="ml-2 fa-solid fa-angle-right"></i>
               </button>
+</div>
+
             </div>
           </div>
 
