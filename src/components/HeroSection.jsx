@@ -3,7 +3,6 @@ import HeroBG from "../assets/HeroBG.png";
 import LimeImageButton from "../assets/LimeImage.png";
 import ArrowDown from "../assets/ArrowDown.png";
 import LimeHero from "../assets/LimeHero.png";
-import MangoHero from "../assets/MangoHero.png";
 import { Link } from "react-router-dom";
 
 const HeroSection = () => {
@@ -54,8 +53,8 @@ const HeroSection = () => {
           />
           {/* Mango Fusion Image */}
           <img
-            src={MangoHero}
-            alt="Mango Hero"
+            src={LimeHero}
+            alt="Lime Hero"
             className="w-auto MangoHero transform rotate-[20deg] translate-x-[-10px] z-10 -ml-24 -mb-14"
           />
         </div>
