@@ -13,22 +13,28 @@ const DiscoverCollection = () => {
             className="left-column w-1/2 pt-28 pl-20 pr-20 pb-28 flex flex-col justify-center bg-[#F2F3F2]"
           >
             {/* <hr className="horizontal-carousel-hr border-0 bg-white my-2 w-full" /> */}
-            <h1 className="text-8xl font-bold uppercase tracking-wider text-white quantico-bold-italic">
+            <h1 className="text-8xl font-bold uppercase tracking-wider quantico-bold-italic">
               Discover Our <br />
               Collection of <br />
               Products
             </h1>
             {/* <hr className="horizontal-carousel-hr border-0 bg-white my-2 w-full" /> */}
-            <p className="text-xl pt-sans-regular text-white mt-10">
+            <p className="text-xl pt-sans-regular  mt-10">
               Experience the 10X difference with our expansive range.
             </p>
 
             <div className="button-divs mt-12">
-              <button className="pt-4 pb-4 pl-8 text-xl pr-8 bg-transparent quantico-bold-italic border border-white text-white font-bold rounded-sm focus:outline-none hover:shadow-lg shadow-[0px_2px_8px_rgba(255,255,255,0.8)] transition-shadow duration-300 ease-in-out">
-                SHOP NOW
-              </button>
 
-              <button className="uppercase pt-4 pb-4 pl-8 text-xl pr-8 bg-transparent quantico-bold-italic border-0 text-white font-bold rounded-sm focus:outline-none">
+               <div className="learn-more">
+                <button
+                  className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-xl px-4 py-2 rounded"
+                  type="button"
+                >
+                  SHOP NOW
+                </button>
+              </div>
+
+              <button className="uppercase pt-4 pb-4 pl-8 text-xl pr-8 bg-transparent quantico-bold-italic border-0 text{#0821D2] font-bold rounded-sm focus:outline-none">
                 see all <i className="ml-2 fa-solid fa-angle-right"></i>
               </button>
             </div>
