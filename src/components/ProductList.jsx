@@ -305,55 +305,58 @@ const ProductList = () => {
                       <div className="loading-button loading-placeholder bg-gray-300 h-10 w-full"></div>
                     </div>
                   ))
-                : products.map((product) => (
-                    <div
-                      key={product._id}
-                      className="bg-white border border-gray-200 p-4 shadow-lg rounded-lg text-center animate-fadeInUp transition-transform duration-300 ease-in-out hover:scale-105 relative overflow-hidden"
-                    >
-                      <Link to={`/products/${product.slug}`} className="block">
-                        {/* Image Container */}
-                        <div className="relative group">
-                          {/* Primary Image */}
-                          <img
-                            src={product.thumbnail}
-                            alt={product.title}
-                            className="w-full h-auto object-cover mb-4 transition-opacity duration-500 ease-in-out"
-                            loading="lazy"
-                          />
-                          {/* Secondary Image */}
-                          {product.images && product.images.length > 0 && (
+                : // Filter out any null products before mapping
+                  products
+                    .filter((product) => product)
+                    .map((product) => (
+                      <div
+                        key={product._id}
+                        className="bg-white border border-gray-200 p-4 shadow-lg rounded-lg text-center animate-fadeInUp transition-transform duration-300 ease-in-out hover:scale-105 relative overflow-hidden"
+                      >
+                        <Link to={`/products/${product.slug}`} className="block">
+                          {/* Image Container */}
+                          <div className="relative group">
+                            {/* Primary Image */}
                             <img
-                              src={product.images[0]}
-                              alt={`${product.title} Preview`}
-                              className="w-full h-auto object-cover mb-4 absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+                              src={product.thumbnail}
+                              alt={product.title}
+                              className="w-full h-auto object-cover mb-4 transition-opacity duration-500 ease-in-out"
                               loading="lazy"
                             />
-                          )}
-                        </div>
-                        <h2 className="text-xl md:text-2xl font-bold mb-2 quantico-bold-italic text-black">
-                          {product.title}
-                        </h2>
-                        <p className="text-sm md:text-md mb-2">
-                          {product.variants.map((v) => v.size).join(", ")}
-                        </p>
-                        <p className="text-lg md:text-[20px] pt-sans-bold mb-4">
-                          ${product.variants[0].price.toFixed(2)}
-                        </p>
-                      </Link>
+                            {/* Secondary Image */}
+                            {product.images && product.images.length > 0 && (
+                              <img
+                                src={product.images[0]}
+                                alt={`${product.title} Preview`}
+                                className="w-full h-auto object-cover mb-4 absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+                                loading="lazy"
+                              />
+                            )}
+                          </div>
+                          <h2 className="text-xl md:text-2xl font-bold mb-2 quantico-bold-italic text-black">
+                            {product.title}
+                          </h2>
+                          <p className="text-sm md:text-md mb-2">
+                            {product.variants.map((v) => v.size).join(", ")}
+                          </p>
+                          <p className="text-lg md:text-[20px] pt-sans-bold mb-4">
+                            ${product.variants[0].price.toFixed(2)}
+                          </p>
+                        </Link>
 
-                      {/* Add to Cart Button */}
-                      <div className="learn-more">
-                        <button
-                          className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] bg-transparent border  border-[#0821D2] quantico-bold-italic text-base md:text-xl w-full uppercase mt-2 py-2 transition-colors duration-300 ease-in-out flex items-center justify-center"
-                          type="button"
-                          onClick={() => handleAddToCart(product)}
-                        >
-                          Add to Cart
-                          <i className="fa-solid fa-plus ml-2"></i>
-                        </button>
+                        {/* Add to Cart Button */}
+                        <div className="learn-more">
+                          <button
+                            className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] bg-transparent border border-[#0821D2] quantico-bold-italic text-base md:text-xl w-full uppercase mt-2 py-2 transition-colors duration-300 ease-in-out flex items-center justify-center"
+                            type="button"
+                            onClick={() => handleAddToCart(product)}
+                          >
+                            Add to Cart
+                            <i className="fa-solid fa-plus ml-2"></i>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
             </div>
 
             {/* Pagination Controls */}
