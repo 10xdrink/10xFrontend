@@ -7,7 +7,7 @@ import UserIcon from "../assets/User.png";
 import MailIcon from "../assets/MailIcon.png";
 import ChatSupport from "../assets/ChatSupport.png";
 import LimeCharge from "../assets/Product Images/Lime Charge.png";
-import LimeCharge2 from "../assets/Product Images/Lime Charge2.png";
+import LimeCharge2 from "../assets/Lime Charge2.png";
 
 
 // Importing product data can be beneficial for dynamic linking
