@@ -25,7 +25,7 @@ const DiscoverCollection = () => {
 
             <div className="button-divs mt-12">
 
-               <div className="learn-more">
+               <div className="learn-more w-1/2">
                 <button
                   className="shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-xl px-4 py-2 rounded"
                   type="button"
