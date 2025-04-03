@@ -519,7 +519,7 @@ const AboutUs = () => {
       </div>
 
       {/* Discover Collection */}
-       <DiscoverCollection />
+{/*        <DiscoverCollection /> */}
   );
 };
 
