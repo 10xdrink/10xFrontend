@@ -217,7 +217,7 @@ const ProductList = () => {
               {/* Variants Filter */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-2 pt-sans-bold">Variants</h3>
-                {["60ml", "120ml", "250ml", "Pack of 5", "Pack of 10", "5 Liters", "10 Liters"].map((variant) => (
+                {["Pack of 2 (60ml)"].map((variant) => (
                   <div key={variant} className="checkbox-wrapper-15 mb-2 flex items-center">
                     <input
                       className="inp-cbx"
