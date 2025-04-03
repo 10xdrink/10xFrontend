@@ -166,13 +166,6 @@ const MegaMenu = () => {
                   alt="Cart"
                 />
               </Link>
-              <Link to="/user" aria-label="User Account">
-                <img
-                  className="w-6 h-6 hover:opacity-80 transition-opacity duration-300"
-                  src={UserIcon}
-                  alt="User"
-                />
-              </Link>
             </div>
           </div>
         </div>
