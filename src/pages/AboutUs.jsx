@@ -9,7 +9,7 @@ import AvailableAtBG from "../assets/AvailableAtBG.png";
 import ArrowDownPowerPurple from "../assets/ArrowDownPowerPurple.png";
 import SunglowReaction from "../assets/SunglowReaction.png";
 import GreenTarget from "../assets/GreenTarget.png";
-import CyanBattery from "../assets/MobileAboutResult.png";
+import CyanBattery from "../assets/CyanBattery.png";
 import FirstCol from "../assets/FirstCol.png";
 import SecondCol from "../assets/SecondCol.png";
 import WithoutX from "../assets/WithoutX.png";
