@@ -1,6 +1,6 @@
 import React from "react";
 import EffectiveProduct from "../assets/EffectiveProduct.png";
-import mango from "../assets/mango.png";
+import DiscoverColl from "../assets/DiscoverColl.png";
 
 const Effective = () => {
   return (
@@ -12,7 +12,7 @@ const Effective = () => {
         }}
       >
         <div className="left-col w-1/2">
-          <img className="w-[70%] shuttle-light" src={mango} alt="Mango Bottle" />
+          <img className="w-[70%] shuttle-light" src={DiscoverColl} alt="Lime Charge" />
         </div>
 
         <div className="right-col w-1/2">
