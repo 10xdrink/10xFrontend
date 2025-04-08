@@ -510,7 +510,7 @@ const AboutUs = () => {
 
       {/* Discover Collection */}
       {/* <DiscoverCollection /> */}
-    </div>
+{/*     </div> */}
   );
 };
 
