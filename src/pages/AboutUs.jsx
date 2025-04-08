@@ -215,7 +215,8 @@ const AboutUs = () => {
               celebrities, and identified a significant problem: nutritional
               deficiencies affecting people’s mindsets. Recognizing that
               mindset is fundamental to everything, he decided to distill his
-              knowledge into a convenient, effective solution accessible to everyone.
+              knowledge into a convenient, effective solution accessible to
+              everyone.
             </p>
           </div>
           <div className="right w-1/2">
@@ -250,13 +251,12 @@ const AboutUs = () => {
               alt="Green Target"
             />
             <h1 className="text-5xl font-bold uppercase tracking-wider text-white quantico-bold-italic">
-              Kunal's <br />
-              Previous Ventures
+              Kunal's <br /> Previous Ventures
             </h1>
             <p className="text-sm sm:text-base lg:text-lg leading-relaxed pt-sans-regular mt-4 text-white">
-              Include owning supplement stores and developing a supplement line.
-              However, he realized that most nutrients should come from whole
-              foods. Despite this belief, the challenges posed by modern
+              Include owning supplement stores and developing a supplement
+              line. However, he realized that most nutrients should come from
+              whole foods. Despite this belief, the challenges posed by modern
               agriculture and depleted food supplies necessitated a product that
               could be consumed quickly.
             </p>
@@ -449,7 +449,6 @@ const AboutUs = () => {
             </p>
           </div>
         </div>
-
         <div className="bottom flex mt-12">
           <div className="div-1 w-1/3 p-8">
             <img
@@ -458,7 +457,7 @@ const AboutUs = () => {
               alt=""
             />
             <h3 className="uppercase nimbusL-bol text-white text-2xl">
-              Regenerate your cells{" "}
+              Regenerate your cells
             </h3>
             <p className="text-base pt-sans-regular text-white mt-5">
               Our advanced formula is backed by years of <br />
@@ -476,7 +475,7 @@ const AboutUs = () => {
               alt=""
             />
             <h3 className="uppercase nimbusL-bol text-white text-2xl mt-4">
-              the ultimate energy boost{" "}
+              the ultimate energy boost
             </h3>
             <p className="text-base pt-sans-regular text-white mt-5">
               Boost your energy levels and stay productive
@@ -494,7 +493,7 @@ const AboutUs = () => {
               alt=""
             />
             <h3 className="uppercase nimbusL-bol text-white text-2xl mt-12">
-              Unlock your full potential{" "}
+              Unlock your full potential
             </h3>
             <p className="text-base pt-sans-regular text-white mt-5">
               Experience a renewed sense of vitality and unlock
@@ -506,11 +505,14 @@ const AboutUs = () => {
             </button>
           </div>
         </div>
-{/*       </div> */}
+      </div>
 
       {/* Discover Collection */}
-      {/* <DiscoverCollection /> */}
-{/*     </div> */}
+      {/* Uncomment if needed:
+      <DiscoverCollection /> 
+      */}
+
+    </div>
   );
 };
 
