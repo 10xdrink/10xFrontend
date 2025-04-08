@@ -506,7 +506,7 @@ const AboutUs = () => {
             </button>
           </div>
         </div>
-      </div>
+{/*       </div> */}
 
       {/* Discover Collection */}
       {/* <DiscoverCollection /> */}
