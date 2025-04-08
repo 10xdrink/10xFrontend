@@ -104,7 +104,7 @@ const AboutUs = () => {
 
       {/* Our Mission and Vision */}
       <div
-        className="main-vision-mission-div -mt-2 -mb-2 flex  transform"
+        className="main-vision-mission-div -mt-2 -mb-2 flex transform"
         style={{
           backgroundImage: `url(${BluePlainBackgroundRotation})`,
           backgroundSize: "cover",
@@ -213,9 +213,9 @@ const AboutUs = () => {
               business by Kunal Gir, a prominent coach in India. Over two
               decades, Kunal trained thousands of people, including top
               celebrities, and identified a significant problem: nutritional
-              deficiencies affecting people’s mindsets. Recognizing that mindset
-              is fundamental to everything, he decided to distill his knowledge
-              into a convenient, effective solution accessible to everyone.
+              deficiencies affecting people’s mindsets. Recognizing that
+              mindset is fundamental to everything, he decided to distill his
+              knowledge into a convenient, effective solution accessible to everyone.
             </p>
           </div>
           <div className="right w-1/2">
@@ -301,7 +301,6 @@ const AboutUs = () => {
       </div>
 
       {/* USP's Section */}
-
       <div
         className="usp-section py-10 sm:py-20 px-4 sm:px-6 lg:px-20"
         style={{
@@ -432,7 +431,6 @@ const AboutUs = () => {
       <TakeCharge />
 
       {/* Rejuvenate-Section */}
-
       <div
         className="main-div-rejuvenate py-20 px-20"
         style={{
@@ -443,7 +441,7 @@ const AboutUs = () => {
       >
         <div className="top flex">
           <div className="left w-[60%]">
-            <h1 className="text-8xl font-bold  uppercase tracking-wider text-white quantico-bold-italic">
+            <h1 className="text-8xl font-bold uppercase tracking-wider text-white quantico-bold-italic">
               Rejuvenate your <br />
               body with 10x
             </h1>
@@ -474,7 +472,7 @@ const AboutUs = () => {
             </p>
 
             <button className="quantico-bold-italic text-white text-lg mt-5 uppercase">
-              learn more <i class="ml-4 fa-solid fa-angle-right"></i>
+              learn more <i className="ml-4 fa-solid fa-angle-right"></i>
             </button>
           </div>
           <div className="div-2 w-1/3 p-8">
@@ -483,7 +481,7 @@ const AboutUs = () => {
               src={About10XIcon1}
               alt=""
             />
-            <h3 className="uppercase nimbusL-bol text-white text-2xl  mt-4">
+            <h3 className="uppercase nimbusL-bol text-white text-2xl mt-4">
               the ultimate energy boost{" "}
             </h3>
             <p className="text-base pt-sans-regular text-white mt-5">
@@ -493,7 +491,7 @@ const AboutUs = () => {
             </p>
 
             <button className="quantico-bold-italic text-white text-lg mt-5 uppercase">
-              learn more <i class="ml-4 fa-solid fa-angle-right"></i>
+              learn more <i className="ml-4 fa-solid fa-angle-right"></i>
             </button>
           </div>
           <div className="div-3 w-1/3 p-8">
@@ -512,14 +510,15 @@ const AboutUs = () => {
             </p>
 
             <button className="quantico-bold-italic text-white text-lg mt-5 uppercase">
-              learn more <i class="ml-4 fa-solid fa-angle-right"></i>
+              learn more <i className="ml-4 fa-solid fa-angle-right"></i>
             </button>
           </div>
         </div>
       </div>
 
       {/* Discover Collection */}
-{/*        <DiscoverCollection /> */}
+      {/* <DiscoverCollection /> */}
+    </div> {/* <-- Missing closing tag added for the "about-section" */}
   );
 };
 
