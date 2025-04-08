@@ -333,7 +333,6 @@ const AboutUs = () => {
                   alt="Decorative Arrow"
                 />
               </div>
-
               <div className="content text-center sm:text-left">
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-wider text-black quantico-bold-italic">
                   CATALYST
@@ -354,7 +353,6 @@ const AboutUs = () => {
                   alt="Decorative Arrow"
                 />
               </div>
-
               <div className="content text-center sm:text-left">
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-wider text-black quantico-bold-italic">
                   EXCELLENCE
@@ -379,7 +377,6 @@ const AboutUs = () => {
                   alt="Decorative Arrow"
                 />
               </div>
-
               <div className="content text-center sm:text-left">
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-wider text-black quantico-bold-italic">
                   CONTROL
@@ -401,7 +398,6 @@ const AboutUs = () => {
                   alt="Decorative Arrow"
                 />
               </div>
-
               <div className="content text-center sm:text-left">
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-wider text-black quantico-bold-italic">
                   POTENTIAL
@@ -446,7 +442,6 @@ const AboutUs = () => {
               body with 10x
             </h1>
           </div>
-
           <div className="right w-[40%] flex justify-end">
             <p className="text-xl pt-sans-regular text-white">
               Experience the 10X difference and take on your <br />
@@ -470,7 +465,6 @@ const AboutUs = () => {
               research and is proven to regenerate cells,
               <br /> promoting overall health and vitality.
             </p>
-
             <button className="quantico-bold-italic text-white text-lg mt-5 uppercase">
               learn more <i className="ml-4 fa-solid fa-angle-right"></i>
             </button>
@@ -489,7 +483,6 @@ const AboutUs = () => {
               <br /> throughout the day with our powerful and natural <br />
               brain battery.
             </p>
-
             <button className="quantico-bold-italic text-white text-lg mt-5 uppercase">
               learn more <i className="ml-4 fa-solid fa-angle-right"></i>
             </button>
@@ -508,7 +501,6 @@ const AboutUs = () => {
               <br /> your full potential with our revolutionary winner’s
               <br /> shot.
             </p>
-
             <button className="quantico-bold-italic text-white text-lg mt-5 uppercase">
               learn more <i className="ml-4 fa-solid fa-angle-right"></i>
             </button>
@@ -518,7 +510,7 @@ const AboutUs = () => {
 
       {/* Discover Collection */}
       {/* <DiscoverCollection /> */}
-    </div> {/* <-- Missing closing tag added for the "about-section" */}
+    </div>
   );
 };
 
