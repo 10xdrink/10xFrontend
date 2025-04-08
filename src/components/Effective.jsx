@@ -12,7 +12,7 @@ const Effective = () => {
         }}
       >
         <div className="left-col w-1/2">
-          <img className="w-[70%] shuttle-light" src={DiscoverColl} alt="Lime Charge" />
+          <img className="w-[70%] shuttle-light" src="https://res.cloudinary.com/dsellziit/image/upload/v1744112146/Lime_1_ju8nl0.png" alt="Lime Charge" />
         </div>
 
         <div className="right-col w-1/2">
