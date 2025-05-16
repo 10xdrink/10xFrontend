@@ -202,7 +202,7 @@ const Navbar = () => {
             <img
               src={logo}
               alt="10X Logo"
-              className="w-20 h-10 mr-4 mt-2 mb-2"
+              className="w-20 h-10 mr-4 mt-2 "
             />
           </Link>
 
