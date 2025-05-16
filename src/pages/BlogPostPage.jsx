@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import api from "../utils/api";
 import DOMPurify from "dompurify";
 
@@ -122,6 +123,12 @@ const BlogPostPage = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Helmet>
+        <title>{title} | 10X Energy Drink Blog</title>
+        <meta name="description" content={post?.excerpt || "Read our latest blog post about 10X energy drinks and performance optimization."} />
+        <meta name="keywords" content={`10X, energy drink, ${category}, blog post, health, wellness`} />
+      </Helmet>
+      
       {/* Back Navigation */}
       <div className="flex items-center gap-2 mb-6">
         <Link to="/blog" className="flex items-center text-gray-600 hover:text-gray-800 roboto-regular">

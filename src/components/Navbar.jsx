@@ -13,6 +13,7 @@ import api from "../utils/api"; // Import the API utility
 import MegaMenu from "./MegaMenu"; // Import the MegaMenu component
 import { motion, AnimatePresence } from "framer-motion"; // Import Framer Motion components
 import { debounce } from "lodash"; // Ensure lodash is installed: npm install lodash
+import { convertAndFormatPrice } from "../utils/currencyUtils";
 
 const Navbar = () => {
   // State Management
@@ -352,86 +353,103 @@ const Navbar = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {/* Backdrop */}
+            {/* Backdrop with background image */}
             <motion.div
-              className="fixed inset-0 bg-black opacity-30"
+              className="fixed inset-0 bg-white"
               onClick={toggleSearchModal}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.3 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
               aria-hidden="true"
+              style={{
+                backgroundImage: 'url(https://res.cloudinary.com/drxykwg61/image/upload/v1745330858/pzkfdkavvwvqe8v6cip8.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                opacity: 0.05
+              }}
             ></motion.div>
 
             {/* Search Modal Content */}
             <motion.div
-              className="relative bg-white w-full h-full sm:w-11/12 sm:max-w-md sm:h-auto p-6 rounded-none sm:rounded-lg shadow-lg z-60"
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
+              className="relative w-full h-full flex flex-col items-center justify-center px-6 md:px-20 z-60"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {/* Close Button */}
+              {/* Close Button - Moved to ensure no overlap */}
               <button
                 onClick={toggleSearchModal}
-                className="absolute top-4 right-4 text-[#9551F2] hover:text-[#9551F2] focus:outline-none"
+                className="absolute top-8 right-8 text-[#0821D2] hover:text-[#B2EE17] focus:outline-none transition-colors duration-300 z-10"
                 aria-label="Close Search"
               >
-                <i className="fa-solid fa-circle-xmark text-2xl"></i>
+                <i className="fa-solid fa-circle-xmark text-3xl"></i>
               </button>
 
               {/* Search Input */}
-              <div className="mt-10">
-                <div className="relative flex items-center border-2 border-[#9551F2] overflow-hidden w-full shadow-xl mb-8">
+              <div className="w-full max-w-4xl mx-auto mt-8">
+                <div className="relative flex items-center border-b-4 border-[#0821D2] w-full mb-16">
                   <input
                     type="search"
                     placeholder="Search Product"
-                    className="w-full p-3 pr-10 text-black outline-none shadow-lg"
+                    className="w-full py-6 px-4 pr-16 text-[#0821D2] text-2xl bg-transparent outline-none placeholder:text-[#0821D2]/60 quantico-bold"
                     value={searchQuery}
                     onChange={handleSearchChange}
                     aria-label="Search"
                     onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit()}
+                    autoFocus
                   />
                   <button
                     onClick={handleSearchSubmit}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center justify-center"
+                    className="absolute right-4 flex items-center justify-center text-[#B2EE17]"
                     aria-label="Submit Search"
                   >
-                    <i className="fa-solid fa-magnifying-glass text-[#7E32EACC] text-xl"></i>
+                    <i className="fa-solid fa-magnifying-glass text-3xl"></i>
                   </button>
                 </div>
               </div>
 
-              {/* Search Results */}
-              <div className="mt-4 grid grid-cols-2 gap-4">
-                {filteredProducts.length > 0 ? (
+              {/* Search Results with Loading State */}
+              <div className="w-full max-w-6xl mt-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+                {searchQuery && filteredProducts.length === 0 ? (
+                  // Loading placeholders
+                  [...Array(4)].map((_, index) => (
+                    <div key={index} className="loading-placeholder">
+                      <div className="loading-image rounded-lg mb-4"></div>
+                      <div className="loading-title"></div>
+                      <div className="loading-text"></div>
+                    </div>
+                  ))
+                ) : filteredProducts.length > 0 ? (
+                  // Results
                   filteredProducts.slice(0, 4).map((product) => (
                     <Link
                       to={`/products/${product.slug}`}
                       key={product._id}
-                      className="block"
+                      className="block transform transition-transform duration-300 hover:scale-105"
                       onClick={toggleSearchModal}
                     >
-                      <div className="border p-2 flex flex-col items-center">
+                      <div className="bg-[#0821D2]/10 p-4 rounded-lg flex flex-col items-center">
                         <img
                           src={product.thumbnail}
                           alt={product.title}
-                          className="w-full h-auto object-cover mb-2"
+                          className="w-full h-auto object-cover mb-4 rounded-lg"
                           loading="lazy"
                         />
                         <div className="text-center">
-                          <p className="font-bold text-base">{product.title}</p>
-                          <p className="mt-2 text-sm px-4 py-2 rounded-full bg-[#9551F2] text-white font-bold">
-                            ${product.variants[0].price.toFixed(2)}
+                          <p className="quantico-bold text-black text-lg">{product.title}</p>
+                          <p className="mt-3 px-4 py-2 rounded-full bg-[#B2EE17] text-[#0821D2] quantico-bold inline-block">
+                            {convertAndFormatPrice(product.variants[0].price)}
                           </p>
                         </div>
                       </div>
                     </Link>
                   ))
                 ) : (
-                  <div className="col-span-2 flex flex-col items-center justify-center mt-10">
-                    <i className="fa-solid fa-face-frown text-4xl text-[#9551F2] mb-4"></i>
-                    <p className="text-black text-lg">No Results Found</p>
+                  <div className="col-span-2 md:col-span-4 flex flex-col items-center justify-center mt-10">
+                    <i className="fa-solid fa-face-frown text-5xl text-[#0821D2] mb-6"></i>
+                    <p className="text-[#0821D2] text-xl quantico-regular">No Results Found</p>
                   </div>
                 )}
               </div>
@@ -474,7 +492,7 @@ const Navbar = () => {
               {/* Close Button */}
               <button
                 onClick={toggleMegaMenu}
-                className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 focus:outline-none"
+                className="absolute top-4 right-4 text-white hover:text-[#B2EE17] focus:outline-none transition-colors duration-300"
                 aria-label="Close Mega Menu"
               >
                 <i className="fa-solid fa-circle-xmark text-3xl"></i>

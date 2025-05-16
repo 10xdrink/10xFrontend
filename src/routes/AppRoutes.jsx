@@ -16,6 +16,8 @@ import BlogPage from "../pages/BlogPage";
 import BlogPostPage from "../pages/BlogPostPage";
 import ErrorPage from "../pages/ErrorPage";
 import ThankYouPage from "../pages/ThankYouPage";
+import PaymentCancelledPage from "../pages/PaymentCancelledPage";
+import PaymentFailedPage from "../pages/PaymentFailedPage";
 import AboutUs from "../pages/AboutUs";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import UserDashboard from "../pages/UserDashboard";
@@ -26,6 +28,13 @@ import UserReview from "../components/UserReview";
 import DeleteAccountPage from "../pages/DeleteAccountPage";
 import DeleteAccountSuccessPage from "../pages/DeleteAccountSuccessPage";
 import ConfirmDeleteAccountPage from "../pages/ConfirmDeleteAccountPage";
+import BillDeskTestPage from "../pages/BillDeskTestPage";
+import BillDeskPayment from "../components/BillDeskPayment";
+import RouteDocumentation from "../pages/RouteDocumentation"; // Import the RouteDocumentation page
+import TermsAndConditions from "../pages/TermsAndConditions";
+import RefundCancellationPolicy from "../pages/RefundCancellationPolicy";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
+import CookieSettings from "../pages/CookieSettings";
 
 
 
@@ -47,10 +56,19 @@ const AppRoutes = () => {
       />{" "}
       {/* Corrected path */}
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/billdesk-test" element={<BillDeskTestPage />} />
+      <Route path="/payment/billdesk/:orderId" element={<BillDeskPayment />} />
       <Route path="/blog" element={<BlogPage />} />
       <Route path="/blog/:slug" element={<BlogPostPage />} />
       <Route path="/thank-you" element={<ThankYouPage />} />
+      <Route path="/payment/cancelled" element={<PaymentCancelledPage />} />
+      <Route path="/payment/failed" element={<PaymentFailedPage />} />
       <Route path="/edit-address" element={<EditAddress />} />
+      <Route path="/route-documentation" element={<RouteDocumentation />} /> {/* Add the Route Documentation page */}
+      <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+      <Route path="/refund-cancellation-policy" element={<RefundCancellationPolicy />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/cookie-settings" element={<CookieSettings />} />
       <Route path="*" element={<ErrorPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       {/* Authentication Routes */}

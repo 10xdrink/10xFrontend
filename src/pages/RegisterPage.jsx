@@ -1,6 +1,7 @@
 // src/pages/RegisterPage.jsx
 
 import React, { useState, useContext } from "react";
+import { Helmet } from "react-helmet";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { AuthContext } from "../context/AuthContext";

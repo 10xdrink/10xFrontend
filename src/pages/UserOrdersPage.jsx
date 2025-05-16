@@ -6,6 +6,35 @@ import { AuthContext } from "../context/AuthContext";
 import Pagination from "../components/Pagination";
 import OrderDetailsModal from "../components/OrderDetailsModal";
 
+// Helper function to format price with currency symbol
+const convertAndFormatPrice = (amount) => {
+  if (!amount && amount !== 0) return "₹0.00";
+  
+  // Check if it's already a string with currency symbol
+  if (typeof amount === 'string' && amount.includes('₹')) {
+    // Extract the numeric value
+    const numericValue = parseFloat(amount.replace(/[^\d.-]/g, ''));
+    if (isNaN(numericValue)) return "₹0.00";
+    
+    // Format it using Indian convention
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 2
+    }).format(numericValue);
+  }
+  
+  // Convert to number if it's a string
+  const numericAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
+  
+  // Format using Indian convention
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 2
+  }).format(numericAmount);
+};
+
 const UserOrdersPage = () => {
   const { user, loading: authLoading } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
@@ -209,7 +238,7 @@ const UserOrdersPage = () => {
                         <strong>Date:</strong> {format(new Date(order.createdAt), "PPP")}
                       </p>
                       <p className="mb-4 text-lg md:text-xl quantico-regular">
-                        <strong>Total Amount:</strong> ${order.finalAmount.toFixed(2)}
+                        <strong>Total Amount:</strong> {convertAndFormatPrice(order.finalAmount || order.totalAmount || 0)}
                       </p>
                       <div className="flex justify-end">
                         <button

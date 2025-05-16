@@ -66,12 +66,10 @@ const Contact = () => {
 
     try {
       // Use environment variable for backend URL
-      const backendURL =
-        process.env.NODE_ENV === "production"
-          ? "/api/contact"
-          : "http://localhost:5000/api/contact"; // Replace with your backend URL
+      const backendURL = `${import.meta.env.VITE_API_URL}/contact`;
 
-      const response = await axios.post(`${backendURL}/`, {
+      // Send the request to the API
+      const response = await axios.post(backendURL, {
         name: formData.name,
         email: formData.email,
         message: formData.message,
@@ -118,34 +116,40 @@ const Contact = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row justify-between items-start w-full mx-auto py-28 px-8 text-black bg-[#F0F0F0] pl-20 pr-20">
+    <div className="flex flex-col md:flex-row justify-between items-start w-full mx-auto py-12 px-6 sm:px-6 lg:px-20 text-black bg-[#F0F0F0]">
       {/* Contact Information */}
       <div className="w-full md:w-1/2">
-        <h1 className="text-7xl quantico-bold-italic mt-1 uppercase mb-4 animate-fadeIn">
+        <h1 className="text-4xl sm:text-5xl lg:text-7xl quantico-bold-italic mt-1 uppercase mb-4 animate-fadeIn">
           Get in touch
         </h1>
-        <p className="mb-8 pt-sans-bold text-lg capitalize animate-fadeIn delay-200">
+        <p className="mb-8 pt-sans-bold text-base sm:text-lg capitalize animate-fadeIn delay-200">
           Have a question or need assistance? Contact us!
         </p>
         <div className="space-y-4">
           {/* Email */}
           <div className="flex items-center space-x-3 animate-slideInLeft delay-400">
-            <img src={Email} alt="Email" className="w-6 h-6" />
-            <span className="pt-sans-regular text-base">
+            <img src={Email} alt="Email" className="w-6 h-6 sm:w-8 sm:h-8" />
+            <span className="pt-sans-regular text-sm sm:text-base">
               contact@10xenergy.com
             </span>
           </div>
 
           {/* Phone */}
           <div className="flex items-center space-x-3 animate-slideInLeft delay-600">
-            <img src={Phone} alt="Phone" className="w-6 h-6" />
-            <span className="pt-sans-regular text-base">+1 (555) 123-4567</span>
+            <img src={Phone} alt="Phone" className="w-6 h-6 sm:w-8 sm:h-8" />
+            <span className="pt-sans-regular text-sm sm:text-base">
+              +1 (555) 123-4567
+            </span>
           </div>
 
           {/* Address */}
           <div className="flex items-center space-x-3 animate-slideInLeft delay-800">
-            <img src={Location} alt="Location" className="w-6 h-6" />
-            <span className="pt-sans-regular text-base">
+            <img
+              src={Location}
+              alt="Location"
+              className="w-6 h-6 sm:w-8 sm:h-8"
+            />
+            <span className="pt-sans-regular text-sm sm:text-base">
               123 Main St, Anytown, USA
             </span>
           </div>
@@ -178,7 +182,10 @@ const Contact = () => {
 
           {/* Name Input */}
           <div className="flex flex-col">
-            <label htmlFor="name" className="mb-2 pt-sans-regular">
+            <label
+              htmlFor="name"
+              className="mb-2 pt-sans-regular text-sm sm:text-base"
+            >
               Name
             </label>
             <input
@@ -187,7 +194,7 @@ const Contact = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="border border-gray-400 p-3 rounded-md focus:outline-none focus:border-[#0821D2] transition-all duration-300 pt-sans-regular shadow-sm focus:shadow-md"
+              className="border border-gray-400 p-3 rounded-md focus:outline-none focus:border-[#0821D2] transition-all duration-300 pt-sans-regular shadow-sm focus:shadow-md w-full"
               placeholder="Your Name"
               required
             />
@@ -195,7 +202,10 @@ const Contact = () => {
 
           {/* Email Input */}
           <div className="flex flex-col">
-            <label htmlFor="email" className="mb-2 pt-sans-regular">
+            <label
+              htmlFor="email"
+              className="mb-2 pt-sans-regular text-sm sm:text-base"
+            >
               Email
             </label>
             <input
@@ -210,7 +220,7 @@ const Contact = () => {
                 )
                   ? "border-red-500"
                   : "border-gray-400"
-              } p-3 rounded-md focus:outline-none focus:border-[#0821D2] transition-all duration-300 pt-sans-regular shadow-sm focus:shadow-md`}
+              } p-3 rounded-md focus:outline-none focus:border-[#0821D2] transition-all duration-300 pt-sans-regular shadow-sm focus:shadow-md w-full`}
               placeholder="you@example.com"
               required
             />
@@ -218,7 +228,10 @@ const Contact = () => {
 
           {/* Message Input */}
           <div className="flex flex-col">
-            <label htmlFor="message" className="mb-2 pt-sans-regular">
+            <label
+              htmlFor="message"
+              className="mb-2 pt-sans-regular text-sm sm:text-base"
+            >
               Message
             </label>
             <textarea
@@ -232,7 +245,7 @@ const Contact = () => {
                 )
                   ? "border-red-500"
                   : "border-gray-400"
-              } p-3 rounded-md focus:outline-none focus:border-[#0821D2] transition-all duration-300 pt-sans-regular shadow-sm focus:shadow-md resize-none`}
+              } p-3 rounded-md focus:outline-none focus:border-[#0821D2] transition-all duration-300 pt-sans-regular shadow-sm focus:shadow-md resize-none w-full`}
               placeholder="Enter your message..."
               rows="5"
               required
@@ -247,119 +260,21 @@ const Contact = () => {
               name="termsAgreed"
               checked={formData.termsAgreed}
               onChange={handleChange}
-              className="custom-checkbox h-5 w-5 rounded border-gray-400 focus:ring-[#0821D2] transition-transform duration-200"
+              className="custom-checkbox h-5 w-5 sm:h-6 sm:w-6 rounded border-gray-400 focus:ring-[#0821D2] transition-transform duration-200"
               required
             />
-            <label htmlFor="termsAgreed" className="text-base">
+            <label htmlFor="termsAgreed" className="text-sm sm:text-base">
               <p className="roboto-regular">I agree to the Terms</p>
             </label>
           </div>
-
-          <style jsx>{`
-            .custom-checkbox {
-              appearance: none;
-              background-color: #fff;
-              border: 2px solid #000000;
-              width: 1.25rem;
-              height: 1.25rem;
-              display: inline-block;
-              position: relative;
-              cursor: pointer;
-              transition: background-color 0.3s, border-color 0.3s;
-            }
-
-            .custom-checkbox:checked {
-              background-color: #0821d2;
-              border-color: #0821d2;
-              transform: scale(1.1);
-            }
-
-            .custom-checkbox:checked::after {
-              content: "";
-              position: absolute;
-              top: 2px;
-              left: 6px;
-              width: 6px;
-              height: 12px;
-              border: solid white;
-              border-width: 0 2px 2px 0;
-              transform: rotate(45deg);
-            }
-
-            /* Animations */
-            @keyframes fadeIn {
-              from {
-                opacity: 0;
-                transform: translateY(-10px);
-              }
-              to {
-                opacity: 1;
-                transform: translateY(0);
-              }
-            }
-
-            @keyframes fadeInUp {
-              from {
-                opacity: 0;
-                transform: translateY(20px);
-              }
-              to {
-                opacity: 1;
-                transform: translateY(0);
-              }
-            }
-
-            @keyframes slideInLeft {
-              from {
-                opacity: 0;
-                transform: translateX(-20px);
-              }
-              to {
-                opacity: 1;
-                transform: translateX(0);
-              }
-            }
-
-            .animate-fadeIn {
-              animation: fadeIn 0.5s ease-out forwards;
-            }
-
-            .animate-fadeInUp {
-              animation: fadeInUp 0.5s ease-out forwards;
-            }
-
-            .animate-slideInLeft {
-              animation: slideInLeft 0.5s ease-out forwards;
-            }
-
-            .delay-200 {
-              animation-delay: 0.2s;
-            }
-
-            .delay-400 {
-              animation-delay: 0.4s;
-            }
-
-            .delay-600 {
-              animation-delay: 0.6s;
-            }
-
-            .delay-800 {
-              animation-delay: 0.8s;
-            }
-
-            .delay-1000 {
-              animation-delay: 1s;
-            }
-          `}</style>
 
           {/* Submit Button */}
           <div>
             <button
               type="submit"
-              className={`quantico-bold-italic text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-8 font-bold focus:outline-none hover:shadow-lg hover:scale-105 transform transition-transform duration-300 ease-in-out ${
+              className={`quantico-bold-italic text-lg sm:text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-6 sm:px-8 font-bold focus:outline-none hover:shadow-lg hover:scale-105 transform transition-transform duration-300 ease-in-out ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              } w-full sm:w-auto`}
               disabled={loading}
             >
               {loading ? (
@@ -384,7 +299,7 @@ const Contact = () => {
                       d="M4 12a8 8 0 018-8v8H4z"
                     ></path>
                   </svg>
-                  Sending...
+                  <span>Sending...</span>
                 </div>
               ) : (
                 "SEND"
@@ -394,28 +309,8 @@ const Contact = () => {
         </form>
       </div>
 
-      {/* Additional Styles for Animations */}
-      <style jsx>{`
-        /* Keyframes for animations are already defined above */
+      {/* CSS is handled in a separate CSS file or through Tailwind classes */}
 
-        /* Optional: Add a shake animation for error state */
-        .shake {
-          animation: shake 0.5s;
-        }
-
-        @keyframes shake {
-          0%,
-          100% {
-            transform: translateX(0);
-          }
-          25% {
-            transform: translateX(-5px);
-          }
-          75% {
-            transform: translateX(5px);
-          }
-        }
-      `}</style>
     </div>
   );
 };

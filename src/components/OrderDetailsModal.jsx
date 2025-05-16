@@ -8,6 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper';
+import { convertAndFormatPrice } from '../utils/currencyUtils';
 
 /**
  * OrderDetailsModal Component
@@ -191,7 +192,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
 
                         {/* Price */}
                         <div className="quantico-regular text-lg text-gray-700 mt-4 md:mt-0">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          {convertAndFormatPrice((item.price || 0) * (item.quantity || 1))}
                         </div>
                       </div>
                     </SwiperSlide>
@@ -236,7 +237,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
 
                     {/* Price */}
                     <div className="quantico-regular text-lg text-gray-700 mt-4 md:mt-0">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {convertAndFormatPrice((item.price || 0) * (item.quantity || 1))}
                     </div>
                   </li>
                 ))}
@@ -267,31 +268,30 @@ const OrderDetailsModal = ({ order, onClose }) => {
             </div>
           </section>
 
-          {/* Summary */}
-          <section aria-labelledby="order-summary-title">
-            <h3
-              id="order-summary-title"
-              className="text-xl font-semibold quantico-bold-italic mb-4 text-gray-800 border-b pb-2"
-            >
-              Summary
-            </h3>
-            <div className="space-y-2 quantico-regular text-lg text-gray-700">
+          {/* Order Summary */}
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+            <div className="space-y-2">
               <div className="flex justify-between">
-                <span>Total Amount:</span>
-                <span>${order.totalAmount.toFixed(2)}</span>
+                <span>Subtotal</span>
+                <span>₹{order.totalAmountINR}</span>
               </div>
-              {order.discount > 0 && (
-                <div className="flex justify-between text-red-600">
-                  <span>Discount:</span>
-                  <span>-${order.discount.toFixed(2)}</span>
+              {order.discountINR > 0 && (
+                <div className="flex justify-between text-green-600">
+                  <span>Discount</span>
+                  <span>-₹{order.discountINR}</span>
                 </div>
               )}
-              <div className="flex justify-between font-semibold">
-                <span>Final Amount:</span>
-                <span>${order.finalAmount.toFixed(2)}</span>
+              <div className="flex justify-between">
+                <span>Shipping</span>
+                <span>₹{order.shippingFee}</span>
+              </div>
+              <div className="flex justify-between font-semibold pt-2 border-t">
+                <span>Total</span>
+                <span>₹{order.finalAmount}</span>
               </div>
             </div>
-          </section>
+          </div>
 
           {/* Payment Details */}
           {order.paymentDetails && order.paymentDetails.transactionId && (
@@ -307,7 +307,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
                   <strong>Transaction ID:</strong> {order.paymentDetails.transactionId}
                 </p>
                 <p>
-                  <strong>Payment Fee:</strong> ${order.paymentDetails.fee.toFixed(2)}
+                  <strong>Payment Fee:</strong> {convertAndFormatPrice(order.paymentDetails.fee)}
                 </p>
               </div>
             </section>
@@ -582,40 +582,18 @@ export default OrderDetailsModal;
  */
 
 /**
- * Additional Notes:
- *
+ * Component Features:
+ * 
  * 1. **Swiper Integration:**
  *    - The Swiper library is used to create a responsive slider for the order items.
  *    - The `Navigation` and `Pagination` modules are imported to add navigation arrows and pagination dots.
- *    - Custom navigation buttons are implemented using `useRef` to position them outside the item box and style them appropriately.
+ *    - Custom navigation buttons are implemented using `useRef` to position them outside the item box.
  *    - `slidesPerView` is set to `1` to ensure each slide displays a single, full-width item.
  *    - `spaceBetween` adds spacing between slides.
  *    - `pagination={{ clickable: true }}` enables clickable pagination dots.
- *
+ * 
  * 2. **Conditional Rendering:**
- *    - If there are multiple items (`order.items.length > 1`), the items are displayed within the Swiper slider.
- *    - If there's only one item, it is displayed in a standard list format without the slider.
- *
- * 3. **Styling Adjustments:**
- *    - Navigation buttons are positioned outside the Swiper container and styled with a smaller size and branding gradient.
- *    - Item details (`Quantity`, `Variant`, `Packaging`) are now arranged horizontally with smaller font sizes.
- *    - Ensured that all interactive elements like buttons and links use the branding color (`#0821D2`) for consistency.
- *
- * 4. **Accessibility Enhancements:**
- *    - ARIA attributes and roles are used to improve screen reader compatibility.
- *    - Keyboard navigation is supported, allowing users to close the modal using the `Escape` key or by clicking outside the modal area.
- *
- * 5. **Responsive Design:**
- *    - Tailwind's responsive utility classes ensure that the modal and its content adapt gracefully to different screen sizes.
- *
- * 6. **PropTypes Validation:**
- *    - Comprehensive PropTypes are defined to ensure that the component receives the correct data types, enhancing reliability and maintainability.
- *
- * 7. **Performance Optimizations:**
- *    - The use of `useRef` for modal and navigation buttons ensures optimal performance by avoiding unnecessary re-renders.
- *
- * 8. **Removal of Unnecessary Sections:**
- *    - As per your instructions, the **Customer Support**, **Additional Information**, and **Footer Close Button** sections have been removed to streamline the modal.
- *
- * Feel free to further customize the component as per your specific requirements. If you encounter any issues or need additional features, don't hesitate to ask!
+ *    - If there are multiple items (`order.items.length > 1`), items are displayed in a Swiper slider.
+ *    - If there's only one item, it's displayed in a standard list format without the slider.
+ *    - Related sections (payment details, tracking, related orders, reviews) only appear when data exists.
  */

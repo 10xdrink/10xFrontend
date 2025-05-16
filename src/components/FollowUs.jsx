@@ -3,7 +3,6 @@ import VD1 from "../assets/VD1.png";
 import VD2 from "../assets/VD2.png";
 import LimeImageButton from "../assets/LimeImage.png";
 
-
 const FollowUs = () => {
   const images = [
     VD1,
@@ -85,16 +84,17 @@ const FollowUs = () => {
   };
 
   return (
-    <div className="main-div flex bg-[#EEEEEE] py-12">
+    // Add `hidden md:flex` to hide on mobile and show on medium+ screens
+    <div className="main-div hidden md:flex bg-[#EEEEEE] py-12">
       <div className="left-col w-1/2">
         {/* Title and Description */}
-        <div className="text-start mb-12 w-full  px-20 py-12">
+        <div className="text-start mb-12 w-full px-20 py-12">
           <div className="txt-container">
             <hr className="horizontal-carousel-hr border-0 bg-black my-2 w-[80%]" />
             <h1 className="text-7xl font-bold uppercase tracking-wider text-black quantico-bold-italic">
-            follow us <br/>on socials
+              follow us <br /> on socials
             </h1>
-            <hr className="horizontal-carousel-hr border-0  my-2 bg-black w-[80%]" />
+            <hr className="horizontal-carousel-hr border-0 my-2 bg-black w-[80%]" />
             <p className="text-lg pt-sans-regular mt-4">
               Take a look at our expansive collection.
             </p>
@@ -110,9 +110,9 @@ const FollowUs = () => {
               </button>
             </div>
             <img
-              className="w-28 h-18 -mt-24 -ml-16 "
+              className="w-28 h-18 -mt-24 -ml-16"
               src={LimeImageButton}
-              alt=""
+              alt="Lime Button"
             />
           </div>
         </div>
@@ -141,7 +141,7 @@ const FollowUs = () => {
                   <img
                     src={img}
                     alt={`Slide ${index + 1}`}
-                    className=" w-full h-auto object-cover rounded"
+                    className="w-full h-auto object-cover rounded"
                   />
                 </div>
               ))}
@@ -172,13 +172,13 @@ const FollowUs = () => {
                   onClick={prevSlide}
                   className="bg-transparent py-2 px-4 border text-[#9857F3] border-[#9857F3] hover:bg-[#9857F3] hover:text-white transition duration-300"
                 >
-                  <i class="fa-solid fa-arrow-left"></i>
+                  <i className="fa-solid fa-arrow-left"></i>
                 </button>
                 <button
                   onClick={nextSlide}
                   className="bg-transparent py-2 px-4 border text-[#9857F3] border-[#9857F3] hover:bg-[#9857F3] hover:text-white transition duration-300"
                 >
-                  <i class="fa-solid fa-arrow-right"></i>
+                  <i className="fa-solid fa-arrow-right"></i>
                 </button>
               </div>
             </div>

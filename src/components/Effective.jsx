@@ -1,6 +1,6 @@
 import React from "react";
 import EffectiveProduct from "../assets/EffectiveProduct.png";
-import mango from "../assets/mango.png";
+import DiscoverColl from "../assets/DiscoverColl.png";
 
 const Effective = () => {
   return (
@@ -11,9 +11,14 @@ const Effective = () => {
           backgroundImage: `url(${EffectiveProduct})`, // Replace with your actual image URL
         }}
       >
-        <div className="left-col w-1/2">
-          <img className="w-[70%] shuttle-light" src={mango} alt="Mango Bottle" />
-        </div>
+<div className="left-col w-1/2">
+  <img
+    className="w-[70%] shuttle-light"
+    src="https://res.cloudinary.com/dsellziit/image/upload/v1744112146/Lime_1_ju8nl0.png"
+    alt="Lime Charge"
+  />
+</div>
+
 
         <div className="right-col w-1/2">
           <div className="top">

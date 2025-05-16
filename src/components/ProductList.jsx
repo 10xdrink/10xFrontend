@@ -12,6 +12,7 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import api from "../utils/api"; // Import the API utility
+import { convertAndFormatPrice } from '../utils/currencyUtils';
 
 const ProductList = () => {
   const { addToCart, error: cartError } = useContext(CartContext); // Extract cartError
@@ -217,7 +218,7 @@ const ProductList = () => {
               {/* Variants Filter */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-2 pt-sans-bold">Variants</h3>
-                {["60ml", "120ml", "250ml", "Pack of 5", "Pack of 10", "5 Liters", "10 Liters"].map((variant) => (
+                {["Pack of 2 (60ml)"].map((variant) => (
                   <div key={variant} className="checkbox-wrapper-15 mb-2 flex items-center">
                     <input
                       className="inp-cbx"
@@ -242,7 +243,7 @@ const ProductList = () => {
               {/* Packaging Filter */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-2 pt-sans-bold">Packaging</h3>
-                {["Bottle"].map((pack) => (
+                {["Bottle", "Box", "Canister"].map((pack) => (
                   <div key={pack} className="flex items-center mb-2 custom-radio">
                     <input
                       type="radio"
@@ -317,7 +318,7 @@ const ProductList = () => {
                           <img
                             src={product.thumbnail}
                             alt={product.title}
-                            className="w-full h-auto object-cover mb-4 transition-opacity duration-500 ease-in-out"
+                            className="w-full h-auto object-cover mb-4 transition-opacity duration-500 ease-in-out rounded-lg"
                             loading="lazy"
                           />
                           {/* Secondary Image */}
@@ -325,7 +326,7 @@ const ProductList = () => {
                             <img
                               src={product.images[0]}
                               alt={`${product.title} Preview`}
-                              className="w-full h-auto object-cover mb-4 absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+                              className="w-full rounded-lg h-auto object-cover mb-4 absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
                               loading="lazy"
                             />
                           )}
@@ -336,8 +337,8 @@ const ProductList = () => {
                         <p className="text-sm md:text-md mb-2">
                           {product.variants.map((v) => v.size).join(", ")}
                         </p>
-                        <p className="text-lg md:text-[20px] pt-sans-bold mb-4">
-                          ${product.variants[0].price.toFixed(2)}
+                        <p className="text-lg md:text-[20px] quantico-bold mb-4 ">
+                          {convertAndFormatPrice(product.variants[0].price)}
                         </p>
                       </Link>
 

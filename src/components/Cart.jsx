@@ -3,6 +3,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
+import { convertAndFormatPrice, convertUsdToInr } from '../utils/currencyUtils';
 
 const Cart = () => {
   const {
@@ -132,7 +133,7 @@ const Cart = () => {
                       {item.title}
                     </h3>
                     <p className="text-lg font-bold">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {convertAndFormatPrice(item.price * item.quantity)}
                     </p>
                   </div>
                   <p className="text-sm text-black pt-sans-regular font-bold mt-1">
@@ -198,7 +199,7 @@ const Cart = () => {
               </p>
               <p className="text-xl font-bold pt-sans-regular">
                 Cart Total:{" "}
-                <span className="pt-sans-bold">${cartTotal.toFixed(2)}</span>
+                <span className="quantico-bold">{convertAndFormatPrice(cartTotal)}</span>
               </p>
             </div>
             <Link to="/checkout">

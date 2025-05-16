@@ -1,5 +1,6 @@
 import React from "react";
-import energyBoostBG from "../assets/energyBoostBG.png";
+import DiscoverColl from "../assets/DiscoverColl.png";
+import MobileDiscoverColl from "../assets/MobileDiscoverColl.png";
 import BluePlainBackground from "../assets/Blue Plain Background.png";
 import { FaAngleRight } from "react-icons/fa";
 
@@ -32,10 +33,17 @@ const BoostEnergy = () => {
         </div>
 
         <div className="right-column w-1/2">
+          {/* Desktop version */}
           <img
-            className="w-full"
-            src={energyBoostBG}
+            className="hidden md:block w-full"
+            src={DiscoverColl}
             alt="Energy Boost Background"
+          />
+          {/* Mobile version */}
+          <img
+            className="block md:hidden w-full"
+            src={MobileDiscoverColl}
+            alt="Energy Boost Background Mobile"
           />
         </div>
       </div>

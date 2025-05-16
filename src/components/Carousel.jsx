@@ -5,9 +5,12 @@ import { Link } from "react-router-dom";
 import api from "../utils/api"; // Import the API utility
 import { CartContext } from "../context/CartContext"; // Import CartContext
 import { AuthContext } from "../context/AuthContext"; // Import AuthContext
+import { ProductContext } from "../context/ProductContext";
+import { convertAndFormatPrice } from "../utils/currencyUtils";
 import Toast from "./Toast"; // Import the Toast component
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import debounce from "lodash.debounce";
 
 const Carousel = () => {
   const carouselRef = useRef(null);
@@ -139,7 +142,7 @@ const Carousel = () => {
 
   if (loading) {
     return (
-      <div className="w-full mx-auto px-20 py-16">
+      <div className="hidden md:block w-full mx-auto px-20 py-16">
         <div className="text-center">Loading...</div>
       </div>
     );
@@ -147,7 +150,7 @@ const Carousel = () => {
 
   if (error) {
     return (
-      <div className="w-full mx-auto px-20 py-16">
+      <div className="hidden md:block w-full mx-auto px-20 py-16">
         <div className="text-center text-red-500">
           Failed to load products. Please try again later.
         </div>
@@ -156,7 +159,7 @@ const Carousel = () => {
   }
 
   return (
-    <div className="w-full mx-auto px-20 py-16">
+    <div className="hidden md:block w-full mx-auto px-20 py-16">
       {/* Title and Description */}
       <div className="text-start mb-12 w-full flex justify-between items-center">
         <div className="txt-container w-1/2">
@@ -214,8 +217,8 @@ const Carousel = () => {
                       {product.variants[0].size}
                     </p>
                   </div>
-                  <p className="text-lg text-black pt-sans-bold">
-                    ${product.variants[0].price.toFixed(2)}
+                  <p className="text-lg text-black quantico-bold">
+                    {convertAndFormatPrice(product.variants[0].price)}
                   </p>
                 </div>
               </Link>

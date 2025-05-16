@@ -12,7 +12,7 @@ import api from "../utils/api";
 import Toast from "../components/Toast";
 
 const DEFAULT_PROFILE_PICTURE =
-  "https://steelpersonaltraining.com/wp-content/uploads/2024/11/Profile-Pic-Placeholder.png";
+  "https://res.cloudinary.com/dvbbsgj1u/image/upload/v1733557889/user_profiles/exsk3gc4dudgrsbr1s8n.png";
 
 const UserDashboard = () => {
   const [hoverIndex, setHoverIndex] = useState(null);

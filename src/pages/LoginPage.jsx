@@ -1,6 +1,7 @@
 // src/pages/LoginPage.jsx
 
 import React, { useState, useContext } from "react";
+import { Helmet } from "react-helmet";
 import { AuthContext } from "../context/AuthContext";
 import LoginBG from "../assets/LoginBG.png"; // Ensure this image exists
 import { useNavigate } from "react-router-dom";
@@ -54,6 +55,11 @@ const LoginPage = () => {
       className="min-h-screen flex items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: `url(${LoginBG})` }}
     >
+      <Helmet>
+        <title>Login | 10X Energy Drink</title>
+        <meta name="description" content="Sign in to your 10X account to manage orders, view purchase history, and access exclusive offers." />
+        <meta name="keywords" content="10X login, energy drink account, customer login, sign in, user account" />
+      </Helmet>
       <div className="bg-white shadow-lg rounded-lg p-16 max-w-lg w-full h-auto min-h-[600px]">
         <SwitchTransition>
           <CSSTransition key="login" timeout={300} classNames="fade">

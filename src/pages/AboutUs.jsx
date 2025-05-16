@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import BluePlainBackground from "../assets/Blue Plain Background.png";
 import AboutImage from "../assets/About-Image.png";
 import ArrowTexture from "../assets/Arrow Texture.png";
@@ -13,7 +14,7 @@ import CyanBattery from "../assets/CyanBattery.png";
 import FirstCol from "../assets/FirstCol.png";
 import SecondCol from "../assets/SecondCol.png";
 import WithoutX from "../assets/WithoutX.png";
-import ThirdCol from "../assets/ThirdCol.png";
+import ThirdCol from "../assets/MobileAboutResult.png";
 import BlackArrow from "../assets/BlackArrow.png";
 import FaqDown from "../assets/FaqDown.png";
 import FaqUp from "../assets/FaqUp.png";
@@ -24,10 +25,16 @@ import DiscoverCollPurple from "../assets/DiscoverCollPurple.png";
 import About10XIcon2 from "../assets/About10XIcon2.png";
 import About10XIcon1 from "../assets/About10XIcon1.png";
 import About10XIcon3 from "../assets/About10XIcon3.png";
+import DiscoverCollection from "../components/DiscoverCollection";
 
 const AboutUs = () => {
   return (
     <div className="about-section">
+      <Helmet>
+        <title>About Us - 10X Formulas</title>
+        <meta name="description" content="Learn more about 10X Formulas, our mission, and our vision to provide pocket-sized nourishment for a healthier lifestyle." />
+        <meta name="keywords" content="10X Formulas, About Us, Mission, Vision, Nourishment, Health, Wellness" />
+      </Helmet>
       {/* About Hero Section */}
       <div className="about-hero grid grid-cols-1 lg:grid-cols-2 relative w-full">
         {/* Left Section with Background */}
@@ -103,7 +110,7 @@ const AboutUs = () => {
 
       {/* Our Mission and Vision */}
       <div
-        className="main-vision-mission-div -mt-2 -mb-2 flex  transform"
+        className="main-vision-mission-div -mt-2 -mb-2 flex transform"
         style={{
           backgroundImage: `url(${BluePlainBackgroundRotation})`,
           backgroundSize: "cover",
@@ -212,9 +219,10 @@ const AboutUs = () => {
               business by Kunal Gir, a prominent coach in India. Over two
               decades, Kunal trained thousands of people, including top
               celebrities, and identified a significant problem: nutritional
-              deficiencies affecting people’s mindsets. Recognizing that mindset
-              is fundamental to everything, he decided to distill his knowledge
-              into a convenient, effective solution accessible to everyone.
+              deficiencies affecting people’s mindsets. Recognizing that
+              mindset is fundamental to everything, he decided to distill his
+              knowledge into a convenient, effective solution accessible to
+              everyone.
             </p>
           </div>
           <div className="right w-1/2">
@@ -249,13 +257,12 @@ const AboutUs = () => {
               alt="Green Target"
             />
             <h1 className="text-5xl font-bold uppercase tracking-wider text-white quantico-bold-italic">
-              Kunal's <br />
-              Previous Ventures
+              Kunal's <br /> Previous Ventures
             </h1>
             <p className="text-sm sm:text-base lg:text-lg leading-relaxed pt-sans-regular mt-4 text-white">
-              Include owning supplement stores and developing a supplement line.
-              However, he realized that most nutrients should come from whole
-              foods. Despite this belief, the challenges posed by modern
+              Include owning supplement stores and developing a supplement
+              line. However, he realized that most nutrients should come from
+              whole foods. Despite this belief, the challenges posed by modern
               agriculture and depleted food supplies necessitated a product that
               could be consumed quickly.
             </p>
@@ -300,7 +307,6 @@ const AboutUs = () => {
       </div>
 
       {/* USP's Section */}
-
       <div
         className="usp-section py-10 sm:py-20 px-4 sm:px-6 lg:px-20"
         style={{
@@ -333,7 +339,6 @@ const AboutUs = () => {
                   alt="Decorative Arrow"
                 />
               </div>
-
               <div className="content text-center sm:text-left">
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-wider text-black quantico-bold-italic">
                   CATALYST
@@ -354,7 +359,6 @@ const AboutUs = () => {
                   alt="Decorative Arrow"
                 />
               </div>
-
               <div className="content text-center sm:text-left">
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-wider text-black quantico-bold-italic">
                   EXCELLENCE
@@ -379,7 +383,6 @@ const AboutUs = () => {
                   alt="Decorative Arrow"
                 />
               </div>
-
               <div className="content text-center sm:text-left">
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-wider text-black quantico-bold-italic">
                   CONTROL
@@ -401,7 +404,6 @@ const AboutUs = () => {
                   alt="Decorative Arrow"
                 />
               </div>
-
               <div className="content text-center sm:text-left">
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-wider text-black quantico-bold-italic">
                   POTENTIAL
@@ -431,7 +433,6 @@ const AboutUs = () => {
       <TakeCharge />
 
       {/* Rejuvenate-Section */}
-
       <div
         className="main-div-rejuvenate py-20 px-20"
         style={{
@@ -442,12 +443,11 @@ const AboutUs = () => {
       >
         <div className="top flex">
           <div className="left w-[60%]">
-            <h1 className="text-8xl font-bold  uppercase tracking-wider text-white quantico-bold-italic">
+            <h1 className="text-8xl font-bold uppercase tracking-wider text-white quantico-bold-italic">
               Rejuvenate your <br />
               body with 10x
             </h1>
           </div>
-
           <div className="right w-[40%] flex justify-end">
             <p className="text-xl pt-sans-regular text-white">
               Experience the 10X difference and take on your <br />
@@ -455,7 +455,6 @@ const AboutUs = () => {
             </p>
           </div>
         </div>
-
         <div className="bottom flex mt-12">
           <div className="div-1 w-1/3 p-8">
             <img
@@ -464,16 +463,15 @@ const AboutUs = () => {
               alt=""
             />
             <h3 className="uppercase nimbusL-bol text-white text-2xl">
-              Regenerate your cells{" "}
+              Regenerate your cells
             </h3>
             <p className="text-base pt-sans-regular text-white mt-5">
               Our advanced formula is backed by years of <br />
               research and is proven to regenerate cells,
               <br /> promoting overall health and vitality.
             </p>
-
             <button className="quantico-bold-italic text-white text-lg mt-5 uppercase">
-              learn more <i class="ml-4 fa-solid fa-angle-right"></i>
+              learn more <i className="ml-4 fa-solid fa-angle-right"></i>
             </button>
           </div>
           <div className="div-2 w-1/3 p-8">
@@ -482,17 +480,16 @@ const AboutUs = () => {
               src={About10XIcon1}
               alt=""
             />
-            <h3 className="uppercase nimbusL-bol text-white text-2xl  mt-4">
-              the ultimate energy boost{" "}
+            <h3 className="uppercase nimbusL-bol text-white text-2xl mt-4">
+              the ultimate energy boost
             </h3>
             <p className="text-base pt-sans-regular text-white mt-5">
               Boost your energy levels and stay productive
               <br /> throughout the day with our powerful and natural <br />
               brain battery.
             </p>
-
             <button className="quantico-bold-italic text-white text-lg mt-5 uppercase">
-              learn more <i class="ml-4 fa-solid fa-angle-right"></i>
+              learn more <i className="ml-4 fa-solid fa-angle-right"></i>
             </button>
           </div>
           <div className="div-3 w-1/3 p-8">
@@ -502,70 +499,25 @@ const AboutUs = () => {
               alt=""
             />
             <h3 className="uppercase nimbusL-bol text-white text-2xl mt-12">
-              Unlock your full potential{" "}
+              Unlock your full potential
             </h3>
             <p className="text-base pt-sans-regular text-white mt-5">
               Experience a renewed sense of vitality and unlock
               <br /> your full potential with our revolutionary winner’s
               <br /> shot.
             </p>
-
             <button className="quantico-bold-italic text-white text-lg mt-5 uppercase">
-              learn more <i class="ml-4 fa-solid fa-angle-right"></i>
+              learn more <i className="ml-4 fa-solid fa-angle-right"></i>
             </button>
           </div>
         </div>
       </div>
 
       {/* Discover Collection */}
-      <div>
-        <div className="main-div flex w-full">
-          <div
-            className="left-column w-1/2 pt-28 pl-20 pr-20 pb-28 flex flex-col justify-center"
-            style={{
-              backgroundImage: `url(${AvailableAtBG})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            {/* <hr className="horizontal-carousel-hr border-0 bg-white my-2 w-full" /> */}
-            <h1 className="text-8xl font-bold  uppercase tracking-wider text-black quantico-bold-italic">
-              Discover Our <br />
-              Collection of <br />
-              Products
-            </h1>
-            {/* <hr className="horizontal-carousel-hr border-0 bg-white my-2 w-full" /> */}
-            <p className="text-xl pt-sans-regular text-black mt-10">
-              Experience the 10X difference with our expansive range.
-            </p>
+      {/* Uncomment if needed:
+      <DiscoverCollection /> 
+      */}
 
-            {/* Bottom Buttons */}
-            <div className="flex space-x-4 justify-start mt-10">
-              <div className="learn-more">
-                <button
-                  className="uppercase shadow-[0_4px_10px_rgba(0,0,0,0.3)] border border-[#0821D2] quantico-bold-italic text-xl "
-                  type="button"
-                >
-                  shop now
-                </button>
-                <button
-                  className="uppercase quantico-bold-italic text-xl ml-4"
-                  type="button"
-                >
-                  see all <i class="ml-2 fa-solid fa-angle-right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="right-column w-1/2">
-            <img className="w-full" src={DiscoverCollPurple} alt="" srcset="" />
-            {/* <img className="-mt-56 -ml-36" src={About10XBottom} alt="" /> */}
-          </div>
-        </div>
-      </div>
-
-      <BlogCard />
     </div>
   );
 };

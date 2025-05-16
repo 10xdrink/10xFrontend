@@ -1,6 +1,7 @@
 // src/pages/OrderHistory.jsx
 
 import React from 'react';
+import { convertAndFormatPrice } from '../utils/currencyUtils';
 
 const OrderHistory = () => {
   // Fetch user's order history from the backend or context
@@ -28,12 +29,12 @@ const OrderHistory = () => {
             <div key={order.id} className="border p-4 rounded-md shadow">
               <h2 className="text-xl font-semibold mb-2">Order ID: {order.id}</h2>
               <p className="mb-2">Date: {order.date}</p>
-              <p className="mb-4">Total: ${order.total.toFixed(2)}</p>
+              <p className="mb-4">Total: {convertAndFormatPrice(order.total)}</p>
               <h3 className="text-lg font-semibold mb-2">Items:</h3>
               <ul className="list-disc list-inside">
                 {order.items.map((item, idx) => (
                   <li key={idx}>
-                    {item.name} - Quantity: {item.quantity} - Price: ${item.price.toFixed(2)}
+                    {item.name} - Quantity: {item.quantity} - Price: {convertAndFormatPrice(item.price)}
                   </li>
                 ))}
               </ul>

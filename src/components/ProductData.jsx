@@ -17,6 +17,7 @@ import {
   faMinus,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
+import { convertAndFormatPrice } from '../utils/currencyUtils';
 
 const ProductData = () => {
   const { slug } = useParams(); // Get slug from URL
@@ -25,7 +26,7 @@ const ProductData = () => {
   const { user } = useContext(AuthContext); // Access the user from AuthContext
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(null);
-  const [selectedPackaging, setSelectedPackaging] = useState("Bottle");
+  const [selectedPackaging, setSelectedPackaging] = useState("");
   const [accordionOpen, setAccordionOpen] = useState(null); // Initialize to null
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isPackagingOpen, setIsPackagingOpen] = useState(false);
@@ -53,6 +54,11 @@ const ProductData = () => {
             response.data.data.variants.length > 0
           ) {
             setSelectedVariant(response.data.data.variants[0]);
+          }
+          
+          // Initialize selected packaging from product's available packaging options
+          if (response.data.data.packaging && response.data.data.packaging.length > 0) {
+            setSelectedPackaging(response.data.data.packaging[0]);
           }
         } else {
           setError("Product not found.");
@@ -285,8 +291,8 @@ const ProductData = () => {
           <h1 className="text-3xl sm:text-4xl quantico-bold-italic mb-2 sm:mb-4">
             {title}
           </h1>
-          <p className="text-lg sm:text-2xl pt-sans-bold text-black mb-2">
-            ${selectedVariant ? selectedVariant.price.toFixed(2) : "0.00"}
+          <p className="text-lg sm:text-2xl quantico-bold text-black mb-2">
+            {selectedVariant ? convertAndFormatPrice(selectedVariant.price) : "₹0.00"}
           </p>{" "}
           <div className="flex items-center mb-4 text-yellow-500 space-x-1">
             {" "}
@@ -341,9 +347,9 @@ const ProductData = () => {
                   />
                 </span>
               </button>
-              {isPackagingOpen && (
+              {isPackagingOpen && product?.packaging && product.packaging.length > 0 && (
                 <div className="absolute z-10 w-full bg-white shadow-lg  border border-t-0 border-black">
-                  {["Bottle", "Box", "Canister"].map((option) => (
+                  {product.packaging.map((option) => (
                     <div
                       key={option}
                       className="pt-sans-regular cursor-pointer p-2 sm:p-3 hover:bg-gray-100 text-left"
@@ -418,8 +424,8 @@ const ProductData = () => {
               Add to Cart
             </button>
           </div>
-          <p className="text-sm text-center mt-2 pt-sans-regular">
-            Free shipping over $50
+          <p className="text-sm text-center mt-2 roboto-regular">
+            <span className="pt-sans-regular">Free shipping over</span> ₹4,150
           </p>
           {/* Accordion Sections */}
           <div className="mt-6 sm:mt-8">

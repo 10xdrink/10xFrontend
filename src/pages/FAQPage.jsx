@@ -1,10 +1,16 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import FAQs from "../components/FAQs";
 
 
 const FAQPage = () => {
   return (
     <div>
+      <Helmet>
+        <title>Frequently Asked Questions | 10X Energy Drink</title>
+        <meta name="description" content="Find answers to commonly asked questions about 10X energy drinks, ingredients, usage, and more. Get the information you need quickly and easily." />
+        <meta name="keywords" content="10X FAQ, energy drink questions, 10X ingredients, energy drink usage, common questions" />
+      </Helmet>
       {/* FAQ-Hero  Section*/}
       <div className="py-36 px-20 w-full flex faq-hero">
         <div className="title-section w-1/2">

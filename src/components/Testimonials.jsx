@@ -5,66 +5,88 @@ import BluePlainBackground from "../assets/Blue Plain Background.png";
 import TestimonialBG from "../assets/TestimonialBG.png";
 import avatar from "../assets/avatar.png";
 
-
 const Testimonials = () => {
   const testimonials = [
     {
       id: 1,
-      name: "Name Surname",
-      position: "Position, Company name",
+      name: "Emily Johnson",
+      position: "Marketing Manager, TechSolutions Inc.",
       companyLogo: RelumeLogo, // Use a relevant company logo here
       testimonial:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+        "Relume has transformed our digital presence. Their team's expertise in web design and user experience has significantly increased our online engagement and lead generation.",
       img: avatar, // Use the testimonial person's image here
     },
     {
       id: 2,
-      name: "Name Surname",
-      position: "Position, Company name",
-      companyLogo: RelumeLogo,
+      name: "Michael Smith",
+      position: "CEO, InnovateX",
+      companyLogo: WebflowLogo,
       testimonial:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+        "Working with Relume was a game-changer for InnovateX. Their strategic approach and attention to detail ensured that our new website not only looks great but also performs exceptionally well.",
       img: avatar,
     },
     {
       id: 3,
-      name: "Name Surname",
-      position: "Position, Company name",
+      name: "Sophia Martinez",
+      position: "Product Designer, CreativeHub",
       companyLogo: RelumeLogo,
       testimonial:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+        "The design team at Relume truly understands the needs of modern businesses. They delivered a sleek, user-friendly interface that has received fantastic feedback from our clients.",
       img: avatar,
     },
     {
       id: 4,
-      name: "Name Surname",
-      position: "Position, Company name",
+      name: "James Lee",
+      position: "Head of Development, NextGen Apps",
       companyLogo: RelumeLogo,
       testimonial:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+        "Relume's expertise in responsive design and performance optimization has greatly improved our application's usability across all devices. Their support has been invaluable.",
       img: avatar,
     },
     {
       id: 5,
-      name: "Name Surname",
-      position: "Position, Company name",
+      name: "Olivia Brown",
+      position: "Founder, GreenEarth Initiatives",
       companyLogo: WebflowLogo,
       testimonial:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+        "As a non-profit, we needed a website that could effectively communicate our mission and engage donors. Relume delivered a beautiful and functional site that exceeded our expectations.",
       img: avatar,
     },
     {
       id: 6,
-      name: "Name Surname",
-      position: "Position, Company name",
+      name: "Daniel Wilson",
+      position: "Operations Manager, UrbanFit Gym",
       companyLogo: RelumeLogo,
       testimonial:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+        "Relume revamped our online booking system, making it more intuitive for our members. The project was completed on time and within budget, and the results speak for themselves.",
       img: avatar,
     },
   ];
 
-  // Group testimonials into chunks of 3
+  // State to manage the number of testimonials per group based on screen size
+  const [groupSize, setGroupSize] = useState(3);
+
+  // Function to determine group size based on window width
+  const determineGroupSize = () => {
+    const width = window.innerWidth;
+    if (width < 640) return 1; // Mobile
+    if (width >= 640 && width < 1024) return 2; // Tablet
+    return 3; // Desktop
+  };
+
+  // Update group size on initial render and window resize
+  useEffect(() => {
+    const updateGroupSize = () => {
+      setGroupSize(determineGroupSize());
+    };
+
+    updateGroupSize(); // Set initial group size
+
+    window.addEventListener("resize", updateGroupSize);
+    return () => window.removeEventListener("resize", updateGroupSize);
+  }, []);
+
+  // Function to group testimonials based on current group size
   const groupTestimonials = (items, groupSize) => {
     const groups = [];
     for (let i = 0; i < items.length; i += groupSize) {
@@ -73,7 +95,7 @@ const Testimonials = () => {
     return groups;
   };
 
-  const groupedTestimonials = groupTestimonials(testimonials, 3);
+  const groupedTestimonials = groupTestimonials(testimonials, groupSize);
 
   const carouselRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -104,7 +126,9 @@ const Testimonials = () => {
   const handleScroll = () => {
     if (carouselRef.current) {
       const containerWidth = carouselRef.current.offsetWidth;
-      const newIndex = Math.round(carouselRef.current.scrollLeft / containerWidth);
+      const newIndex = Math.round(
+        carouselRef.current.scrollLeft / containerWidth
+      );
       if (newIndex !== currentIndex) {
         setCurrentIndex(newIndex);
       }
@@ -122,26 +146,27 @@ const Testimonials = () => {
   }, [currentIndex]);
 
   return (
-    <div className="w-full mx-auto px-20 py-16 bg-[#EEEEEE]">
+    <div className="w-full mx-auto px-4 py-8 bg-[#EEEEEE] sm:px-6 md:px-12 lg:px-20 lg:py-16">
       {/* Top Content */}
-      <div className="top-content flex px-20 py-12">
-        <div className="left-content w-2/3">
+      <div className="top-content flex flex-col sm:flex-row px-4 sm:px-20 sm:py-12">
+        <div className="left-content sm:w-2/3">
           <hr className="horizontal-carousel-hr border-0 bg-black my-2 w-11/12" />
-          <h1 className="text-8xl font-bold uppercase tracking-wider text-black quantico-bold-italic">
+          <h1 className="text-6xl sm:text-6xl lg:text-[85px] font-bold uppercase tracking-wider text-black quantico-bold-italic">
             Happy Customers
           </h1>
           <hr className="horizontal-carousel-hr border-0 my-2 bg-black w-11/12" />
         </div>
 
-        <div className="right-content w-1/3 flex pr-12 justify-end items-start">
-          <p className="text-lg pt-sans-regular">
-            Hear what our satisfied <br /> customers have to say
+        <div className="left-content mt-4 sm:mt-0 sm:w-1/3 flex pr-0 sm:pr-12  items-start mb-4">
+          <p className="text-[18px] sm:text-lg pt-sans-regular">
+            Hear what our satisfied <br className="hidden sm:block" /> customers
+            have to say
           </p>
         </div>
       </div>
 
       {/* Carousel Container */}
-      <div className="relative px-12">
+      <div className="relative px-4 sm:px-6 md:px-12 lg:px-12">
         {/* Testimonials Carousel */}
         <div
           ref={carouselRef}
@@ -151,33 +176,39 @@ const Testimonials = () => {
           {groupedTestimonials.map((group, groupIndex) => (
             <div
               key={groupIndex}
-              className="flex-shrink-0 w-full flex justify-center space-x-6 snap-start"
+              className="flex-shrink-0 w-full flex justify-center space-x-4 sm:space-x-6 lg:space-x-8 snap-start"
             >
               {group.map((testimonial) => (
                 <div
-                style={{
+                  key={testimonial.id}
+                  style={{
                     backgroundImage: `url(${TestimonialBG})`,
                     backgroundSize: "cover",
-                    backgroundPosition: "center", // Replace with your actual image URL
+                    backgroundPosition: "center",
                   }}
-                  key={testimonial.id}
-                  className="w-1/3 bg-white px-8 py-20 shadow-lg "
+                  className="w-full sm:w-1/2 lg:w-1/3 bg-white px-4 sm:px-8 py-8 sm:py-20 shadow-lg "
                 >
-                  <p className="text-xl mb-4">"{testimonial.testimonial}"</p>
-                  <div className="flex items-center">
+                  <p className="text-base sm:text-xl mb-4">
+                    "{testimonial.testimonial}"
+                  </p>
+                  <div className="flex items-center mt-4">
                     <img
                       src={testimonial.img}
                       alt={testimonial.name}
-                      className="w-16 h-16 mr-4"
+                      className="w-12 h-12 sm:w-16 sm:h-16 mr-3 rounded-full object-cover"
                     />
                     <div>
-                      <h3 className="font-bold text-lg">{testimonial.name}</h3>
-                      <p className="text-sm">{testimonial.position}</p>
+                      <h3 className="font-bold text-sm sm:text-lg">
+                        {testimonial.name}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-gray-600">
+                        {testimonial.position}
+                      </p>
                     </div>
                     <img
                       src={testimonial.companyLogo}
                       alt="Company Logo"
-                      className="ml-auto h-10"
+                      className="ml-auto h-6 sm:h-10 object-contain"
                     />
                   </div>
                 </div>
@@ -194,7 +225,7 @@ const Testimonials = () => {
               <span
                 key={index}
                 onClick={() => scrollToIndex(index)}
-                className={`cursor-pointer w-3 h-3 rounded-full ${
+                className={`cursor-pointer w-2 h-2 sm:w-4 sm:h-4 rounded-full ${
                   index === currentIndex ? "bg-purple-600" : "bg-gray-400"
                 }`}
               />
@@ -202,18 +233,18 @@ const Testimonials = () => {
           </div>
 
           {/* Arrows */}
-          <div className="flex space-x-4">
+          <div className="flex space-x-2 sm:space-x-4">
             <button
               onClick={prevSlide}
-              className="bg-transparent py-2 px-4 border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transition duration-300"
+              className="bg-transparent py-2 sm:py-2 px-4 sm:px-4 border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transition duration-300 "
             >
-              <i class="fa-solid fa-arrow-left"></i>
+              <i className="fa-solid fa-arrow-left text-sm sm:text-base"></i>
             </button>
             <button
               onClick={nextSlide}
-              className="bg-transparent py-2 px-4 border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transition duration-300"
+              className="bg-transparent py-2 sm:py-2 px-4 sm:px-4 border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transition duration-300 "
             >
-              <i class="fa-solid fa-arrow-right"></i>
+              <i className="fa-solid fa-arrow-right text-sm sm:text-base"></i>
             </button>
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import api from '../utils/api';
 import EnlargedX from "../assets/EnlargedX.png";
 import StayInformed from "../components/StayInformed";
@@ -15,6 +16,12 @@ const BlogPage = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [categories, setCategories] = useState(["View all"]);
   const [totalPages, setTotalPages] = useState(1);
+
+  // Meta information for the page
+  const pageTitle = "Blog | 10X Energy Drink";
+  const pageDescription = "Stay informed with the latest articles, tips, and news about 10X energy drinks, health, wellness, and performance optimization.";
+  const pageKeywords = "10X blog, energy drink articles, health tips, wellness advice, performance optimization";
+
 
   // Fetch all categories from the backend
   const fetchAllCategories = async () => {
@@ -76,6 +83,11 @@ const BlogPage = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta name="keywords" content={pageKeywords} />
+      </Helmet>
       {/* Shimmer Effect Styles */}
       <style jsx="true">{`
         @keyframes shimmer {

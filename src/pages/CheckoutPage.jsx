@@ -1,9 +1,13 @@
 // src/components/CheckoutPage.jsx
 
 import React, { useState, useContext, useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { CartContext } from "../context/CartContext";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../utils/api";
+import { convertAndFormatPrice, convertUsdToInr } from '../utils/currencyUtils';
+import { toast } from "react-hot-toast";
+import { FaMoneyBill, FaCreditCard, FaPaypal } from "react-icons/fa";
 
 const CheckoutPage = () => {
   const { cartItems, cartTotal, clearCart } = useContext(CartContext);
@@ -12,6 +16,7 @@ const CheckoutPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "", // Added phone field
     country: "",
     streetAddress: "",
     city: "",
@@ -24,6 +29,7 @@ const CheckoutPage = () => {
   const [selectedCountry, setSelectedCountry] = useState("Select one...");
   const [countrySearchTerm, setCountrySearchTerm] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [isPaymentMethodOpen, setIsPaymentMethodOpen] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("cod"); // Default to COD
   const [paymentMethodSearchTerm, setPaymentMethodSearchTerm] = useState("");
@@ -265,17 +271,16 @@ const CheckoutPage = () => {
     if (selectedAddress) {
       setSelectedSavedAddressId(addressId);
       setFormData({
-        name: selectedAddress.name || formData.name, // Assuming address includes name
-        email: selectedAddress.email || formData.email, // Assuming address includes email
-        country: selectedAddress.country,
+        ...formData,
         streetAddress: selectedAddress.street,
         city: selectedAddress.city,
         state: selectedAddress.state,
         zip: selectedAddress.zip,
+        phone: selectedAddress.phone || formData.phone, // Include phone if available
       });
-      setIsSavedAddressOpen(false);
-      setSavedAddressSearchTerm("");
-      setSaveAddress(false); // Reset saveAddress since it's a saved address
+      setSelectedCountry(selectedAddress.country);
+      setSelectedSavedAddressId(addressId);
+      // Remove the reference to the undefined setIsUsingNewAddress
     }
   };
 
@@ -289,6 +294,7 @@ const CheckoutPage = () => {
       city: "",
       state: "",
       zip: "",
+      phone: "",
     });
     setSaveAddress(false); // Reset saveAddress when using a new address
   };
@@ -362,9 +368,23 @@ const CheckoutPage = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required.";
-    if (!/\S+@\S+\.\S+/.test(formData.email))
-      newErrors.email = "Email address is invalid.";
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid";
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^[0-9]{10,15}$/.test(formData.phone.replace(/[^0-9]/g, ''))) {
+      newErrors.phone = "Please enter a valid phone number";
+    }
+
     if (!formData.country || formData.country === "Select one...")
       newErrors.country = "Country is required.";
     if (!formData.streetAddress.trim())
@@ -385,81 +405,155 @@ const CheckoutPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      setIsSubmitting(true);
-      try {
-        const orderData = {
-          shippingAddress: {
-            street: formData.streetAddress,
-            city: formData.city,
-            state: formData.state,
-            zip: formData.zip,
-            country: formData.country,
-          },
-          billingAddress: {
-            street: formData.streetAddress,
-            city: formData.city,
-            state: formData.state,
-            zip: formData.zip,
-            country: formData.country,
-          },
-          paymentMethod: selectedPaymentMethod,
-          couponCode: isCouponApplied ? couponCode.trim() : "",
-          items: cartItems.map((item) => ({
-            product:
-              typeof item.product === "string"
-                ? item.product
-                : item.product._id,
-            variant: item.variant,
-            packaging: item.packaging,
-            quantity: item.quantity,
-          })),
-        };
 
-        console.log("Order Data:", orderData);
+    // Validate form
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
 
-        const response = await api.post("/orders", orderData);
+    setIsSubmitting(true);
+    try {
+      const orderData = {
+        phone: formData.phone, // Add phone at top level
+        shippingAddress: {
+          street: formData.streetAddress,
+          city: formData.city,
+          state: formData.state,
+          zip: formData.zip,
+          country: selectedCountry, // Use selectedCountry instead of formData.country
+          phone: formData.phone, // Add phone to shipping address
+        },
+        billingAddress: {
+          street: formData.streetAddress,
+          city: formData.city,
+          state: formData.state,
+          zip: formData.zip,
+          country: selectedCountry, // Use selectedCountry instead of formData.country
+          phone: formData.phone, // Add phone to billing address
+        },
+        paymentMethod: selectedPaymentMethod,
+        couponCode: isCouponApplied ? couponCode.trim() : "",
+        items: cartItems.map((item) => ({
+          product:
+            typeof item.product === "string"
+              ? item.product
+              : item.product._id,
+          variant: item.variant,
+          packaging: item.packaging,
+          quantity: item.quantity,
+        })),
+      };
 
-        if (response.data.success) {
-          if (selectedPaymentMethod === "cod") {
-            if (saveAddress) {
-              // Save the new address
-              await api.post("/users/addresses", {
-                name: formData.name,
-                email: formData.email,
-                street: formData.streetAddress,
-                city: formData.city,
-                state: formData.state,
-                zip: formData.zip,
-                country: formData.country,
-              });
-            }
+      console.log("Order Data:", orderData);
 
-            clearCart();
-            navigate("/thank-you");
-          } else if (selectedPaymentMethod === "razorpay") {
-            const { data } = response.data; // Corrected to response.data.data
-            // Handle Razorpay payment integration here
-            // ... (Your Razorpay integration code)
+      const response = await api.post("/orders", orderData);
+
+      if (response.data.success) {
+        if (selectedPaymentMethod === "cod") {
+          if (saveAddress) {
+            // Save the new address
+            await api.post("/users/addresses", {
+              name: formData.name,
+              email: formData.email,
+              street: formData.streetAddress,
+              city: formData.city,
+              state: formData.state,
+              zip: formData.zip,
+              country: formData.country,
+              phone: formData.phone,
+            });
           }
-        } else {
-          console.error("Unexpected response structure:", response.data);
-          alert("An unexpected error occurred. Please try again.");
+
+          clearCart();
+          navigate("/thank-you");
+        } else if (selectedPaymentMethod === "billdesk") {
+            // Get the order ID from the response
+            const orderId = response.data.data._id || response.data.data.order?._id;
+            
+            if (!orderId) {
+              console.error("Order ID not found in response:", response.data);
+              alert("Could not retrieve order information. Please try again.");
+              return;
+            }
+            
+            // Save the address if requested
+            if (saveAddress) {
+              try {
+                await api.post("/users/addresses", {
+                  name: formData.name,
+                  email: formData.email,
+                  street: formData.streetAddress,
+                  city: formData.city,
+                  state: formData.state,
+                  zip: formData.zip,
+                  country: selectedCountry,
+                  phone: formData.phone,
+                });
+              } catch (addressError) {
+                console.error("Failed to save address:", addressError);
+              }
+            }
+            
+            // Initialize BillDesk payment
+            try {
+              const billDeskResponse = await api.post(`/payments/billdesk/initialize/${orderId}`);
+              
+              if (billDeskResponse.data.success) {
+                const paymentData = billDeskResponse.data.data;
+                console.log("BillDesk payment initialized successfully:", paymentData);
+                
+                // Create a form to submit to BillDesk
+                console.log('Creating form for BillDesk payment...');
+                
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = paymentData.paymentUrl;
+                
+                // Add the message parameter
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'msg';
+                input.value = paymentData.msg;
+                form.appendChild(input);
+                
+                // Add the form to the body
+                document.body.appendChild(form);
+                
+                // Submit the form to redirect to BillDesk
+                console.log('Submitting payment form to BillDesk...');
+                console.log('Payment URL:', paymentData.paymentUrl);
+                console.log('Message:', paymentData.msg);
+                form.submit();
+                
+                // BillDesk will redirect back to our return URL after payment
+              } else {
+                alert("Failed to initialize payment. Please try again.");
+              }
+            } catch (paymentError) {
+              console.error("Payment initialization failed:", paymentError);
+              alert("Payment initialization failed. Please try again.");
+            }
         }
-      } catch (error) {
-        console.error("Order Creation Failed:", error);
-        if (error.response && error.response.data) {
-          const serverMessage =
-            error.response.data.message ||
-            "An error occurred while placing the order.";
-          alert(serverMessage);
-        } else {
-          console.error("Network or server error:", error.message);
-          alert("A network error occurred. Please try again.");
-        }
-      } finally {
-        setIsSubmitting(false);
+      } else {
+        console.error("Unexpected response structure:", response.data);
+        alert("An unexpected error occurred. Please try again.");
       }
+    } catch (error) {
+      console.error("Order Creation Failed:", error);
+      if (error.response && error.response.data) {
+        const serverMessage =
+          error.response.data.message ||
+          "An error occurred while placing the order.";
+        alert(serverMessage);
+      } else {
+        console.error("Network or server error:", error.message);
+        alert("A network error occurred. Please try again.");
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -468,8 +562,8 @@ const CheckoutPage = () => {
   );
 
   const paymentMethods = [
-    { id: "cod", name: "Cash on Delivery (COD)" },
-    { id: "razorpay", name: "Razorpay" },
+    { id: "cod", name: "Cash on Delivery", icon: <FaMoneyBill /> },
+    { id: "billdesk", name: "BillDesk", icon: <FaCreditCard /> },
   ];
 
   const filteredPaymentMethods = paymentMethods.filter((method) =>
@@ -523,8 +617,98 @@ const CheckoutPage = () => {
     return data;
   }
 
+  const placeOrder = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    // Prepare order data
+    const orderData = {
+      phone: formData.phone, // Add phone at top level
+      shippingAddress: {
+        street: formData.streetAddress,
+        city: formData.city,
+        state: formData.state,
+        zip: formData.zip,
+        country: selectedCountry, // Use selectedCountry instead of formData.country
+        phone: formData.phone, // Add phone to shipping address
+      },
+      billingAddress: {
+        street: formData.streetAddress,
+        city: formData.city,
+        state: formData.state,
+        zip: formData.zip,
+        country: selectedCountry, // Use selectedCountry instead of formData.country
+        phone: formData.phone, // Add phone to billing address
+      },
+      paymentMethod: selectedPaymentMethod,
+      couponCode: isCouponApplied ? couponCode.trim() : "",
+      items: cartItems.map((item) => ({
+        product:
+          typeof item.product === "string"
+            ? item.product
+            : item.product._id,
+        variant: item.variant,
+        packaging: item.packaging,
+        quantity: item.quantity,
+      })),
+    };
+
+    try {
+      setIsProcessing(true);
+      console.log('Submitting order with data:', orderData);
+      const response = await api.post('/orders', orderData);
+      
+      if (response.data.success) {
+        // Save address if requested
+        if (saveAddress) {
+          try {
+            await api.post("/users/addresses", {
+              name: formData.name,
+              email: formData.email,
+              street: formData.streetAddress,
+              city: formData.city,
+              state: formData.state,
+              zip: formData.zip,
+              country: selectedCountry,
+              phone: formData.phone,
+            });
+          } catch (addressError) {
+            console.error("Failed to save address:", addressError);
+          }
+        }
+        
+        const orderId = response.data.data._id;
+        
+        // Handle different payment methods
+        if (selectedPaymentMethod === 'billdesk') {
+          // For BillDesk, navigate to the BillDesk payment component
+          // DO NOT clear cart here - it will be cleared after successful payment
+          navigate(`/payment/billdesk/${orderId}`);
+        } else if (selectedPaymentMethod === 'cod') {
+          // For Cash on Delivery, redirect to thank you page
+          clearCart();
+          toast.success('Order placed successfully!');
+          navigate('/thank-you');
+        }
+      } else {
+        toast.error(response.data.message || 'Failed to place order');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      toast.error(error.response?.data?.message || 'Failed to process payment');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <div className="flex flex-col md:flex-row px-20 py-20 bg-gray-100 min-h-screen">
+      <Helmet>
+        <title>Checkout | 10X Energy Drink</title>
+        <meta name="description" content="Complete your purchase of 10X energy drinks. Secure checkout process with multiple payment options." />
+        <meta name="keywords" content="checkout, payment, 10X purchase, secure payment, energy drink order" />
+      </Helmet>
       <div className="md:w-1/2 pr-8">
         <h2 className="text-5xl font-bold mb-6 quantico-bold-italic uppercase text-black">
           Complete Your Order:
@@ -568,6 +752,26 @@ const CheckoutPage = () => {
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
+          </div>
+
+          {/* Phone Number Field */}
+          <div>
+            <label className="block pt-sans-regular mb-1" htmlFor="phone">
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              className={`w-full p-3 border outline-none pt-sans-regular ${
+                errors.phone ? "border-red-500" : "border-black"
+              }`}
+              value={formData.phone}
+              onChange={handleChange}
+            />
+            {errors.phone && (
+              <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
             )}
           </div>
 
@@ -769,7 +973,7 @@ const CheckoutPage = () => {
             )}
             {isCouponApplied && (
               <p className="text-green-500 text-sm mt-1">
-                Coupon applied! You saved ${discount.toFixed(2)}.
+                Coupon applied! You saved {convertAndFormatPrice(discount)}.
               </p>
             )}
           </div>
@@ -908,15 +1112,15 @@ const CheckoutPage = () => {
           {/* Submit Button */}
           <div className="flex justify-end mt-6">
             <button
-              type="submit"
-              disabled={isSubmitting || cartItems.length === 0}
+              onClick={placeOrder}
+              disabled={isProcessing || cartItems.length === 0}
               className={`mt-4 quantico-bold-italic text-xl bg-gradient-to-r from-black to-[#0821D2] text-white py-3 px-8 font-bold focus:outline-none hover:shadow-lg transition duration-300 ease-in-out ${
-                isSubmitting || cartItems.length === 0
+                isProcessing || cartItems.length === 0
                   ? "opacity-50 cursor-not-allowed"
                   : ""
               }`}
             >
-              {isSubmitting ? "Processing..." : "Complete Purchase"}
+              {isProcessing ? "Processing..." : "Complete Purchase"}
             </button>
 
             {/* Detect My Location Button */}
@@ -984,8 +1188,8 @@ const CheckoutPage = () => {
                       </span>
                     </div>
                   </div>
-                  <span className="pt-sans-bold text-black">
-                    ${(item.price * item.quantity).toFixed(2)}
+                  <span className="quantico-bold text-black">
+                    {convertAndFormatPrice(item.price * item.quantity)}
                   </span>
                 </div>
               ))}
@@ -994,8 +1198,8 @@ const CheckoutPage = () => {
               {isCouponApplied && (
                 <div className="flex justify-between font-bold text-lg mt-4">
                   <span className="nimbusL-bol uppercase">Discount</span>
-                  <span className="pt-sans-bold text-red-500">
-                    -${discount.toFixed(2)}
+                  <span className="quantico-bold text-red-500">
+                    -{convertAndFormatPrice(discount)}
                   </span>
                 </div>
               )}
@@ -1003,8 +1207,8 @@ const CheckoutPage = () => {
               {/* Total Calculation */}
               <div className="flex justify-between font-bold text-lg mt-2 border-t pt-4">
                 <span className="nimbusL-bol uppercase">Total</span>
-                <span className="pt-sans-bold text-black">
-                  ${finalTotal.toFixed(2)}
+                <span className="quantico-bold text-black">
+                  {convertAndFormatPrice(finalTotal)}
                 </span>
               </div>
 
