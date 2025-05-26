@@ -14,7 +14,7 @@ export default function BillDeskPayment() {
       }
       try {
         // 🔑 Make sure this matches your Express mount point:
-        const res = await api.post(`/api/payments/billdesk/initialize/${orderId}`);
+        const res = await api.post(`payments/billdesk/initialize/${orderId}`);
         console.log('initialize response:', res.data);
 
         if (!res.data.success) {
