@@ -16,21 +16,28 @@ const BillDeskPayment = () => {
     try {
       console.log('Submitting direct payment to BillDesk');
       
+      // Check if we have sdkData format or direct format
+      const paymentData = data.sdkData || data;
+      
       // Validate required data
-      if (!data.paymentUrl) {
+      if (!paymentData.paymentUrl) {
         throw new Error('Payment URL is missing');
       }
-      if (!data.msg) {
+      
+      // For sdkData format, message is called 'message', for direct format it's 'msg'
+      const messageValue = paymentData.message || paymentData.msg;
+      if (!messageValue) {
         throw new Error('Message parameter is missing');
       }
-      if (!data.checksum) {
+      
+      if (!paymentData.checksum) {
         throw new Error('Checksum parameter is missing');
       }
       
       // Create a form for direct submission to BillDesk
       const form = document.createElement('form');
       form.method = 'POST';
-      form.action = data.paymentUrl;
+      form.action = paymentData.paymentUrl;
       form.target = '_self'; // Load in the same window
       form.setAttribute('accept-charset', 'UTF-8');
       
@@ -38,21 +45,47 @@ const BillDeskPayment = () => {
       const msgInput = document.createElement('input');
       msgInput.type = 'hidden';
       msgInput.name = 'msg';
-      msgInput.value = data.msg;
+      msgInput.value = messageValue;
       form.appendChild(msgInput);
       
       // Add checksum parameter
       const checksumInput = document.createElement('input');
       checksumInput.type = 'hidden';
       checksumInput.name = 'checksum';
-      checksumInput.value = data.checksum;
+      checksumInput.value = paymentData.checksum;
       form.appendChild(checksumInput);
+      
+      // Add additional parameters that BillDesk might expect
+      const merchantIdInput = document.createElement('input');
+      merchantIdInput.type = 'hidden';
+      merchantIdInput.name = 'merchantId';
+      merchantIdInput.value = paymentData.merchantId || '';
+      form.appendChild(merchantIdInput);
+      
+      // Add security ID if available
+      if (paymentData.securityId) {
+        const securityIdInput = document.createElement('input');
+        securityIdInput.type = 'hidden';
+        securityIdInput.name = 'securityId';
+        securityIdInput.value = paymentData.securityId;
+        form.appendChild(securityIdInput);
+      }
+      
+      // Add return URL explicitly
+      const returnUrlInput = document.createElement('input');
+      returnUrlInput.type = 'hidden';
+      returnUrlInput.name = 'returnUrl';
+      returnUrlInput.value = paymentData.returnUrl || (window.location.origin + '/payment/return');
+      form.appendChild(returnUrlInput);
       
       // Log what we're submitting
       console.log('Submitting form with:', {
-        url: data.paymentUrl,
-        msg: data.msg,
-        checksum: data.checksum
+        url: paymentData.paymentUrl,
+        merchantId: paymentData.merchantId,
+        securityId: paymentData.securityId,
+        msg: messageValue,
+        checksum: paymentData.checksum,
+        returnUrl: paymentData.returnUrl || (window.location.origin + '/payment/return')
       });
       
       // Add form to document and submit
@@ -108,54 +141,95 @@ const BillDeskPayment = () => {
         });
 
         if (response.data && response.data.success && response.data.data) {
-          const data = response.data.data;
-          setPaymentData(data);
-          console.log('Payment data received:', data);
+          const responseData = response.data.data;
+          console.log('Payment data received:', responseData);
           
-          // Verify all required data is present
-          if (!data.paymentUrl) {
-            console.error('Missing payment URL in response data');
-            setError('Payment URL is missing. Please contact support.');
-            return;
+          // Create a processed data object that we'll use for payment
+          let processedData = { ...responseData };
+          
+          // Check if we have sdkData in the response (new format)
+          if (responseData.sdkData) {
+            // Extract data from the sdkData object
+            const sdkData = responseData.sdkData;
+            
+            // Verify all required data is present in sdkData
+            if (!sdkData.paymentUrl) {
+              console.error('Missing payment URL in sdkData');
+              setError('Payment URL is missing. Please contact support.');
+              return;
+            }
+            
+            if (!sdkData.message) {
+              console.error('Missing message in sdkData');
+              setError('Payment message data is missing. Please contact support.');
+              return;
+            }
+            
+            if (!sdkData.checksum) {
+              console.error('Missing checksum in sdkData');
+              setError('Payment security data is missing. Please contact support.');
+              return;
+            }
+            
+            // Create a new data object with the expected structure
+            processedData = {
+              ...responseData,
+              paymentUrl: sdkData.paymentUrl,
+              msg: sdkData.message,
+              checksum: sdkData.checksum,
+              merchantId: sdkData.merchantId,
+              orderNumber: responseData.orderNumber || ''
+            };
+          } else {
+            // Old format validation
+            if (!responseData.paymentUrl) {
+              console.error('Missing payment URL in response data');
+              setError('Payment URL is missing. Please contact support.');
+              return;
+            }
+            
+            if (!responseData.msg) {
+              console.error('Missing msg in response data');
+              setError('Payment message data is missing. Please contact support.');
+              return;
+            }
+            
+            if (!responseData.checksum) {
+              console.error('Missing checksum in response data');
+              setError('Payment security data is missing. Please contact support.');
+              return;
+            }
+            
+            if (!responseData.orderNumber) {
+              console.error('Missing orderNumber in response data');
+              setError('Order ID is missing. Please contact support.');
+              return;
+            }
+            
+            // Use the original data format
+            processedData = responseData;
           }
           
-          if (!data.msg) {
-            console.error('Missing msg in response data');
-            setError('Payment message data is missing. Please contact support.');
-            return;
-          }
-          
-          if (!data.checksum) {
-            console.error('Missing checksum in response data');
-            setError('Payment security data is missing. Please contact support.');
-            return;
-          }
-          
-          if (!data.orderNumber) {
-            console.error('Missing orderNumber in response data');
-            setError('Order ID is missing. Please contact support.');
-            return;
-          }
+          // Save the processed data for use in the component
+          setPaymentData(processedData);
           
           // Debug information
-          console.log('BillDesk Form URL:', data.paymentUrl);
-          console.log('BillDesk Order ID:', data.orderNumber);
-          console.log('BillDesk message:', data.msg);
-          console.log('BillDesk checksum:', data.checksum);
+          console.log('BillDesk Form URL:', processedData.paymentUrl);
+          console.log('BillDesk Order ID:', processedData.orderNumber);
+          console.log('BillDesk message:', processedData.msg);
+          console.log('BillDesk checksum:', processedData.checksum);
           
-          // Initialize BillDesk embedded SDK after a short delay
+          // Use direct form submission without trying to use the SDK
           setTimeout(() => {
             try {
-              console.log('Initializing BillDesk SDK...');
-              
-              // Use direct form submission instead of SDK
               console.log('Using direct form submission to BillDesk');
-              submitDirectPayment(data);
+              // Pass the original response data which contains sdkData
+              submitDirectPayment(responseData);
             } catch (initError) {
-              console.error('Error initializing BillDesk SDK:', initError);
+              console.error('Error submitting payment form:', initError);
               setError('Error initializing payment gateway. Please try again.');
             }
-          }, 1000);
+          }, 500);
         } else {
           const errorMsg = response.data && response.data.message 
             ? response.data.message 
