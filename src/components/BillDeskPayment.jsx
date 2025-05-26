@@ -1,3 +1,5 @@
+// src/components/BillDeskPayment.jsx
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate }    from 'react-router-dom';
 import api                          from '../utils/api';
@@ -13,9 +15,7 @@ export default function BillDeskPayment() {
         setError('Missing order ID');
         return;
       }
-
       try {
-        // 🔑 your mount point may vary — adjust to match your server
         const res = await api.post(`/payments/billdesk/initialize/${orderId}`);
         console.log('initialize response:', res.data);
 
@@ -23,7 +23,7 @@ export default function BillDeskPayment() {
           throw new Error(res.data.message || 'Initialization failed');
         }
 
-        // **Now** data.paymentData is where we expect it
+        // now nests under data.paymentData
         const pd = res.data.data.paymentData || {};
         const { paymentUrl, msg, checksum } = pd;
 
@@ -39,18 +39,17 @@ export default function BillDeskPayment() {
         form.target = '_self';
         form.acceptCharset = 'UTF-8';
 
-        ['msg', 'checksum'].forEach((name) => {
-          const input = document.createElement('input');
-          input.type  = 'hidden';
-          input.name  = name;
-          input.value = name === 'msg' ? msg : checksum;
-          form.appendChild(input);
+        [['msg', msg], ['checksum', checksum]].forEach(([name, val]) => {
+          const inp = document.createElement('input');
+          inp.type  = 'hidden';
+          inp.name  = name;
+          inp.value = val;
+          form.appendChild(inp);
         });
 
         document.body.appendChild(form);
-        console.log('Submitting form to BillDesk:', paymentUrl);
+        console.log('Submitting to BillDesk:', paymentUrl);
         setTimeout(() => form.submit(), 100);
-
       } catch (e) {
         setError(e.message);
       }
