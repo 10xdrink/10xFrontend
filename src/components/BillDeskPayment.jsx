@@ -31,15 +31,27 @@ export default function BillDeskPayment() {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = pd.paymentUrl;
-        [['msg', pd.msg], ['checksum', pd.checksum]].forEach(([name, value]) => {
-          const inp = document.createElement('input');
-          inp.type  = 'hidden';
-          inp.name  = name;
-          inp.value = value;
-          form.appendChild(inp);
-        });
+        form.target = '_self';
+        form.acceptCharset = 'UTF-8';
+        
+        // Add the required fields for BillDesk
+        const msgInput = document.createElement('input');
+        msgInput.type = 'hidden';
+        msgInput.name = 'msg';
+        msgInput.value = pd.msg;
+        form.appendChild(msgInput);
+        
+        // Add checksum field
+        const checksumInput = document.createElement('input');
+        checksumInput.type = 'hidden';
+        checksumInput.name = 'checksum';
+        checksumInput.value = pd.checksum;
+        form.appendChild(checksumInput);
+        
+        // Append form to body and submit
         document.body.appendChild(form);
-        form.submit();
+        console.log('Submitting form to BillDesk:', pd.paymentUrl);
+        setTimeout(() => form.submit(), 100);
       } catch (e) {
         setError(e.message);
       }
