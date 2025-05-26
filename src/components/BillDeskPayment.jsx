@@ -1,3 +1,5 @@
+// src/components/BillDeskPayment.jsx
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate }    from 'react-router-dom';
 import api                          from '../utils/api';
@@ -10,53 +12,63 @@ export default function BillDeskPayment() {
   useEffect(() => {
     (async () => {
       if (!orderId) {
-        return setError('Missing order ID');
+        setError('Missing order ID');
+        return;
       }
+
       try {
-        // 🔑 Make sure this matches your Express mount point:
-        const res = await api.post(`/payments/billdesk/initialize/${orderId}`);
+        // Call your existing endpoint
+        const res = await api.post(
+          `/payments/billdesk/initialize/${orderId}`
+        );
         console.log('initialize response:', res.data);
 
         if (!res.data.success) {
           throw new Error(res.data.message || 'Initialization failed');
         }
 
-        const pd = res.data.data?.paymentData;
-        if (!pd || !pd.paymentUrl || !pd.msg || !pd.checksum) {
+        // Pull directly out of data (server returns paymentUrl, msg, checksum flat)
+        const {
+          paymentUrl,
+          msg,
+          checksum
+        } = res.data.data || {};
+
+        if (!paymentUrl || !msg || !checksum) {
           console.error('Bad payload:', res.data);
           throw new Error('Incomplete payment data');
         }
 
-        // build & auto-submit the form
+        // Build & auto-submit the form
         const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = pd.paymentUrl;
-        form.target = '_self';
+        form.method        = 'POST';
+        form.action        = paymentUrl;
+        form.target        = '_self';
         form.acceptCharset = 'UTF-8';
-        
-        // Add the required fields for BillDesk
+
+        // msg
         const msgInput = document.createElement('input');
-        msgInput.type = 'hidden';
-        msgInput.name = 'msg';
-        msgInput.value = pd.msg;
+        msgInput.type  = 'hidden';
+        msgInput.name  = 'msg';
+        msgInput.value = msg;
         form.appendChild(msgInput);
-        
-        // Add checksum field
+
+        // checksum
         const checksumInput = document.createElement('input');
-        checksumInput.type = 'hidden';
-        checksumInput.name = 'checksum';
-        checksumInput.value = pd.checksum;
+        checksumInput.type  = 'hidden';
+        checksumInput.name  = 'checksum';
+        checksumInput.value = checksum;
         form.appendChild(checksumInput);
-        
-        // Append form to body and submit
+
         document.body.appendChild(form);
-        console.log('Submitting form to BillDesk:', pd.paymentUrl);
+        console.log('Submitting form to BillDesk:', paymentUrl);
         setTimeout(() => form.submit(), 100);
+
       } catch (e) {
         setError(e.message);
       }
     })();
-  }, [orderId]);
+  }, [orderId, navigate]);
 
   if (error) {
     return (
