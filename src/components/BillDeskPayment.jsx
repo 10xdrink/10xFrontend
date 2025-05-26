@@ -1,5 +1,3 @@
-// src/components/BillDeskPayment.jsx
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate }    from 'react-router-dom';
 import api                          from '../utils/api';
@@ -17,48 +15,37 @@ export default function BillDeskPayment() {
       }
 
       try {
-        // Call your existing endpoint
-        const res = await api.post(
-          `/payments/billdesk/initialize/${orderId}`
-        );
+        // 🔑 your mount point may vary — adjust to match your server
+        const res = await api.post(`/payments/billdesk/initialize/${orderId}`);
         console.log('initialize response:', res.data);
 
         if (!res.data.success) {
           throw new Error(res.data.message || 'Initialization failed');
         }
 
-        // Pull directly out of data (server returns paymentUrl, msg, checksum flat)
-        const {
-          paymentUrl,
-          msg,
-          checksum
-        } = res.data.data || {};
+        // **Now** data.paymentData is where we expect it
+        const pd = res.data.data.paymentData || {};
+        const { paymentUrl, msg, checksum } = pd;
 
         if (!paymentUrl || !msg || !checksum) {
           console.error('Bad payload:', res.data);
           throw new Error('Incomplete payment data');
         }
 
-        // Build & auto-submit the form
+        // build & auto-submit the form
         const form = document.createElement('form');
-        form.method        = 'POST';
-        form.action        = paymentUrl;
-        form.target        = '_self';
+        form.method = 'POST';
+        form.action = paymentUrl;
+        form.target = '_self';
         form.acceptCharset = 'UTF-8';
 
-        // msg
-        const msgInput = document.createElement('input');
-        msgInput.type  = 'hidden';
-        msgInput.name  = 'msg';
-        msgInput.value = msg;
-        form.appendChild(msgInput);
-
-        // checksum
-        const checksumInput = document.createElement('input');
-        checksumInput.type  = 'hidden';
-        checksumInput.name  = 'checksum';
-        checksumInput.value = checksum;
-        form.appendChild(checksumInput);
+        ['msg', 'checksum'].forEach((name) => {
+          const input = document.createElement('input');
+          input.type  = 'hidden';
+          input.name  = name;
+          input.value = name === 'msg' ? msg : checksum;
+          form.appendChild(input);
+        });
 
         document.body.appendChild(form);
         console.log('Submitting form to BillDesk:', paymentUrl);
