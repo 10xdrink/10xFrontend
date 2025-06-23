@@ -70,55 +70,11 @@ const TermsAndConditions = () => {
             <li className="mb-2 pt-sans-regular">Payment gateway Transaction charges are borne by 10X only</li>
           </ul>
 
-          <h2 className="text-2xl quantico-bold-italic mt-8 mb-4 uppercase">Payment Options</h2>
-          <div className="overflow-x-auto mb-6">
-            <table className="min-w-full bg-white border border-gray-300 pt-sans-regular">
-              <thead>
-                <tr>
-                  <th className="border border-gray-300 px-4 py-2 quantico-bold-italic">Payment Options</th>
-                  <th className="border border-gray-300 px-4 py-2 quantico-bold-italic">Transaction Fee</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular">Debit Cards (Visa & Master)</td>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular"></td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular">Debit Cards (Rupay)</td>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular">NIL</td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular">UPI</td>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular">NIL</td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular">Wallets</td>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular"></td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular">Credit Cards (Master, Visa, Rupay)</td>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular"></td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular">Credit Cards (Amex & Diners)</td>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular"></td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular">Net Banking</td>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular"></td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular">UPI– Credit Card, Debit Cards, wallets</td>
-                  <td className="border border-gray-300 px-4 py-2 pt-sans-regular">As per respective category rates</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+
 
           <h2 className="text-2xl quantico-bold-italic mt-8 mb-4 uppercase">Contact Us</h2>
           <p className="mb-4 pt-sans-regular">
-            If you have any questions about these Terms, please contact us at <span className="font-bold">support@10xdrink.com</span>.
+            If you have any questions about these Terms, please contact us at <span className="font-bold">info@10xdrink.com</span>.
           </p>
         </div>
       </div>
