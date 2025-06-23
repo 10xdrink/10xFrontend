@@ -219,10 +219,13 @@ const AboutUs = () => {
               business by Kunal Gir, a prominent coach in India. Over two
               decades, Kunal trained thousands of people, including top
               celebrities, and identified a significant problem: nutritional
-              deficiencies affecting people’s mindsets. Recognizing that
+              deficiencies affecting people's mindsets. Recognizing that
               mindset is fundamental to everything, he decided to distill his
               knowledge into a convenient, effective solution accessible to
               everyone.
+            </p>
+            <p className="text-sm sm:text-base lg:text-lg leading-relaxed pt-sans-regular mt-4 text-white">
+              <strong>TENEX FORMULAS PRIVATE LIMITED</strong> is the entity behind 10X Energy Drink, committed to delivering innovative nutritional solutions.
             </p>
           </div>
           <div className="right w-1/2">
