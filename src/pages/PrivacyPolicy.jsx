@@ -61,57 +61,13 @@ const PrivacyPolicy = () => {
         
         <h2 className="text-2xl quantico-bold-italic mt-8 mb-4 uppercase">Contact Details</h2>
         <p className="mb-4 pt-sans-regular">
-          Email:
+          Email: <span className="font-bold">info@10xdrink.com</span>
         </p>
         <p className="mb-4 pt-sans-regular">
-          Product & Pricing:
+          Product & Pricing: <span className="font-bold roboto-regular">₹299</span>
         </p>
         
-        <h2 className="text-2xl quantico-bold-italic mt-8 mb-4 uppercase">Payment Gateway Pricing</h2>
-        <div className="overflow-x-auto mb-6">
-          <table className="min-w-full bg-white border border-gray-300 pt-sans-regular">
-            <thead>
-              <tr>
-                <th className="border border-gray-300 px-4 py-2 quantico-bold-italic">Payment Options</th>
-                <th className="border border-gray-300 px-4 py-2 quantico-bold-italic">Transaction Fee</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular">Debit Cards (Visa & Master)</td>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular"></td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular">Debit Cards (Rupay)</td>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular">NIL</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular">UPI</td>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular">NIL</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular">Wallets</td>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular"></td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular">Credit Cards (Master, Visa, Rupay)</td>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular"></td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular">Credit Cards (Amex & Diners)</td>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular"></td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular">Net Banking</td>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular"></td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular">UPI– Credit Card, Debit Cards, wallets</td>
-                <td className="border border-gray-300 px-4 py-2 pt-sans-regular">As per respective category rates</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+
 
       </div>
       </div>
