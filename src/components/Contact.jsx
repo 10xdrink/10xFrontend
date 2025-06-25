@@ -130,7 +130,7 @@ const Contact = () => {
           <div className="flex items-center space-x-3 animate-slideInLeft delay-400">
             <img src={Email} alt="Email" className="w-6 h-6 sm:w-8 sm:h-8" />
             <span className="pt-sans-regular text-sm sm:text-base">
-              contact@10xenergy.com
+              info@10xdrink.com
             </span>
           </div>
 
@@ -138,7 +138,7 @@ const Contact = () => {
           <div className="flex items-center space-x-3 animate-slideInLeft delay-600">
             <img src={Phone} alt="Phone" className="w-6 h-6 sm:w-8 sm:h-8" />
             <span className="pt-sans-regular text-sm sm:text-base">
-              +1 (555) 123-4567
+              +91 9676393311
             </span>
           </div>
 
@@ -150,7 +150,10 @@ const Contact = () => {
               className="w-6 h-6 sm:w-8 sm:h-8"
             />
             <span className="pt-sans-regular text-sm sm:text-base">
-              123 Main St, Anytown, USA
+              Door No: 18-1-337/C/19/A/11st Floor,<br/>
+              Sai Baba Nagar, Uppuguda, Chatrinaka,<br/>
+              Chandrayangutta, Hyderabad, Telangana.<br/>
+              PIN 500005.
             </span>
           </div>
         </div>
