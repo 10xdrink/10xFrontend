@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate }    from 'react-router-dom';
 import api                          from '../utils/api';
+import '../styles/BillDeskPayment.css';
 
 export default function BillDeskPayment() {
   const { orderId } = useParams();
@@ -118,6 +119,12 @@ export default function BillDeskPayment() {
         }
       } catch (e) {
         console.error('BillDesk initialization error:', e);
+        console.error('\n' + '='.repeat(80));
+        console.error('❌ BILLDESK INITIALIZATION FAILED');
+        console.error('='.repeat(80));
+        console.error('Error Message:', e.message);
+        console.error('Response Data:', res?.data);
+        console.error('='.repeat(80) + '\n');
         setError(e.message);
       }
     })();
@@ -125,17 +132,18 @@ export default function BillDeskPayment() {
 
   if (error) {
     return (
-      <div style={{ padding:'2rem', textAlign:'center' }}>
-        <h2 style={{ color:'red' }}>Payment Error</h2>
-        <p>{error}</p>
-        <button onClick={() => navigate(-1)}>Go Back</button>
+      <div className="billdesk-payment-container">
+        <h2 className="billdesk-payment-error-title">Payment Error</h2>
+        <p className="billdesk-payment-message">{error}</p>
+        <button className="billdesk-payment-button" onClick={() => navigate(-1)}>Go Back</button>
       </div>
     );
   }
 
   return (
-    <div style={{ padding:'2rem', textAlign:'center' }}>
-      <h2>Redirecting to BillDesk…</h2>
+    <div className="billdesk-payment-container">
+      <h2 className="billdesk-payment-loading-title">Redirecting to BillDesk…</h2>
+      <div className="billdesk-payment-spinner"></div>
     </div>
   );
 }
