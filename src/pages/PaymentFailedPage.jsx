@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AvailableAtBG from "../assets/AvailableAtBG.png";
 import About10XBottom from "../assets/About10X-Bottom.png";
 import BluePlainBackground from "../assets/Blue Plain Background.png";
 import About10XTop from "../assets/About10X-Top.png";
 import About10XIcon1 from "../assets/About10XIcon1.png";
 import About10XIcon2 from "../assets/About10XIcon2.png";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const PaymentFailedPage = () => {
+  const [searchParams] = useSearchParams();
+  const [transactionDetails, setTransactionDetails] = useState({
+    orderId: null,
+    message: null
+  });
+
+  useEffect(() => {
+    const orderId = searchParams.get('orderId');
+    const message = searchParams.get('message');
+    
+    setTransactionDetails({
+      orderId: orderId || null,
+      message: message || 'Your payment could not be processed. Please try again or choose a different payment method.'
+    });
+  }, [searchParams]);
+
   return (
     <div>
       {/* 
@@ -25,8 +41,13 @@ const PaymentFailedPage = () => {
         >
           <h1 className="text-9xl quantico-bold-italic">Payment Failed</h1>
           <p className="text-xl text-black pt-sans-regular mt-4 ">
-            Your payment could not be processed. Please try again or choose a different payment method.
+            {transactionDetails.message}
           </p>
+          {transactionDetails.orderId && (
+            <p className="text-base text-gray-700 pt-sans-regular mt-2">
+              Order ID: <span className="font-semibold">{transactionDetails.orderId}</span>
+            </p>
+          )}
           {/* Bottom Buttons */}
           <div className="flex space-x-4  mt-8">
             <Link to={"/checkout"}>
@@ -126,8 +147,13 @@ const PaymentFailedPage = () => {
         >
           <h1 className="text-8xl quantico-bold-italic ">Payment <br/>Failed</h1>
           <p className="text-xl text-black pt-sans-regular mt-4 ">
-            Your payment could not be processed. Please try again or choose a different payment method.
+            {transactionDetails.message}
           </p>
+          {transactionDetails.orderId && (
+            <p className="text-base text-gray-700 pt-sans-regular mt-2">
+              Order ID: <span className="font-semibold">{transactionDetails.orderId}</span>
+            </p>
+          )}
           {/* Bottom Buttons */}
           <div className="flex    mt-6">
             <Link to={"/checkout"}>
