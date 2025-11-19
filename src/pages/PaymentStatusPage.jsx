@@ -11,6 +11,7 @@ const PaymentStatusPage = () => {
 
   const status = searchParams.get('status');
   const orderNumber = searchParams.get('orderNumber');
+  const errorMessage = searchParams.get('message');
 
   useEffect(() => {
     // Simulate loading delay to show the processing state
@@ -37,7 +38,9 @@ const PaymentStatusPage = () => {
         return {
           icon: '✕',
           title: 'Payment Failed',
-          message: 'Unfortunately, your payment could not be processed.',
+          message: errorMessage 
+            ? decodeURIComponent(errorMessage) 
+            : 'Unfortunately, your payment could not be processed.',
           color: 'error',
           buttonText: 'Try Again',
           buttonAction: () => navigate('/checkout'),
@@ -51,11 +54,14 @@ const PaymentStatusPage = () => {
           buttonText: 'Go to Orders',
           buttonAction: () => navigate('/my-orders'),
         };
+      case 'error':
       default:
         return {
           icon: '!',
-          title: 'Payment Status Unknown',
-          message: 'Unable to determine payment status. Please contact support.',
+          title: 'Payment Error',
+          message: errorMessage 
+            ? decodeURIComponent(errorMessage)
+            : 'Unable to process payment. Please contact support if the issue persists.',
           color: 'warning',
           buttonText: 'Go Home',
           buttonAction: () => navigate('/'),
