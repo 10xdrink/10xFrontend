@@ -79,7 +79,7 @@ export default function BillDeskPayment() {
             return;
           }
           
-          // If we have bdOrderId and rdata, use BillDesk Embedded SDK
+          // If we have bdOrderId, use BillDesk Embedded SDK with POST form
           if (pd.bdOrderId && pd.merchantId) {
             console.log('Using BillDesk Embedded SDK with:', {
               bdOrderId: pd.bdOrderId,
@@ -87,10 +87,31 @@ export default function BillDeskPayment() {
               rdata: pd.rdata ? 'present' : 'not present'
             });
             
-            // Redirect to BillDesk payment page with order details
-            const billDeskUrl = `${pd.paymentUrl}?bdorderid=${pd.bdOrderId}&mercid=${pd.merchantId}${pd.rdata ? `&rdata=${pd.rdata}` : ''}`;
-            console.log('Redirecting to BillDesk:', billDeskUrl);
-            window.location.href = billDeskUrl;
+            // Create and submit POST form as per BillDesk documentation
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = pd.paymentUrl;
+            form.style.display = 'none';
+            
+            // Helper to add hidden form fields
+            const addField = (name, value) => {
+              if (value) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = value;
+                form.appendChild(input);
+              }
+            };
+            
+            // Add required fields as per BillDesk spec
+            addField('bdorderid', pd.bdOrderId);    // Mandatory
+            addField('merchantid', pd.merchantId);   // Mandatory (note: merchantid not mercid)
+            addField('rdata', pd.rdata);             // Mandatory (encrypted order data)
+            
+            document.body.appendChild(form);
+            console.log('Submitting POST form to BillDesk:', pd.paymentUrl);
+            form.submit();
             return;
           }
           
