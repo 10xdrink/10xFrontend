@@ -7,6 +7,8 @@ export default function BillDeskPayment() {
   const { orderId } = useParams();
   const navigate    = useNavigate();
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState('Initializing payment...');
 
   useEffect(() => {
     (async () => {
@@ -62,7 +64,7 @@ export default function BillDeskPayment() {
         
         // Handle different response types from BillDesk
         try {
-          setError('Processing payment...');
+          setLoadingMessage('Redirecting to payment page...');
           
           // If we got HTML form response, render it
           if (pd.formHtml) {
@@ -153,18 +155,43 @@ export default function BillDeskPayment() {
 
   if (error) {
     return (
-      <div className="billdesk-payment-container">
+      <div className="billdesk-payment-container error-state">
+        <div className="error-icon-wrapper">
+          <svg className="error-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
         <h2 className="billdesk-payment-error-title">Payment Error</h2>
         <p className="billdesk-payment-message">{error}</p>
-        <button className="billdesk-payment-button" onClick={() => navigate(-1)}>Go Back</button>
+        <button className="billdesk-payment-button" onClick={() => navigate(-1)}>
+          <span>Go Back</span>
+          <svg className="button-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="billdesk-payment-container">
-      <h2 className="billdesk-payment-loading-title">Redirecting to BillDesk…</h2>
-      <div className="billdesk-payment-spinner"></div>
+    <div className="billdesk-payment-container loading-state">
+      <div className="payment-loader">
+        <div className="loader-ring">
+          <div className="loader-ring-inner"></div>
+        </div>
+        <div className="secure-badge">
+          <svg className="lock-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+      </div>
+      <h2 className="billdesk-payment-loading-title">{loadingMessage}</h2>
+      <p className="billdesk-payment-subtitle">Please wait while we securely redirect you</p>
+      <div className="progress-dots">
+        <span className="dot"></span>
+        <span className="dot"></span>
+        <span className="dot"></span>
+      </div>
     </div>
   );
 }
