@@ -38,6 +38,9 @@ export default defineConfig({
     react(),
     cspPlugin()
   ],
+  resolve: {
+    extensions: ['.js', '.jsx', '.json']
+  },
   server: {
     proxy: {
       '/api': {
