@@ -120,6 +120,38 @@
   line-height: 1.6;
 }
 
+.error-details {
+  background: #fff5f5;
+  border: 1px solid #fc8181;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.error-code {
+  font-size: 0.95rem;
+  color: #742a2a;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.error-code code {
+  background: #fed7d7;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  color: #c53030;
+}
+
+.error-hint {
+  font-size: 0.9rem;
+  color: #742a2a;
+  margin: 0;
+  line-height: 1.4;
+}
+
 .action-buttons {
   display: flex;
   gap: 1rem;
