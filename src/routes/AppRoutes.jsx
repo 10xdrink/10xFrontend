@@ -19,6 +19,7 @@ import ThankYouPage from "../pages/ThankYouPage";
 import PaymentCancelledPage from "../pages/PaymentCancelledPage";
 import PaymentFailedPage from "../pages/PaymentFailedPage";
 import PaymentPendingPage from "../pages/PaymentPendingPage";
+import PaymentStatusPage from "../pages/PaymentStatusPage";
 import AboutUs from "../pages/AboutUs";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import UserDashboard from "../pages/UserDashboard";
@@ -65,6 +66,7 @@ const AppRoutes = () => {
       <Route path="/payment/cancelled" element={<PaymentCancelledPage />} />
       <Route path="/payment/failed" element={<PaymentFailedPage />} />
       <Route path="/payment/pending" element={<PaymentPendingPage />} />
+      <Route path="/payment-status" element={<PaymentStatusPage />} />
       <Route path="/edit-address" element={<EditAddress />} />
       <Route path="/route-documentation" element={<RouteDocumentation />} /> {/* Add the Route Documentation page */}
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
