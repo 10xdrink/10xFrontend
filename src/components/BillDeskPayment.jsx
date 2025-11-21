@@ -83,11 +83,21 @@ export default function BillDeskPayment() {
           
           // If we have bdOrderId, use BillDesk Embedded SDK with POST form
           if (pd.bdOrderId && pd.merchantId) {
-            console.log('Using BillDesk Embedded SDK with:', {
-              bdOrderId: pd.bdOrderId,
-              merchantId: pd.merchantId,
-              rdata: pd.rdata ? 'present' : 'not present'
-            });
+            console.log('\n' + '='.repeat(80));
+            console.log('🚀 BILLDESK SDK INITIALIZATION');
+            console.log('='.repeat(80));
+            console.log('bdOrderId:  ', pd.bdOrderId);
+            console.log('merchantId: ', pd.merchantId);
+            console.log('paymentUrl: ', pd.paymentUrl);
+            console.log('rdata:      ', pd.rdata ? `PRESENT (${pd.rdata.length} chars)` : '❌ MISSING - THIS WILL FAIL!');
+            console.log('='.repeat(80) + '\n');
+            
+            // Critical check: rdata is mandatory
+            if (!pd.rdata) {
+              console.error('❌ CRITICAL: rdata is missing from backend response!');
+              console.error('Backend response structure:', JSON.stringify(pd, null, 2));
+              throw new Error('Missing rdata from backend - SDK cannot initialize');
+            }
             
             // Create and submit POST form as per BillDesk documentation
             const form = document.createElement('form');
