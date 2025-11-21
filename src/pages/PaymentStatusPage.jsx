@@ -12,6 +12,7 @@ const PaymentStatusPage = () => {
   const status = searchParams.get('status');
   const orderNumber = searchParams.get('orderNumber');
   const errorMessage = searchParams.get('message');
+  const errorCode = searchParams.get('errorCode');
 
   useEffect(() => {
     // Simulate loading delay to show the processing state
@@ -99,6 +100,15 @@ const PaymentStatusPage = () => {
         )}
         
         <p className="status-message">{config.message}</p>
+        
+        {errorCode && status === 'failed' && (
+          <div className="error-details">
+            <p className="error-code">Error Code: <code>{errorCode}</code></p>
+            <p className="error-hint">
+              {errorCode === 'GNNFE0002' && 'BillDesk could not process your order. Please contact support with this error code.'}
+            </p>
+          </div>
+        )}
         
         <div className="action-buttons">
           <button 
