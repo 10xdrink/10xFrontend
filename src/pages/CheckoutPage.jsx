@@ -502,39 +502,62 @@ const CheckoutPage = () => {
               const billDeskResponse = await api.post(`/payments/billdesk/initialize/${orderId}`);
               
               if (billDeskResponse.data.success) {
-                const paymentData = billDeskResponse.data.data;
+                const paymentData = billDeskResponse.data.data.paymentData;
                 console.log("BillDesk payment initialized successfully:", paymentData);
                 
-                // Create a form to submit to BillDesk
-                console.log('Creating form for BillDesk payment...');
-                
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = paymentData.paymentUrl;
-                
-                // Add the message parameter
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'msg';
-                input.value = paymentData.msg;
-                form.appendChild(input);
-                
-                // Add the form to the body
-                document.body.appendChild(form);
-                
-                // Submit the form to redirect to BillDesk
-                console.log('Submitting payment form to BillDesk...');
-                console.log('Payment URL:', paymentData.paymentUrl);
-                console.log('Message:', paymentData.msg);
-                form.submit();
-                
-                // BillDesk will redirect back to our return URL after payment
+                // Handle different BillDesk response formats
+                if (paymentData.formHtml) {
+                  // If we got HTML, inject it and let it handle the redirect
+                  const container = document.createElement('div');
+                  container.innerHTML = paymentData.formHtml;
+                  document.body.innerHTML = '';
+                  document.body.appendChild(container);
+                  const forms = container.querySelectorAll('form');
+                  if (forms.length > 0) {
+                    forms[0].submit();
+                  }
+                } else if (paymentData.bdOrderId && paymentData.merchantId) {
+                  // Use BillDesk Embedded SDK with POST form submission
+                  console.log('Creating POST form for BillDesk SDK with:', {
+                    bdOrderId: paymentData.bdOrderId,
+                    merchantId: paymentData.merchantId,
+                    rdata: paymentData.rdata ? 'present' : 'MISSING'
+                  });
+                  
+                  const form = document.createElement('form');
+                  form.method = 'POST';
+                  form.action = paymentData.paymentUrl;
+                  form.style.display = 'none';
+                  
+                  // Helper to add hidden form fields
+                  const addField = (name, value) => {
+                    if (value) {
+                      const input = document.createElement('input');
+                      input.type = 'hidden';
+                      input.name = name;
+                      input.value = value;
+                      form.appendChild(input);
+                    }
+                  };
+                  
+                  // Add required fields as per BillDesk spec
+                  addField('bdorderid', paymentData.bdOrderId);    // Mandatory
+                  addField('merchantid', paymentData.merchantId);   // Mandatory (note: merchantid not mercid)
+                  addField('rdata', paymentData.rdata);             // Mandatory (encrypted order data)
+                  
+                  document.body.appendChild(form);
+                  console.log('Submitting POST form to BillDesk:', paymentData.paymentUrl);
+                  form.submit();
+                } else {
+                  alert("Unable to process payment. Invalid response from payment gateway.");
+                }
               } else {
                 alert("Failed to initialize payment. Please try again.");
               }
             } catch (paymentError) {
               console.error("Payment initialization failed:", paymentError);
-              alert("Payment initialization failed. Please try again.");
+              const errorMsg = paymentError.response?.data?.message || paymentError.message || "Payment initialization failed";
+              alert(errorMsg);
             }
         }
       } else {
